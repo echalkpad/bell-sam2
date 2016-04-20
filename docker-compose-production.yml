@@ -3,63 +3,63 @@ version: "2"
 services:
 
   logaggregator: 
-    image: "vennetics/bell-sam-logaggregator:0.0.5.0"
+    image: "vennetics/bell-sam-logaggregator:latest"
     volumes:       
       - /var/log/sam:/var/log/sam/
 
   discoveryservice:
-    image: "vennetics/bell-sam-discovery-service:0.0.5.0"
+    image: "vennetics/bell-sam-discovery-service:latest"
     environment:
        REGISTER_WITH_OTHER_EUREKA_NODES : "true"
        EUREKA_URL: "${EUREKA_URLS}"
   
   configserver:
-    image: "vennetics/bell-sam-config-server:0.0.5.0"
+    image: "vennetics/bell-sam-config-server:latest"
     environment:
        EUREKA_URL: "${EUREKA_URLS}"
        GIT_URI: "git@bell-sam-config.github.com:Vennetics/bell-sam-config.git"
   
   apigatewayserver:
-    image: "vennetics/bell-sam-api-gateway-server:0.0.5.0"
+    image: "vennetics/bell-sam-api-gateway-server:latest"
     environment:
        EUREKA_URL: "${EUREKA_URLS}"
       
   subx:
-    image: "vennetics/bell-sam-subx:0.0.5.0"
+    image: "vennetics/bell-sam-subx:latest"
     environment:
        EUREKA_URL: "${EUREKA_URLS}"
   
   hystrixdashboard:
-    image: "vennetics/bell-sam-hystrix-dashboard:0.0.5.0"
+    image: "vennetics/bell-sam-hystrix-dashboard:latest"
     environment:
        EUREKA_URL: "${EUREKA_URLS}"
   
   turbine:
-    image: "vennetics/bell-sam-turbine:0.0.5.0"
+    image: "vennetics/bell-sam-turbine:latest"
     environment:
        EUREKA_URL: "${EUREKA_URLS}"
   
   helloworld:
-    image: "vennetics/bell-sam-helloworld:0.0.5.0"
+    image: "vennetics/bell-sam-helloworld:latest"
     environment:
       EUREKA_URL: "${EUREKA_URLS}"
   
   springbootadmin:
-    image: "vennetics/bell-sam-spring-boot-admin:0.0.5.0"
+    image: "vennetics/bell-sam-spring-boot-admin:latest"
     environment:
        EUREKA_URL: "${EUREKA_URLS}"
   
   netapismsenabler:
-    image: "vennetics/bell-sam-netapi-sms-enabler:0.0.5.0"
+    image: "vennetics/bell-sam-netapi-sms-enabler:latest"
     environment:
        EUREKA_URL: "${EUREKA_URLS}"
        
   examplecassandraspringdatarest:
-    image: "vennetics/bell-sam-example-cassandra-spring-data-rest:0.0.5.0"
+    image: "vennetics/bell-sam-example-cassandra-spring-data-rest:latest"
     environment:
       EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"
 
   adminserver:
-    image: "vennetics/bell-sam-admin-server:0.0.5.0"
+    image: "vennetics/bell-sam-admin-server:latest"
     environment:
       EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"
