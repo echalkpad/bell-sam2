@@ -57,10 +57,19 @@ task(updateSubs) << {
     }
   }
   File gradleProperties = file("${project.projectDir}/gradle.properties");
+  def updatedGradleProperties
+  def newMicroVersion
+  if (project.version.contains('SNAPSHOT')) {
+    versionToBeUpdated=microTagVersion
+    newMicroVersion=microPrereleaseVersion
+  } else {
+    versionToBeUpdated=microPrereleaseVersion
+    newMicroVersion=microSnapshotVersion
+  }
   if (gradleProperties.text.contains(versionToBeUpdated)) {
-    def updated = gradleProperties.text.replaceAll(/(venneticsMicroServicesCommonVersion = )($versionToBeUpdated)/,"\$1${project.version}")
-    gradleProperties.write(updated)
-   }
+    updatedGradleProperties = gradleProperties.text.replaceAll(/(venneticsMicroServicesCommonVersion = )($versionToBeUpdated)/,"\$1${newMicroVersion}")
+    gradleProperties.write(updatedGradleProperties)
+  }
 }
 
 //*********************************************************************
