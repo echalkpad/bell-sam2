@@ -1,6 +1,6 @@
 FROM azul/zulu-openjdk-centos:latest
 VOLUME /tmp
-ADD bell-sam-config-server-0.0.5.2.jar app.jar
+ADD bell-sam-config-server-0.0.6-SNAPSHOT.jar app.jar
 COPY log4j2.xml /opt/vennetics/sam/config/
 RUN bash -c 'touch /app.jar'
 RUN mkdir -p /root/.ssh

@@ -3,7 +3,7 @@ version: "2"
 services:
 
   cassandradataaggregator: 
-    image: "vennetics/bell-sam-logaggregator:0.0.5.2"
+    image: "vennetics/bell-sam-logaggregator:latest"
     volumes:       
       - ~/cassandra/lib:/var/lib/cassandra
       - ~/cassandra/log:/var/log/cassandra

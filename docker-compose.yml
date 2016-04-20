@@ -3,7 +3,7 @@ version: "2"
 services:
 
   logaggregator: 
-    image: "vennetics/bell-sam-logaggregator:0.0.5.2"
+    image: "vennetics/bell-sam-logaggregator:latest"
     volumes:       
       - ~/samlogs:/var/log/sam/
       
@@ -12,7 +12,7 @@ services:
     restart: always
 
   discoveryservice:
-    image: "vennetics/bell-sam-discovery-service:0.0.5.2"
+    image: "vennetics/bell-sam-discovery-service:latest"
     restart: always
     hostname: discoveryservice
     container_name: "discoveryservice"
@@ -29,7 +29,7 @@ services:
        EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"
 
   configserver:
-    image: "vennetics/bell-sam-config-server:0.0.5.2"
+    image: "vennetics/bell-sam-config-server:latest"
     restart: always
     depends_on:
       - discoveryservice
@@ -40,7 +40,7 @@ services:
        GIT_URI: "git@bell-sam-config.github.com:Vennetics/bell-sam-config.git"
   
   apigatewayserver:
-    image: "vennetics/bell-sam-api-gateway-server:0.0.5.2"
+    image: "vennetics/bell-sam-api-gateway-server:latest"
     restart: always
     depends_on:
       - discoveryservice
@@ -54,7 +54,7 @@ services:
       - "8087:8087"
   
   subscriberthirdpartysdmserver:
-    image: "vennetics/bell-sam-subscriber-thirdparty-sdm-server:0.0.5.2"
+    image: "vennetics/bell-sam-subscriber-thirdparty-sdm-server:latest"
     restart: always
     depends_on:
       - discoveryservice
@@ -65,7 +65,7 @@ services:
        EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"
 
   hystrixdashboard:
-    image: "vennetics/bell-sam-hystrix-dashboard:0.0.5.2"
+    image: "vennetics/bell-sam-hystrix-dashboard:latest"
     restart: always
     depends_on:
       - discoveryservice
@@ -76,7 +76,7 @@ services:
        EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"
 
   turbine:
-    image: "vennetics/bell-sam-turbine:0.0.5.2"
+    image: "vennetics/bell-sam-turbine:latest"
     restart: always
     depends_on:
       - discoveryservice
@@ -87,7 +87,7 @@ services:
        EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"
 
   helloworld:
-    image: "vennetics/bell-sam-helloworld:0.0.5.2"
+    image: "vennetics/bell-sam-helloworld:latest"
     restart: always
     depends_on:
       - discoveryservice
@@ -98,7 +98,7 @@ services:
       EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"
 
   springbootadmin:
-    image: "vennetics/bell-sam-spring-boot-admin:0.0.5.2"
+    image: "vennetics/bell-sam-spring-boot-admin:latest"
     restart: always
     depends_on:
       - discoveryservice
@@ -111,7 +111,7 @@ services:
       - "8094:8094"
   
   netapismsenabler:
-    image: "vennetics/bell-sam-netapi-sms-enabler:0.0.5.2"
+    image: "vennetics/bell-sam-netapi-sms-enabler:latest"
     restart: always
     depends_on:
       - discoveryservice
@@ -123,7 +123,7 @@ services:
        SPRING_PROFILES_ACTIVE: simulator
   
   smsxenabler:
-    image: "vennetics/bell-sam-smsx-enabler:0.0.5.2"
+    image: "vennetics/bell-sam-smsx-enabler:latest"
     restart: always
     depends_on:
       - discoveryservice
@@ -135,7 +135,7 @@ services:
        SPRING_PROFILES_ACTIVE: simulator
 
   examplecassandraspringdatarest:
-    image: "vennetics/bell-sam-example-cassandra-spring-data-rest:0.0.5.2"
+    image: "vennetics/bell-sam-example-cassandra-spring-data-rest:latest"
     restart: always
     depends_on:
       - discoveryservice
@@ -147,7 +147,7 @@ services:
       EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"
 
   adminserver:
-    image: "vennetics/bell-sam-admin-server:0.0.5.2"
+    image: "vennetics/bell-sam-admin-server:latest"
     restart: always
     depends_on:
       - discoveryservice
