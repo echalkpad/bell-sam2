@@ -61,10 +61,10 @@ task(updateSubs) << {
   def newMicroVersion
   if (project.version.contains('SNAPSHOT')) {
     versionToBeUpdated=microTagVersion
-    newMicroVersion=microPrereleaseVersion
+    newMicroVersion=microSnapshotVersion
   } else {
     versionToBeUpdated=microPrereleaseVersion
-    newMicroVersion=microSnapshotVersion
+    newMicroVersion=microTagVersion
   }
   if (gradleProperties.text.contains(versionToBeUpdated)) {
     updatedGradleProperties = gradleProperties.text.replaceAll(/(venneticsMicroServicesCommonVersion = )($versionToBeUpdated)/,"\$1${newMicroVersion}")
