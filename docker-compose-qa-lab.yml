@@ -11,7 +11,7 @@ services:
        SPRING_PROFILES_ACTIVE: bell_lab
 
   callbacksimulator:
-    image: "vennetics/bell-sam-callback-simulator:0.0.4.0"
+    image: "vennetics/bell-sam-callback-simulator:latest"
     hostname: callbacksimulator
     container_name: "callbacksimulator"
     restart: always

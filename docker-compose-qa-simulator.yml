@@ -11,7 +11,7 @@ services:
        SPRING_PROFILES_ACTIVE: simulator
 
   smscsimulator:
-    image: "vennetics/bell-sam-smsc-simulator:0.0.4.0"
+    image: "vennetics/bell-sam-smsc-simulator:latest"
     hostname: smscsimulator
     container_name: "smscsimulator"
     restart: always
@@ -24,7 +24,7 @@ services:
        EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"
 
   callbacksimulator:
-    image: "vennetics/bell-sam-callback-simulator:0.0.4.0"
+    image: "vennetics/bell-sam-callback-simulator:latest"
     hostname: callbacksimulator
     container_name: "callbacksimulator"
     restart: always
