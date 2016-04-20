@@ -2,7 +2,7 @@ version: "2"
 
 services:
   smscsimulator:
-    image: "vennetics/bell-sam-smsc-simulator:latest"
+    image: "vennetics/bell-sam-smsc-simulator:0.0.5.0"
     hostname: smscsimulator
     container_name: "smscsimulator"
     restart: always
