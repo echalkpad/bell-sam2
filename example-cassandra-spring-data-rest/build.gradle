@@ -1,0 +1,19 @@
+apply plugin: 'spring-boot'
+
+jar {
+	baseName = 'bell-sam-example-cassandra-spring-data-rest'
+}
+
+dependencies {
+	runtime libraries.springBoot
+	compile('org.springframework.boot:spring-boot-starter-data-cassandra')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile("org.springframework.boot:spring-boot-starter-data-rest")
+	compile('org.springframework.cloud:spring-cloud-starter-eureka')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    // CassandraUnit dependencies
+	testCompile("me.prettyprint:hector-core:${hectorCoreVersion}")
+    testCompile("org.cassandraunit:cassandra-unit:${cassandraUnitVersion}")
+	testCompile("org.cassandraunit:cassandra-unit-spring:${cassadraUnitSpringVersion}")
+}

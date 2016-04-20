@@ -1,0 +1,22 @@
+jar {
+    baseName = 'bell-sam-errors'
+}
+
+dependencies {
+
+    compile project(':core-errors')
+    compile project(':parlayx-wsdl')
+    compile project(':netapi-schema')
+    compile project(':api-model')
+
+    compile("javax.servlet:javax.servlet-api")
+    compile("org.springframework:spring-context")
+    compile("org.springframework.security:spring-security-core")
+    compile("org.springframework:spring-web")
+    compile("com.netflix.hystrix:hystrix-core")
+    compile("org.apache.commons:commons-lang3")
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    testCompile('com.fasterxml.jackson.dataformat:jackson-dataformat-xml')
+}

@@ -1,0 +1,11 @@
+
+These xsd files were downloaded from:
+
+    http://technical.openmobilealliance.org/Technical/technical-information/dtd-schemas/schemas
+
+The xml catalog file (catalog.xml) is used to define the local locations of imported schemas.
+
+Note that the local location of imported schemas is cached somewhere in the ~/.gradle directory and problems
+can arise if the catalog file is updated with a different location - in which case, blow away the ~/.gradle directory.
+
+The w3 directory contains xml.xsd, downloaded from http://www.w3.org/2001/xml.xsd.

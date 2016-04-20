@@ -1,0 +1,85 @@
+== Custom API Extensions
+
+The SAM SMS service provides extensions to the standard Net API definition [1]
+to allow the TPA to request a specific retry strategy. Whether this is allowed
+by the server will depend on server side policy provisioning. To allow for
+backwards compatibility the extensions have been added as optional elements in
+the standard schema definition.
+
+=== RetryByIntervalStrategy
+
+The RetryByIntervalStrategy schema type allows the application to specify a set
+of integers. The definition for it is as follows:
+
+[source,xml]
+.RetryByIntervalStrategy
+----
+<xsd:complexType name="RetryByIntervalStrategy">
+   <xsd:sequence>
+      <xsd:element name="retryIntervalsInSeconds" type="xsd:int" maxOccurs="unbounded" minOccurs="1"/>
+   </xsd:sequence>
+</xsd:complexType>
+----
+
+Each integer within the request will initiate a retry attempt when the message
+reaches that interval if the message has not yet entered a terminating state.
+
+=== OutboundSMSMessageRequest
+
+The OutboundSMSMessageRequest has been updated to accept the
+RetryByIntervalStrategy as an optional parameter.
+
+[source,xml]
+.OutboundSMSMessageRequest
+----
+<xsd:complexType name="OutboundSMSMessageRequest">
+   <xsd:sequence>
+      <xsd:element name="address" type="xsd:anyURI" maxOccurs="unbounded" minOccurs="1"/>
+      <xsd:element name="senderAddress" type="xsd:anyURI" maxOccurs="1" minOccurs="1"/>
+      <xsd:element name="senderName" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+      <xsd:element name="charging" type="common:ChargingInformation" maxOccurs="1" minOccurs="0"/>
+      <xsd:element name="receiptRequest" type="common:CallbackReference" maxOccurs="1" minOccurs="0"/>
+      <xsd:choice>
+         <xsd:element name="outboundSMSTextMessage" type="OutboundSMSTextMessage"/>
+         <xsd:element name="outboundSMSBinaryMessage" type="OutboundSMSBinaryMessage"/>
+         <xsd:element name="outboundSMSLogoMessage" type="OutboundSMSLogoMessage"/>
+         <xsd:element name="outboundSMSRingToneMessage" type="OutboundSMSRingToneMessage"/>
+   <xsd:element name="outboundSMSFlashMessage" type="OutboundSMSFlashMessage"/>
+      </xsd:choice>
+      <xsd:element name="clientCorrelator" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+      <xsd:element name="resourceURL" type="xsd:anyURI" maxOccurs="1" minOccurs="0"/>
+      <xsd:element name="link" type="common:Link" maxOccurs="unbounded" minOccurs="0"/>
+      <xsd:element name="deliveryInfoList" type="DeliveryInfoList" maxOccurs="1" minOccurs="0"/>
+      <xsd:element name="retryByIntervalStrategy" type="RetryByIntervalStrategy" maxOccurs="1" minOccurs="0"/>
+   </xsd:sequence>
+</xsd:complexType>
+----
+
+If the client does not specify this value in a request the server will decide
+whether to attempt retries based on server side policy configuration as
+described in the next section.
+
+=== Sample MT Request with Retry
+
+The sample request below shows how the retry strategy can be optionally added to
+a request.
+
+[[outboundSMSMessageRequest]]
+[source,json]
+.outboundSMSMessageRequest
+----
+{"outboundSMSMessageRequest": {
+  "address": ["tel:+19585550101"],
+  "clientCorrelator": "67893", "outboundSMSBinaryMessage": {"message": "###binary content##"}, "receiptRequest": {
+    "notifyURL": "http://application.example.com/notifications/DeliveryInfoNotification"
+    },
+    "senderAddress": "tel:+19585550151", "senderName": "MyName",
+    "retryByIntervalStrategy": {
+      "retryIntervalInSeconds":
+      [10,30,60]
+    }
+  }
+}
+----
+
+*Note:* this example uses JSON but XML is also supported.

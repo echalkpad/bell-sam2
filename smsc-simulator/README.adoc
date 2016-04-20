@@ -1,0 +1,12 @@
+== Overview
+
+The SMSC Simulator is a http://projects.spring.io/spring-boot/[Spring Boot Application] which utilises https://github.com/fizzed/cloudhopper-smpp[Cloudhopper SMPP] to provide a SMSC endpoint for ESME to test against.
+
+== Docker
+
+To run and link and link to the main docker instance, you must start this docker file at the same time as the main docker file for the Bell-SAM project. For example, to run from the base bell-sam directory:
+
+[source,sh]
+----
+$ docker-compose -f docker-compose.yml -f smsc-simulator/docker-compose.yml up
+----

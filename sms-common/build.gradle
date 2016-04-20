@@ -1,0 +1,18 @@
+jar {
+    baseName = 'bell-sam-sms-common'
+}
+
+dependencies {
+    compile project(':sam-errors')
+    compile project(':lib-smpp')
+    compile project(':core-commands')
+    compile project(':api-model')
+    compile('org.springframework.boot:spring-boot-starter')
+    compile('com.googlecode.libphonenumber:libphonenumber')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
+    compile('com.h2database:h2')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+}
+
+

@@ -1,0 +1,35 @@
+---
+
+# Installs Apache JMeter
+
+- name: Yum Install Java Dependency for JMeter
+  yum: name=java
+  become: yes
+
+- name: Create software Directory
+  file: path={{ jmeter_install_dir }} state=directory
+  become_user: vennetics
+
+- name: Download JMeter
+  shell: "wget http://mirror.vorboss.net/apache//jmeter/binaries/{{ jmeter_version }}.tgz"
+  args:
+    chdir: /home/vennetics/opt/software
+  sudo: yes
+
+- name: Download JMeter Plugins
+  command: "wget http://jmeter-plugins.org/downloads/file/{{ jmeter_plugins_version }}.zip"
+  args:
+    chdir: "/home/vennetics/opt/software/"
+  sudo: yes
+
+- name: Unarchive JMeter
+  unarchive: src=/home/vennetics/opt/software/{{ jmeter_version }}.tgz dest=/home/vennetics/opt/software copy=no
+  become_user: vennetics
+
+- name: Unarchive JMeter Plugins
+  unarchive: src=/home/vennetics/opt/software/{{ jmeter_plugins_version }}.zip dest=/home/vennetics/opt/software/{{ jmeter_version }} copy=no
+  become_user: vennetics
+
+- name: Set Permissions
+  file: path=/home/vennetics/opt/software/{{ jmeter_version }}  mode=0755
+  sudo: yes

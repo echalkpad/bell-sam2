@@ -1,0 +1,37 @@
+version: "2"
+
+services:
+
+  netapismsenabler:
+    environment:
+       SPRING_PROFILES_ACTIVE: simulator
+
+  smsxenabler:
+    environment:
+       SPRING_PROFILES_ACTIVE: simulator
+
+  smscsimulator:
+    image: "vennetics/bell-sam-smsc-simulator:latest"
+    hostname: smscsimulator
+    container_name: "smscsimulator"
+    restart: always
+    depends_on:
+      - discoveryservice
+      - configserver
+    volumes_from:
+      - logaggregator
+    environment:
+       EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"
+
+  callbacksimulator:
+    image: "vennetics/bell-sam-callback-simulator:latest"
+    hostname: callbacksimulator
+    container_name: "callbacksimulator"
+    restart: always
+    depends_on:
+      - discoveryservice
+      - configserver
+    volumes_from:
+      - logaggregator
+    environment:
+       EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"

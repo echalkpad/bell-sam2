@@ -1,0 +1,131 @@
+= Short Messaging Service (SmsX) Getting Started Guide
+Vennetics Ltd;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[introduction]
+= Introduction
+
+The Short Messaging Service (SmsX) exposes the ability to send and receive SMS to third parties.
+
+.SmsX APIs include:
+* Send a SMS to a terminal
+* Request the delivery status of a SMS
+
+[[overview]]
+= Overview
+
+[[overview-http-verbs]]
+== HTTP verbs
+The SmsX service adheres to REST standards.
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+
+| `POST`
+| Used to create a new resource
+
+| `PUT`
+| Used to update an existing resource, full updates only
+
+| `DELETE`
+| Used to delete an existing resource
+|===
+
+[[overview-http-status-codes]]
+== HTTP status codes
+The SmsX service tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP status codes.
+
+|===
+| Status code | Usage
+
+| `200 OK`
+| Standard response for successful HTTP requests.
+ The actual response will depend on the request method used.
+ In a GET request, the response will contain an entity corresponding to the requested resource.
+ In a POST request, the response will contain an entity describing or containing the result of the action.
+
+| `201 Created`
+| The request has been fulfilled and resulted in a new resource being created.
+
+| `204 No Content`
+| The server successfully processed the request, but is not returning any content.
+
+| `400 Bad Request`
+| The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or
+deceptive request routing).
+
+| `404 Not Found`
+| The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible.
+
+| `503 Service Unavailable`
+| The request could not be processed due to a downstream system failure.
+|===
+
+== Fault codes
+
+|===
+| Fault codes | Description
+
+| `SVC0001`
+| Service Error.
+
+| `SVC0002`
+| Invalid input value.
+
+|===
+
+[[resources]]
+= Resources
+
+
+[[resources-sendSmsMessage]]
+
+== Send a SMS to a terminal
+This REST method is based on the sendSms SOAP method to send a SMS to a terminal.  It uses the HTTP POST method. 
+
+
+=== Request parameters
+
+include::{snippets}/sendSmsMessage/request-parameters.adoc[]
+
+=== Response fields
+
+include::{snippets}/sendSmsMessage/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/sendSmsMessage/curl-request.adoc[]
+
+=== Example response
+
+include::{snippets}/sendSmsMessage/http-response.adoc[]
+
+[[resources-sendSmsMessage]]
+
+== Request the delivery status of a SMS
+This REST method enables the application to ‘poll’ for the delivery status of a SMS.  It uses the HTTP GET method. 
+
+
+=== Request parameters
+
+include::{snippets}/getDeliveryStatus/request-parameters.adoc[]
+
+=== Response fields
+
+include::{snippets}/getDeliveryStatus/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/getDeliveryStatus/curl-request.adoc[]
+
+=== Example response
+
+include::{snippets}/getDeliveryStatus/http-response.adoc[]

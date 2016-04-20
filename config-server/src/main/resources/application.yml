@@ -1,0 +1,27 @@
+---
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: ${GIT_URI}
+# While in development mode, you can configure the config server to pick up configuration files from
+# the classpath
+#        native:
+#           search-locations: classpath:/config
+security:
+  user:
+    name: vennetics
+    password: M5NLqZD8ivv0
+
+# Defines the port where the config server is running so that rest of the services can pick up 
+# their external configurations
+server:
+  port: 8888
+shell:
+  ssh:
+    port: 2020
+logging:
+  level:
+    org.eclipse.jgit: DEBUG
+    com.jcraft: DEBUG

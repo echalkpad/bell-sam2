@@ -1,0 +1,21 @@
+com.vennetics.bell.sam.adapters.sdm.ldap.adapters:
+    sdm:
+      pool:
+        connectTimeout: 1000
+        loggingEnabled: false
+        base: o=mobility,c=ca
+        userDn: uid=cbl-MTMSuser,ou=serviceplatform,c=ca
+        password: MTMSuser123
+        urls: ldap://10.240.8.138:389
+        maxActive: 20
+        maxTotal: 20
+        maxIdle: 5
+        minIdle: 0
+        maxWait: 10000
+        whenExhaustedAction: 1
+        testOnBorrow: false
+        testOnReturn: false
+        testWhileIdle: false
+        timeBetweenEvictionRunsMillis: 30000
+        numTestsPerEvictionRun: 5
+        minEvictableIdleTimeMillis: 60000

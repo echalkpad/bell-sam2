@@ -1,0 +1,30 @@
+= External Hystrix Configuration
+
+== Overview
+It is possible to configure various Hystrix properties for an entire service or specfic hystrix commands within that service by editing it's yml file.
+
+The api-gateway.yml and subx.yml now have Hystrix configurable properties that include:
+
+* `hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds`
+* `hystrix.command.default.execution.timeout.enabled`
+* `hystrix.command.default.circuitBreaker.requestVolumeThreshold`
+* `hystrix.command.default.circuitBreaker.errorThresholdPercentage`
+* `hystrix.command.default.circuitBreaker.sleepWindowInMilliseconds`
+* `hystrix.command.default.metrics.healthSnapshot.intervalInMilliseconds`
+
+It is possible to apply configuration to a specific HystrixCommandKey in your service by replacing 'default' with the name of that command. e.g.
+Configuring a property for the GetSubscriberProfileCommand would look like:
+
+* `hystrix.command.*GetSubscriberProfileCommand*.execution.isolation.thread.timeoutInMilliseconds`
+
+More info on these properties can be found at: https://github.com/Netflix/Hystrix/wiki/Configuration
+
+== Adding New Config to yml File
+If adding new Hystrix properties or editing existing properties you must follow the convention used in:
+
+* https://github.com/Vennetics/bell-sam-config/blob/master/api-gateway.yml
+
+== Testing New Config Changes
+. Make a change to one of the configuration properties for your desired service.
+. Refresh that service. e.g. subx: http://{docker-ip}:8087/subx/refresh
+. Test your configuration has changed. e.g. If timeoutInMilliseconds = 1 in the subx.yml, any requests made on that service should get a Hystrix error.

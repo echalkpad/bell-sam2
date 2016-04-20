@@ -1,0 +1,8 @@
+INSTALL
+sudo ansible-playbook -s playbook-install-sam-docker-platform.yml -vvvv --extra-vars "hosts=bell_sam_lab user=vennetics releaseVersion=0.0.3-SNAPSHOT dockerNetworkName=bellsam dockerUsername=bellsamrelease dockerEmail=bellsamrelease@vennetics.com" -i bell_hosts.txt
+sudo ansible-playbook -s playbook-install-sam-docker-platform.yml -vvvv --extra-vars "hosts=bell_sam_lab user=vennetics releaseVersion=0.0.3-SNAPSHOT dockerNetworkName=bellsam dockerUsername=bellsamrelease dockerEmail=bellsamrelease@vennetics.com" --tags "systemConfig,installDocker,installSamPlatform" -i bell_hosts.txt
+sudo ansible-playbook -s playbook-install-sam-docker-platform.yml -vvvv --extra-vars "hosts=bell_sam_lab user=vennetics releaseVersion=0.0.3-SNAPSHOT dockerNetworkName=bellsam dockerUsername=bellsamrelease dockerEmail=bellsamrelease@vennetics.com" --tags "insertCassandraKeyspaces,installJmeterWithTests" -i bell_hosts.txt
+sudo ansible-playbook -s playbook-install-sam-docker-platform.yml -vvvv --extra-vars "hosts=bell_sam_lab user=vennetics releaseVersion=0.0.3-SNAPSHOT dockerNetworkName=bellsam dockerUsername=bellsamrelease dockerEmail=bellsamrelease@vennetics.com" --tags "serviceChecks" -i bell_hosts.txt
+
+UNINSTALL:
+sudo ansible-playbook -s playbook-remove-sam-docker-services.yml -vvvv --extra-vars "hosts=bell_sam_lab user=vennetics" -i bell_hosts.txt

@@ -1,0 +1,14 @@
+server:
+# Specific port required for turbine
+  port: 8089
+shell:
+  ssh:
+    port: 2070
+security:
+  basic:
+    enabled: false
+turbine:
+#  aggregator:
+#    clusterConfig: api-gateway
+  clusterNameExpression: new String("default")
+  appConfig: api-gateway

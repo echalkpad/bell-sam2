@@ -1,0 +1,194 @@
+= Vennetics Hystrix Developer Guidelines
+Vennetics Ltd;
+:doctype: book
+:icons: font
+:toc:
+:toc-placement: preamble
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+:coderay-css: class
+:revdate: January 28th 2016
+:revnumber: 1.0
+
+This document details guidelines for the combined use of Hystrix and RxJava when
+developing SAM libraries and enablers.
+
+== Overview
+
+This guide addresses the use of these technologies at three layers of the
+software stack.
+
+* The connector/adapter layer where a service is performing I/O operations.
+* The service layer where the business logic is executing rules that combine the results of I/O operations with other rules such as validation and state management.
+* The controller layer where Spring templates are used to handle inbound RESTful requests.
+
+It is assumed the reader is already familiar with
+https://github.com/Netflix/Hystrix/wiki/How-To-Use[how to use hystrix] and
+http://reactivex.io[reactive programming].
+
+This guide is mainly focussed on enabler implementations as there are subtleties that will differ in the API GW e.g. Ribbon already uses Hystrix to wrap some calls and may make its own blocking/non-blocking decisions (e.g. the load balancer policy blocks as it must decide whether request succeeded before routing to different instance).
+
+https://speakerdeck.com/benjchristensen/applying-reactive-programming-with-rxjava-at-goto-chicago-2015[These slides] are recommended reading.
+
+== Problem
+
+Several examples in the SAM source have started to use blocking calls similar to
+the following ...
+
+[source,java]
+----
+	return observable.toBlocking().single();
+----
+
+This is not desirable because it blocks the consumer thread and effectively
+removes many of the advantages of reactive and asynchronous programming.
+
+Ideally toBlocking() should *never* be called in runtime code, however, there
+will occasionally be cases where it's necessary.
+
+== General Guidelines
+
+* All I/O should be wrapped in Hystrix.
+* Hystrix command should generally encapsulate the business logic of the outgoing request and not just wrap the I/O portion. This means including things like outbound/inbound serialization and any necessary validation.
+* Hystrix should not be used as a way to convert code to reactive. The Rx interfaces should be used directly for that purpose.
+* All interfaces between service layers should follow the Observable pattern. Principally this means returning Observable<Something> as a result instead of Something.
+
+== Connector Adapter Rules
+
+Since connectors will be performing I/O they *must* wrap all calls in hystrix. The I/O libraries we use will generally fall within one of the following categories.
+
+* The network interface is synchronous returning a single result.
+* The network interface is asynchronous returning a single result.
+* The network interface is reactive and may return multiple results.
+
+=== Synchronous I/O
+
+For synchronous APIs we should wrap calls in commands extending https://netflix.github.io/Hystrix/javadoc/com/netflix/hystrix/HystrixCommand.html[HystrixCommand]
+
+The command *must* be executed using either *observe()* or *toObservable()*. Do not use queue() or execute(). Note there are differences between these two calls.
+
+* observe() executes the command as soon as a hystrix thread is available whereas toObservable() won't until it is subscribed to.
+* observe() will execute the callbacks on the calling thread unless a scheduler is used. toObservable() executes the callbacks on the hystrix thread unless a scheduler is used.
+
+=== Asynchronous I/O
+
+For asynchronous and already reactive APIs we should wrap calls in commands extending https://netflix.github.io/Hystrix/javadoc/com/netflix/hystrix/HystrixObservableCommand.html[HystrixObservableCommand]
+
+The rules for asynchronous I/O are the same as for synchronous. However, implementing the command means implementing the construct() rather than run() method.
+
+Care should be taken not to lose the async nature. If the API doesn't natively implement the Observable pattern this will usually mean scheduling subscriber callbacks on the library's execution thread.
+
+[[AsyncObservableConstruct]]
+
+e.g.
+
+[source,java]
+----
+    @Override
+    protected Observable<String> construct() {
+        return Observable.<String>create(s -> {
+
+            s.onNext(myLibrary.getResult());
+
+            s.onCompleted();
+
+            // Subcribe on the executor thread.
+            // This will be used for callbacks.
+        }).subscribeOn(Schedulers.from(myLibrary.getExecutor()));
+    }
+----
+
+== Service Layer Rules
+
+The main rule for the business layer is to avoid transforming any reactive call-flows to a blocking call-flow unless necessary.
+
+Generally this will mean never calling toBlocking() and always using reactive transformations for sending info up the call stack. It'll also mean service interfaces should implement the observable pattern.
+
+== Controller Layer Rules
+
+Same rules as service layer with the following additions ...
+
+* When the controller is a Spring template use https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/context/request/async/DeferredResult.html[DeferredResult]
+* When using DeferredResult ensure that the async behavior that may be implemented in the lower level API is perserved rather than making the call blocking e.g.
+
+[source,java]
+----
+  @RequestMapping("/getAMessageObsAsync")
+  public DeferredResult<Message> getAMessageAsync() {
+
+      Observable<Message> o = myService.getAMessageObs();
+
+      DeferredResult<Message> deffered = new DeferredResult<>(TIMEOUT);
+
+      o.subscribe(m -> deffered.setResult(m),
+                  e -> deffered.setErrorResult(e));
+
+      return deffered;
+  }
+----
+
+
+== AsycRestTemplate
+
+Since all our I/O including outbound rest calls will be wrapped in Hystrix I don't see the need for using https://docs.spring.io/spring/docs/current/javadoc-api/org/springframework/web/client/AsyncRestTemplate.html[AsyncRestTemplate]. I'm open to alternative views on this if people see the value in it.
+
+== Schedulers
+
+An important part of using RxJava and Hystrix is the use of http://reactivex.io/documentation/scheduler.html[Schedulers].
+
+This document does not detail how these work for all circumstances but the following is some guidance on how Hystrix will schedule execution on threads when commands are invoked. These results were obtained using Hystrix 1.4.
+
+=== HystrixCommand Scheduling
+
+* The run() method will always execute on the Hystrix thread pool when the isolation is set to *THREAD*
+
+[source,java]
+----
+new MyCommand().observe().subscribe(data -> doSomething(data));
+----
+* The subscribe() callback will be invoked in the thread calling observe().
+
+[source,java]
+----
+new MyCommand().toObservable().subscribe(data -> doSomething(data));
+----
+
+* The subscribe() callback will be invoked in the same Hystrix thread that run() is invoked on.
+
+[source,java]
+----
+new MyCommand().observe().subscribeOn(Schedulers.from(myExecutor)).subscribe(data -> doSomething(data));
+----
+
+* The subscribe() callback will be invoked on a thread obtained from the supplied scheduler.
+
+=== HystrixObservableCommand Scheduling (wrapping async call)
+
+* Since the command is wrapping an asynchronous call it's up to the construct() implementation to ensure that execution is ran within the asynchronous thread. This can be forced by using subscribeOn() if the library isn't natively asynchronous as detailed xref:AsyncObservableConstruct[above]
+
+[source,java]
+----
+new MyCommand().observe().subscribe(data -> doSomething(data));
+----
+* The subscribe() callback will be invoked in the thread calling observe().
+
+[source,java]
+----
+new MyCommand().toObservable().subscribe(data -> doSomething(data));
+----
+
+* The subscribe() callback will be invoked on the async thread that ran the command.
+
+[source,java]
+----
+new MyCommand().observe().subscribeOn(Schedulers.from(myExecutor)).subscribe(data -> doSomething(data));
+----
+
+* The subscribe() callback will be invoked on a thread obtained from the supplied scheduler.
+
+=== Summary
+
+* When using observe() the command is executed in the Hystrix thread for HystrixCommand and the underlying I/O thread for HystrixObservableCommand
+* When using observe() the calling thread is used for callbacks.
+* When using toObservable the command runtime thread is used for callbacks.
+* When subscribeOn() is called the supplied scheduler is always used for callbacks.

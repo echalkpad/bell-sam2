@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="DEBUG" monitorInterval="5">
+<!-- DEBUG so we know this log file is being used. -->
+
+    <Appenders>
+
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout>
+                <Pattern>%d{DATE} [%-15.20t] %-5p %-20c{1.} : %m%n</Pattern>
+            </PatternLayout>
+        </Console>
+
+    </Appenders>
+    <Loggers>
+    	<!-- Default test level is info -->
+        <Root level="INFO">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    	<!-- Vennetics test level is debug -->
+		<Logger name="com.vennetics" level="DEBUG" additivity="false">
+			<AppenderRef ref="STDOUT" level="DEBUG" />
+		</Logger>
+    </Loggers>
+</Configuration>

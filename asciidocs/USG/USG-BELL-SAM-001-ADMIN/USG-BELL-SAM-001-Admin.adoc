@@ -1,0 +1,13 @@
+= SAM Administration Guide
+Vennetics Ltd;
+:doctype: book
+:icons: font
+:toc:
+:toc-placement: preamble
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+:coderay-css: class
+
+:numbered!:
+
+include::section_updating_logging.adoc[]

@@ -1,0 +1,10 @@
+jar {
+    baseName = 'bell-sam-core-gateway-adpater'
+}
+
+dependencies {
+    compile project(':sam-errors')
+    compile project(':core-commands')
+    compile project(':core-security')
+}
+

@@ -1,0 +1,36 @@
+ error:
+  -
+   code: "SVC0010"
+   type: SVC_SUBSCRIBER_NOT_FOUND
+   statusCode: 400
+   message: "Subscriber Details Not found"
+  -
+   code: "SVC0060"
+   type: SVC_SUBSCRIBER_NOT_UNIQUE
+   statusCode: 400
+   message: "Error connecting to LDAP"
+  -
+   code: "SVC0050"
+   type: SVC_INVALID_OU
+   statusCode: 400
+   message: "The subscriber’s affiliateID is invalid"
+  -
+   code: "POL0070"
+   type: POL_INVALID_MDN
+   statusCode: 400
+   message: "FilterValue must be 10-digit MDN."
+  -
+   code: "POL0080"
+   type: POL_INVALID_FILTER_TYPE
+   statusCode: 400
+   message: "FilterValue must be either MDN, UUID, IMSI, SUBID or MEID."
+  -
+   code: "POL0120"
+   type: POL_WILDCARD_FORBIDDEN
+   statusCode: 400
+   message: "FilterValue must NOT be wildcard."
+  -
+   code: "POL0130"
+   type: POL_INVALID_IMSI
+   statusCode: 400
+   message: "IMSI number must be 15-digit number."

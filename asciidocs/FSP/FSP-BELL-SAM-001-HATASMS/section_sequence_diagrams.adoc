@@ -1,0 +1,39 @@
+== NetAPI Gateway HATA SMS Service Sequence Diagrams
+
+This section summarises the call-flows for some common HATA messaging use cases.
+
+=== MT Send Message and Status Notification
+
+include::diagram_sequence_mt_send_message.adoc[]
+
+. The application initiates creation of a new outbound message by using POST and
+receives the created request with a resource URI containing the ID.
+. On submit_sm_resp the status of the message is updated internally to DeliveredToNetwork
+but no notification is sent as this may not be the final status.
+. On receipt of the delivery receipt the application is notified that it has
+been delivered to the terminal.
+
+=== MT Send Message with Retry By Interval
+
+include::diagram_sequence_mt_send_message_with_retry.adoc[]
+
+The sequence above shows how the MT message differs when retry by interval is
+allowed. The following key points should be noted.
+
+. If delivery fails and the max retry interval has not been reached the service
+will wait for the next timer interval.
+. If delivery fails and the max retry interval has been reached the message
+will NOT be re-submitted. The TPA is notified of the terminating state.
+. If the retry timer fires and the message has not entered a terminating state
+the message will be re-submitted. This may result in duplicate messages on the
+receiving entity.
+. On successful delivery no more retries will be attempted.
+
+=== MO Message Delivery (push mode)
+
+include::diagram_sequence_mo_push.adoc[]
+
+. The application makes an online subscription for inbound messages
+. A message matching the subscription criteria is received and the application
+is notified.
+. The application deletes the subscription.

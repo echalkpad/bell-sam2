@@ -1,0 +1,8 @@
+jar {
+    baseName = 'bell-sam-core-commands'
+}
+
+dependencies {
+    compile project(':core-errors')
+    compile("com.netflix.hystrix:hystrix-core")
+}

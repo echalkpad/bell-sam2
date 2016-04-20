@@ -1,0 +1,15 @@
+jar {
+    baseName = 'bell-sam-core-cassandra'
+}
+
+dependencies {
+    compile project(':core-errors')
+    compile project(':core-commands')
+
+    compile("org.aspectj:aspectjrt:${aspectjVersion}")
+    compile('org.springframework.data:spring-data-cassandra')
+    compile("com.datastax.cassandra:cassandra-driver-core:${cassandraDriverCoreVersion}")
+    compile("me.prettyprint:hector-core:${hectorCoreVersion}")
+    compile("org.cassandraunit:cassandra-unit:${cassandraUnitVersion}")
+    compile("org.cassandraunit:cassandra-unit-spring:${cassadraUnitSpringVersion}")
+}

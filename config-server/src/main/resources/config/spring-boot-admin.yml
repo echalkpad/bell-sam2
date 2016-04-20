@@ -1,0 +1,9 @@
+server:
+# Specific port required for Spring.Boot.Admin.URL
+  port: 8094
+shell:
+  ssh:
+    port: 2031
+security:
+  basic:
+    enabled: true

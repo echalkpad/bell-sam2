@@ -1,0 +1,34 @@
+---
+
+# Install dependencies, Sets Proxies and Adds usefull aliases to bash_profile
+
+- name:
+  pip: name=docker-py
+  become: yes
+
+- name: Setting HTTP/HTTPS Proxy in .bash_profile
+  lineinfile:
+    dest: ~/.bash_profile
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - {line: 'export HTTP_PROXY="172.25.175.88:80"'}
+    - {line: 'export HTTPS_PROXY="172.25.175.88:80"'}
+  become_user: vennetics
+
+- name: Create Useful JMeter Aliases
+  lineinfile:
+    dest: ~/.bash_profile
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - {line: "alias runHelloworldJmeter='{{ jmeter_dir }}/{{ jmeter_version }}/{{ jmeter_exe }} -n -t {{ jmeter_tests_dir }}/{{ helloworld_jmeter_test }} -l ~/results.jtl -q {{ jmeter_tests_dir }}/helloworld/{{ jmeter_docker_props }}'"}
+    - {line: "alias runAdminServiceJmeter='{{ jmeter_dir }}/{{ jmeter_version }}/{{ jmeter_exe }} -n -t {{ jmeter_tests_dir }}/{{ adminservice_jmeter_test }} -l ~/results.jtl -q {{ jmeter_tests_dir }}/admin-service/{{ jmeter_docker_props }}'"}
+    - {line: "alias runNetapiJmeter='{{ jmeter_dir }}/{{ jmeter_version }}/{{ jmeter_exe }} -n -t {{ jmeter_tests_dir }}/{{ netapi_jmeter_test }} -l ~/results.jtl -q {{ jmeter_tests_dir }}/netapi-sms-enabler/{{ jmeter_docker_props }}'"}
+    - {line: "alias runSmsxJmeter='{{ jmeter_dir }}/{{ jmeter_version }}/{{ jmeter_exe }} -n -t {{ jmeter_tests_dir }}/{{ smsx_jmeter_test }} -l ~/results.jtl -q {{ jmeter_tests_dir }}/smsx-enabler/{{ jmeter_docker_props }}'"}
+    - {line: "alias runSubxJmeter='{{ jmeter_dir }}/{{ jmeter_version }}/{{ jmeter_exe }} -n -t {{ jmeter_tests_dir }}/{{ subx_jmeter_test }} -l ~/results.jtl -q {{ jmeter_tests_dir }}/subx/{{ jmeter_docker_props }}'"}
+  become_user: vennetics
+
+- name: Source Bash Profile
+  shell: "source ~/.bash_profile"
+  become_user: vennetics

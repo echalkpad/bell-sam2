@@ -1,0 +1,31 @@
+ error:
+  -
+   code: "ADMIN-001"
+   type: INVALID_DATA
+   statusCode: 400
+   message: "Contents of field %1 not valid."
+  -
+   code: "ADMIN-002"
+   type: ID_NOT_FOUND
+   statusCode: 404
+   message: "Entities with ID/s %1 not found."
+  -
+   code: "ADMIN-003"
+   type: ID_IN_USE
+   statusCode: 409
+   message: "An entity with ID %1 already exists."
+  -
+   code: "ADMIN-004"
+   type: INVALID_KEYS
+   statusCode: 400
+   message: "These keys %1 are not valid on this Policy."
+  -
+   code: "ADMIN-005"
+   type: INVALID_POLICY_FOR_SERVICE
+   statusCode: 400
+   message: "The Policy %1 that you're trying to add is not valid on this Service %2."
+  -
+   code: "ADMIN-006"
+   type: TYPES_NOT_FOUND
+   statusCode: 404
+   message: "No %1 types exist on the system or they are not associated with the application/service."

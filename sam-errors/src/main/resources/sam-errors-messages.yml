@@ -1,0 +1,56 @@
+ error:
+  -
+   code: "SAM-00001"
+   type: HTTP_401_UNAUTHORIZED
+   statusCode: 401
+   message: "Your username or password is not correct."
+  -
+   code: "SAM-00002"
+   type: HTTP_403_OPERATION_FORBIDDEN
+   statusCode: 403
+   message: "The requested operation is forbidden"
+  -
+   code: "SAM-00003"
+   type: HTTP_405_METHOD_NOT_ALLOWED
+   statusCode: 405
+   message: "The method specified in the request is not allowed for the specified request URL"
+  -
+   code: "SAM-00004"
+   type: HTTP_415_UNSUPPORTED_MEDIA_TYPE
+   statusCode: 415
+   message: "The server is refusing to service the request because the entity of the request is in a format {0} which is not supported by the requested resource for the requested method."
+  -
+   code: "SAM-00005"
+   type: HTTP_415_MEDIA_TYPE_REQUIRED
+   statusCode: 415
+   message: "The server is refusing to service the request because no media type was specified for the request format."
+  -
+   code: "SAM-00006"
+   type: NOT_IMPLEMENTED
+   statusCode: 405
+   message: "%1 - Methoc not allowed code not implemented."
+  -
+   code: "SAM-00012"
+   type: HTTP_404_RESOURCE_NOT_FOUND
+   statusCode: 404
+   message: "The server has not found anything matching the request URI"
+  -
+   code: "SAM-00013"
+   type: HTTP_504_GATEWAY_TIMEOUT
+   statusCode: 504
+   message: "The server could not fulfill your request due to a downstream error. Additional info: {0}"
+  -
+   code: "SAM-00101"
+   type: RESOURCE_INTERNAL_ERROR
+   statusCode: 500
+   message: "Internal error processing operation."
+  -
+   code: "SAM-00143"
+   type: RESOURCE_UNAVAILABLE_COMMAND_FAILED
+   statusCode: 503
+   message: "Service is temporarily unavailable. Command failed with reason {0}."
+  -
+   code: "SAM-01622"
+   type: RESOURCE_BAD_REQUEST_INVALID_ARGUMENT
+   statusCode: 400
+   message: "Invalid argument supplied: {0}"

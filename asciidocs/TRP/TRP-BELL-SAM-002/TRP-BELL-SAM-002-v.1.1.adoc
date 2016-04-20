@@ -1,0 +1,205 @@
+= Bell SAM 0.0.2 Release Report
+Vennetics Ltd;
+:doctype: book
+:icons: font
+:toc:
+:toc-placement: preamble
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+:coderay-css: class
+:revdate: 17th Feb 2016
+:revnumber: 1.7
+:imagesdir: images
+
+:numbered!:
+
+include::document_control.adoc[]
+
+:numbered:
+
+= Installation Overview
+
+*The Ansible Playbook provides:* +
+- Downloading, installing and configuring Docker and it's dependencies. +
+- The running of the docker-compose.yml and the configuration of CQL scripts on Docker Containers +
+- Installation of JMeter
+
+Services all seem to start up correctly when running a `docker ps` command. However, upon checking the logs, some of them
+try and connect to the default `localhost` config-server URL instead of the actual IP. The services that behave
+like this require a manual restart in order to pick up the correct config-server.
+
+A ticket has been raised for the above behaviour: https://wtservices.atlassian.net/browse/SAM-324
+
+== Load Testing
+
+Load Testing was not in the scope for the following release tests. Some small load was ran with varied results on the Admin Service with the following issues:
+
+With load the majority of PUT requests fail due to expecting 200 and receiving 201. This is possibly due to the fact these tests are not designed for load testing and hardcoded UUID's creating RACE conditions. +
+With load some GET's fail with a `401 unauthorized` - possibly due to Admin-Service API's not being able to keep up with the traffic. This failure falls into the same category as above, this test is not designed for load testing so this issue will be corrected in later releases.
+
+NOTE: There is no need to create any service specific tickets for these issues, however, there has been a ticket raised to create load tests for the service: https://wtservices.atlassian.net/browse/SAM-323
+
+= Test Variables
+
+*Test's were ran on:* +
+15th March 2016
+
+*Environment:* +
+Test Suites were ran on RHEL 7.2 VM and hosted in the customer's network. For the SMS tests, they were hitting the customer's SMS-C.
+
+= Findings
+
+== Test Coverage
+
+INFO: The following service's *Success Rate* is calculated during the *2nd run* of tests using a *single thread*. This is due to the known `500 Zuul Forwarding Exception` issue causing services to fail on the first request.
+
+NOTE: It is worth noting that the JMeter Tests created for the 0.0.2 Release were not designed for Load Testing. So any benchmarks should be taken with this in mind.
+
+NOTE: Tickets for bugs can be found at the bottom of the document.
+
+=== 1. Admin Service
+
+*Test Suite Pass Success Rate:* 100%
+
+*Test Results*
+
+[format="csv", options="header"]
+|===
+ID, Size in Bytes, Test Name, Response Code, Status, Thread Name, text, Passed, , Sample Count, Pass/Error Count, Body Size in Bytes
+1458052870507,578,Client POST,201,Created,Admin-Service CRUD 1-1,text,true,1041,1,1,577
+1458052871117,372,Client GET,200,OK,Admin-Service CRUD 1-1,text,true,962,1,1,372
+1458052871490,372,Client GET,404,Not Found,Admin-Service CRUD 1-1,,true,515,1,1,372
+1458052871863,409,Client PUT,200,OK,Admin-Service CRUD 1-1,text,true,1037,1,1,409
+1458052872273,370,Client DELETE,204,No Content,Admin-Service CRUD 1-1,,true,483,1,1,0
+1458052872644,490,Application POST,201,Created,Admin-Service CRUD 1-1,text,true,1487,1,1,490
+1458052873135,375,Application GET,200,OK,Admin-Service CRUD 1-1,text,true,1379,1,1,375
+1458052873510,377,Application GET,404,Not Found,Admin-Service CRUD 1-1,,true,514,1,1,377
+1458052873887,496,Application PUT,200,OK,Admin-Service CRUD 1-1,text,true,1455,1,1,496
+1458052874384,371,Application DELETE,204,No Content,Admin-Service CRUD 1-1,,true,481,1,1,0
+1458052874756,374,AllowedService POST,201,Created,Admin-Service CRUD 1-1,text,true,1085,1,1,374
+1458052875131,376,AllowedService GET,200,OK,Admin-Service CRUD 1-1,text,true,997,1,1,376
+1458052875507,474,AllowedService GET,404,Not Found,Admin-Service CRUD 1-1,,true,514,1,1,474
+1458052875981,385,AllowedService PUT,200,OK,Admin-Service CRUD 1-1,text,true,1081,1,1,385
+1458052876367,371,AllowedService DELETE,204,No Content,Admin-Service CRUD 1-1,,true,482,1,1,0
+1458052876739,544,PolicyType POST,201,Created,Admin-Service CRUD 1-1,text,true,992,1,1,544
+1458052877284,370,PolicyType GET,200,OK,Admin-Service CRUD 1-1,text,true,907,1,1,370
+1458052877655,365,PolicyType GET,404,Not Found,Admin-Service CRUD 1-1,,true,514,1,1,365
+1458052878021,369,PolicyType PUT,200,OK,Admin-Service CRUD 1-1,text,true,992,1,1,369
+1458052878391,369,PolicyType DELETE,204,No Content,Admin-Service CRUD 1-1,,true,481,1,1,0
+1458052878761,368,ProtocolType POST,201,Created,Admin-Service CRUD 1-1,text,true,998,1,1,368
+1458052879130,373,ProtocolType GET,200,OK,Admin-Service CRUD 1-1,text,true,911,1,1,372
+1458052879503,365,ProtocolType GET,404,Not Found,Admin-Service CRUD 1-1,,true,514,1,1,365
+1458052879869,367,ProtocolType PUT,200,OK,Admin-Service CRUD 1-1,text,true,1001,1,1,367
+1458052880237,340,ProtocolType DELETE,204,No Content,Admin-Service CRUD 1-1,,true,481,1,1,0
+1458052880578,341,Role POST,201,Created,Admin-Service CRUD 1-1,text,true,1056,1,1,340
+1458052880919,340,Role GET,200,OK,Admin-Service CRUD 1-1,text,true,980,1,1,340
+1458052881260,338,Role GET,404,Not Found,Admin-Service CRUD 1-1,,true,513,1,1,338
+1458052881598,431,Role PUT,200,OK,Admin-Service CRUD 1-1,text,true,1058,1,1,431
+1458052882030,339,Role DELETE,204,No Content,Admin-Service CRUD 1-1,,true,481,1,1,0
+1458052882370,348,ServiceType POST,201,Created,Admin-Service CRUD 1-1,text,true,1015,1,1,348
+1458052882719,399,ServiceType GET,200,OK,Admin-Service CRUD 1-1,text,true,927,1,1,399
+1458052883119,369,ServiceType GET,404,Not Found,Admin-Service CRUD 1-1,,true,514,1,1,369
+1458052883489,379,ServiceType PUT,200,OK,Admin-Service CRUD 1-1,text,true,1016,1,1,379
+1458052883869,370,ServiceType DELETE,204,No Content,Admin-Service CRUD 1-1,,true,483,1,1,0
+|===
+
+=== 2. HelloWorld Service
+
+*Test Suite Pass Success Rate:* 100%
+
+*Test Results*
+
+[format="csv", options="header"]
+|===
+ID, Size in Bytes, Test Name, Response Code, Status, Thread Name, text, Passed, , Sample Count, Pass/Error Count, Body Size in Bytes
+1458050642999,588,Fetch Hello World Text,200,OK,Hello World 1-1,text,true,573,1,1,588
+|===
+
+=== 3. Sub-X Service
+
+*Test Suite Pass Success Rate:* 50%
+
+*Test Results*
+
+[format="csv", options="header"]
+|===
+ID, Size in Bytes, Test Name, Response Code, Status, Thread Name, text, Passed, , Sample Count, Pass/Error Count, Body Size in Bytes
+1458053881578,752,Get Subscriber Profile,200,OK,Get Subscriber Profile 1-1,text,true,981,1,1,752
+1458053882566,392,Get Subscriber Profile - Invalid search Filter,500,Server Error,Get Subscriber Profile 1-1,text,false,1038,1,1,392
+|===
+
+*GetSubscriberProfile with InvalidFilter:* Should return a 400 but returns a 500. Known issue. +
+*Ticket raised:* https://wtservices.atlassian.net/browse/SAM-279
+
+=== 4. NetAPI SMS
+
+*Test Suite Pass Success Rate:* 93%
+
+*Test Results*
+
+[format="csv", options="header"]
+|===
+ID, Size in Bytes, Test Name, Response Code, Status, Thread Name, text, Passed, , Sample Count, Pass/Error Count, Body Size in Bytes
+1458050209056,643,Send SMS,201,Created,Send SMS 1-1,text,true,1130,1,1,643
+1458050209738,622,Send Large SMS,201,Created,Send SMS 1-1,text,true,6395,1,1,620
+1458050210361,5656,Reset callcount,500,Server Error,Send SMS 1-1,text,false,656,1,1,5655
+1458050216018,384,Reset callcount,204,No Content,Send SMS 1-1,,true,490,1,1,0
+1458050216402,397,Send SMS with Callback,201,Created,Send SMS 1-1,text,true,1215,1,1,397
+1458050226802,376,Get callcount,200,OK,Send SMS 1-1,text,true,569,1,1,376
+1458050227179,372,Reset callcount,204,No Content,Send SMS 1-1,,true,490,1,1,0
+1458050227552,406,Send SMS with Callback with notificationFormat of XML,201,Created,Send SMS 1-1,text,true,1242,1,1,406
+1458050234465,376,Get callcount,200,OK,Send SMS 1-1,text,false,569,1,1,376
+1458050234842,413,Send SMS - Invalid Destination,400,Bad Request,Send SMS 1-1,text,true,631,1,1,413
+1458050235257,512,Reset callcount,204,No Content,Send SMS 1-1,,true,490,1,1,0
+1458050235770,387,Send SMS - XML,201,Created,Send SMS 1-1,text,true,1424,1,1,387
+1458050242883,378,Get callcount,200,OK,Send SMS 1-1,text,true,591,1,1,378
+1458050243262,424,Send SMS - Invalid destination address,400,Bad Request,Send SMS 1-1,text,true,713,1,1,424
+|===
+
+==== Known Failures & Fixes
+
+*Send Large SMS:* Fails - Value too long for column "CONTENT BINARY(255) - Known issue. Bug raised. +
+*Reset Callcount:* fails with Zuul Forwarding Error on first attempt. Temporary fix in place: reset callcount is called again to ensure it is reset before continuing further. +
+*Get Callcount:* Fails - Fixed Now Passing - increased wait time for SMS callcount to register from 6.5 to 10 seconds in JMeter test
+
+=== 5. OneAPI SMS
+
+*Test Suite Pass Success Rate:* 58%
+
+*Test Results*
+
+[format="csv", options="header"]
+|===
+ID, Size in Bytes, Test Name, Response Code, Status, Thread Name, text, Passed, , Sample Count, Pass/Error Count, Body Size in Bytes
+1458050898462,606,Send SMS,201,Created,Send SMS 1-1,text,true,672,1,1,605
+1458050899284,5426,Reset callcount,500,Server Error,Send SMS 1-1,text,false,729,1,1,5426
+1458050904712,434,Send SMS with Callback,201,Created,Send SMS 1-1,text,true,672,1,1,434
+1458050915150,558,Get callcount,200,OK,Send SMS 1-1,text,true,590,1,1,558
+1458050915710,423,Send SMS - Invalid Destination,500,Server Error,Send SMS 1-1,text,false,591,1,1,423
+1458050916134,384,Send SMS - Required Field Missing,500,Server Error,Send SMS 1-1,text,false,590,1,1,384
+1458050916519,388,Send SMS,201,Created,Send SMS 1-1,text,true,674,1,1,388
+|===
+
+*Known Issues:*
+
+*Reset Callcount:* fails with Zuul Forwarding Error on first attempt. Temporary fix in place: reset callcount is called again to ensure it is reset before continuing further. +
+*Send SMS Invalid Destination Address:* Fails - 500 error instead of 400 +
+*Send SMS Required Field Missing:* Fails - 500 error instead of 400
+
+=== 6. General Overview
+
+*6.1* - Tests always fail on the first run of test suite with Zuul Forwarding Error but tend to pass as should then after.
+
+= Issues Raised
+
+*Bugs:*
+
+*NetAPI-SMS-Enabler - Large payloads not saved in DB:* https://wtservices.atlassian.net/browse/SAM-272 +
+*Zuul Forwarding Error:* https://wtservices.atlassian.net/browse/SAM-278 & https://wtservices.atlassian.net/browse/SAM-279 +
+*Investigate Why Services Try to Connect to Config-Server at localhost:* https://wtservices.atlassian.net/browse/SAM-324
+
+*Other:*
+
+*Load Testing:* https://wtservices.atlassian.net/browse/SAM-323
+
+DEBUG level is on for logging: *This is correct for functional testing in this release.*

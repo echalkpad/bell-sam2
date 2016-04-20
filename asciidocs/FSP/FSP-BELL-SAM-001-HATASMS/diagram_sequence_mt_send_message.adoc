@@ -1,0 +1,38 @@
+[[mt_send_message]]
+.MT Send Message Sequence Diagram
+[plantuml, mt_send_message, alt="Sequence diagram"]
+----
+
+hide footbox
+
+participant "ClientApp" as C
+participant "NetAPI Gateway SMS" as GW
+participant "Message Store" as M
+participant "SMS-C" as S
+
+
+C -> GW : POST /smsmessaging/v1/outbound/tel%3A%2B19585550151/requests
+activate C
+activate GW
+GW -> M : storeMessageAndCallbackUrl()
+GW -> S : submit_sm
+C --> GW : 201 Created
+deactivate GW
+deactivate C
+
+S -> GW : submit_sm_resp
+activate GW
+GW -> M : updateState(submitted)
+deactivate GW
+
+S -> GW : deliver_sm(success)
+activate GW
+GW -> C : POST /notifications/DeliveryInfoNotification
+activate C
+C --> GW : 204 No Content
+deactivate C
+GW -> M : deleteMessage()
+GW -> S : deliver_sm_resp
+deactivate GW
+
+----

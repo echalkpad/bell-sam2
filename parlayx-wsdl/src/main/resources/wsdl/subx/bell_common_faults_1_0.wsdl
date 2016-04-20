@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="common_faults" targetNamespace="urn:faults.v1_0.subscriber.thirdparty.wsdl.bell.ca"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:bell_common_xsd="urn:v1_0.subscriber.thirdparty.wsdl.bell.ca">
+	<wsdl:documentation>
+		© 2007, Bell Canada. All Rights Reserved. The content of this document, and the copyright in the content, are owned or controlled by
+		BELL CANADA or its content suppliers. You may only use or reproduce the information in the Content for your own personal,
+		non-commercial or educational use. The content may not be otherwise used, reproduced, broadcast, published or retransmitted without
+		the prior written permission of BELL CANADA.
+	</wsdl:documentation>
+
+	<wsdl:types>
+		<xsd:schema elementFormDefault="qualified">
+			<xsd:import namespace="urn:v1_0.subscriber.thirdparty.wsdl.bell.ca" schemaLocation="bell_common_types_1_0.xsd" />
+		</xsd:schema>
+	</wsdl:types>
+
+	<wsdl:message name="ServiceException">
+		<wsdl:documentation>@see bell_common_xsd:ServiceException</wsdl:documentation>
+		<wsdl:part name="ServiceException" element="bell_common_xsd:ServiceException" />
+	</wsdl:message>
+
+	<wsdl:message name="PolicyException">
+		<wsdl:documentation>@see bell_common_xsd:PolicyException</wsdl:documentation>
+		<wsdl:part name="PolicyException" element="bell_common_xsd:PolicyException" />
+	</wsdl:message>
+</wsdl:definitions>

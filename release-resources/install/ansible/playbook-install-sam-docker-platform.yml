@@ -1,0 +1,32 @@
+---
+- hosts: '{{ hosts }}'
+  remote_user: '{{ user }}'
+  become: yes
+
+  tasks:
+  - name: Yum Install passlib for Password Encryption
+    pip: name=passlib
+    become: yes
+
+  vars:
+    release_version: "{{ releaseVersion }}"
+    bellsam_network_name: "{{ dockerNetworkName }}"
+    docker_username: "{{ dockerUsername }}"
+    docker_user_email: "{{ dockerEmail }}"
+
+  vars_prompt:
+    - name: 'docker_password'
+      prompt: "Enter your Docker Password"
+      private: yes
+      encrypt: "sha512_crypt"
+      confirm: yes
+      salt_size: 8
+
+  roles:
+    - { role: systemConfig, tags: ["systemConfig"] }
+    - { role: installDocker, tags: ["installDocker"] }
+    - { role: installSamPlatform, tags: ["installSamPlatform"] }
+    - { role: insertCassandraKeyspaces, tags: ["insertCassandraKeyspaces"] }
+    - { role: serviceChecks, tags: ["runServiceChecks"] }
+    - { role: installJmeterWithTests, tags: ["installJmeterWithTests"] }
+    - { role: installGatling, tags: ["installGatling"] }

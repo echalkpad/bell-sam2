@@ -1,0 +1,46 @@
+== Policy Control
+
+The following server side policies will be configurable.
+
+=== Platform Policies
+
+Platform policies are applied as enabler static configuration at deploy time and
+are therefore a single set of values that all enablers will use. They can be modified
+at runtime but this requires a managed update of the configuration.
+
+[options="header"]
+|=======================
+|Policy Name |Description |Optional
+|Max Retry Intervals |The maximum number of allowed retry intervals. |No
+|Min Interval Between Retries |The minimum interval allowed between the values supplied in a retry strategy. |No
+|Max Retry Interval |The maximum value allowed as a retry interval |No
+|Delivery Wait Interval |Timer value for waiting on deliver_sm after last message submission attempt. |No
+|=======================
+
+=== Access Control Policies
+
+Access control policies are enforced in the API Gateway and are not specific to
+the SMS service. The table below describes the policies that will be in force
+for the HATA SMS service enabler.
+
+[options="header"]
+|=======================
+|Policy Name |Description |Optional
+|AuthenticationScheme |Initially this will be either HTTP_BASIC or NONE |No
+|ClientId |An identifier for use in client authentication. |No
+|ClientPassword |A password for use when required by the client authentication scheme. |Yes
+|Roles |A list of roles the client has been assigned.To be used for APIs requiring roles based access control (RBAC) |Yes
+|Authorities |Mechanism via which Direct Access Control (DAC) is managed for a TPA on a per-API basis. This is used to enable/disable access to the HATA SMS service |Yes
+|Rate Limiting Max Transactions Per Interval |Rate limiting policy. The maximum number of transactions allowed over a configurable interval. |Yes
+|Rate Limiting Interval |Rate limiting policy. The interval (SECONDS, MINUTES or HOURS) over which transactions will be limited |Yes
+|=======================
+
+=== Service Policies
+
+[options="header"]
+|=======================
+|Policy Name |Description |Optional
+|Retry By Interval Enabled |Boolean policy. If true then the service will allow retry attempts on message submission. |No
+|Retry Intervals |Only applies if RetryByIntervalEnabled=true. The intervals at which to re-attempt message submission if it has not yet entered a terminating state. |Yes footnote:[Mandatory if Retry By Interval is true.]
+|Retry By Interval Override Enabled |Boolean policy. If true then a TPA will be allowed to specify a retry strategy in the request. |No
+|=======================

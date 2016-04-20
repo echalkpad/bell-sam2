@@ -1,0 +1,21 @@
+= Overview
+
+The smsx-enabler provides an enabler implementation of the Parlay-X and OneAPI SMS functionality.
+
+The following functionality is exposed:
+
+- Send SMS including delivery notifications
+
+= Testing
+In order to carry out basic testing of Send SMS functionality, the SMSC-Simulator has been created.
+
+== Locally
+By default, the smsx-enabler will attempt to connect to the smsc-simulator on localhost.
+
+== Docker
+In order to run the SMSC-Simulator in the same network as our system you must run the following
+command (assuming you are in the bell-sam directory of your workspace folder:
+[source,sh]
+----
+$ docker-compose -f docker-compose.yml -f smsc-simulator/docker-compose.yml --x-networking up -d
+----

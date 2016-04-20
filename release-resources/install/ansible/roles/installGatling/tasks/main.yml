@@ -1,0 +1,20 @@
+---
+
+# Installs Gatling
+
+- name: Install Gatling
+  command: 'wget {{ gatling_download_url }}'
+  args:
+    chdir: "{{ vennetics_software_dir }}"
+  sudo: yes
+
+- name: Unzip Gatling
+  unarchive: src={{ vennetics_software_dir }}/{{ gatling_unzip_dir }}.zip dest={{ vennetics_software_dir }} copy=no
+  become_user: vennetics
+
+- name: Set GATLING_HOME
+  lineinfile: dest=/home/vennetics/.bash_profile line='export GATLING_HOME={{ vennetics_software_dir }}/{{ gatling_unzip_dir }}' state=present
+  become: yes
+
+- name: Source bash_profile
+  command: 'source /home/vennetics/.bash_profile'

@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+  smscsimulator:
+    image: "vennetics/bell-sam-smsc-simulator:latest"
+    hostname: smscsimulator
+    container_name: "smscsimulator"
+    restart: always
+    environment:
+       EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"
+       CONFIG_HOST: configserver

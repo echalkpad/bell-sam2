@@ -1,0 +1,25 @@
+apply plugin: 'spring-boot'
+
+jar { baseName = 'bell-sam-subscriber-thirdparty-sdm-server' 
+
+    from (project(':subscriber-thirdparty-sdm-service').file('build/docs/html5')) {
+        into 'static'
+    }
+}
+
+dependencies {
+
+    // Both variants. Profile will dictate which gets loaded.
+    // Needed at compile time unless we make this a boot-starter
+    compile project(':sdm-adapter-stub')
+    compile project(':sdm-adapter-ldap')
+
+    // Service layer
+    compile project(':subscriber-thirdparty-sdm-service')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    runtime libraries.springBoot
+
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+}

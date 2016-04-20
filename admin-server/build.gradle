@@ -1,0 +1,24 @@
+
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'bell-sam-admin-server'
+
+    from (project(':admin-service').file('build/docs/html5')) {
+        into 'static'
+    }
+}
+
+dependencies {
+    compile project(':admin-service')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    compile('org.springframework.cloud:spring-cloud-config-client')
+
+    testCompile('com.jayway.jsonpath:json-path')
+    testCompile('org.springframework.boot:spring-boot-starter-data-rest')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile("org.springframework.restdocs:spring-restdocs-mockmvc:${springRestdocsVersion}")
+    testCompile("org.cassandraunit:cassandra-unit:${cassandraUnitVersion}")
+    testCompile("org.cassandraunit:cassandra-unit-spring:${cassadraUnitSpringVersion}")
+}

@@ -1,0 +1,12 @@
+jar {
+    baseName = 'bell-sam-sdm-adapter-ldap'
+}
+
+dependencies {
+    compile project(':sdm-adapter-api')
+    compile project(':lib-ldap')
+        
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+}
+

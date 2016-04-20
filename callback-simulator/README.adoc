@@ -1,0 +1,12 @@
+== Overview
+
+The Callback Simulator is a http://projects.spring.io/spring-boot/[Spring Boot Application] which handles callback notifications (for SMS delivery notifications) for OneAPI and NetAPI and traks how many calls are made.
+
+== Docker
+
+To run and link to the main docker instance, you must start this docker file at the same time as the main docker file for the Bell-SAM project. For example, to run from the base bell-sam directory:
+
+[source,sh]
+----
+$ docker-compose -f docker-compose.yml -f callback-simulator/docker-compose.yml up
+----

@@ -1,0 +1,13 @@
+jar {
+    baseName = 'bell-sam-core-errors'
+}
+
+dependencies {
+
+    compile("com.fasterxml.jackson.core:jackson-databind")
+    compile("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+    compile("org.springframework:spring-context")
+    compile("org.reflections:reflections")
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}

@@ -1,0 +1,7 @@
+jar {
+    baseName = 'bell-sam-registry'
+}
+
+dependencies {
+    compile("org.springframework:spring-context")
+}

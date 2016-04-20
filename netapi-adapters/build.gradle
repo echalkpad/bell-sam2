@@ -1,0 +1,19 @@
+jar {
+    baseName = 'bell-sam-netapi-adapters'
+}
+
+dependencies {
+
+    compile project(':netapi-schema')
+    compile project(':sam-registry')
+    compile project(':rest-config')
+    compile project(':core-gateway-adapter')
+
+    compile("javax.servlet:javax.servlet-api")
+
+    compile("org.springframework.cloud:spring-cloud-starter-hystrix")
+
+    testCompile('com.jayway.jsonpath:json-path')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.boot:spring-boot-starter-web')  // For TestConfiguration class.
+}

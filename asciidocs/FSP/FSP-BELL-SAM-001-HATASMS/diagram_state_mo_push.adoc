@@ -1,0 +1,17 @@
+[[state_mo_push]]
+.MO SMS Push Mode
+[plantuml, state_mo_push, alt="State diagram"]
+----
+state SubscriptionActive {
+  [*] --> NotifyingTpa : deliver_sm
+  NotifyingTpa --> [*] : notification complete
+
+  NotifyingTpa: POST notification to TPA
+  NotifyingTpa: deliver_sm_resp
+}
+
+[*] --> SubscriptionActive : /POST subscriptions
+SubscriptionActive --> [*] : /DELETE subscriptions
+
+
+----

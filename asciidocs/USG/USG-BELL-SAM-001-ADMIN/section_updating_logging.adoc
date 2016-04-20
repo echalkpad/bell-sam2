@@ -1,0 +1,11 @@
+== Updating logging for a docker container or java process
+
+In order to change the logging for a docker container/java process the log4j2.xml file in that container needs to be updated. 
+To do this please follow these steps
+
+. log onto the machine where the docker container is running
+. docker ps <- this should list the id of the container you want to update the file in
+. docker exec -it <container id> bash
+. edit the file using vi /opt/vennetics/sam/config/log4j2.xml
+
+This does not effect the logging on any other running container.

@@ -1,0 +1,84 @@
+= SAM v0.3 BETA Release Notes
+Vennetics Ltd;
+:doctype: book
+:icons: font
+:toc:
+:toc-placement: preamble
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+:coderay-css: class
+:revdate: April 5th 2016
+:revnumber: 1.0
+
+This document contains the release notes for the SAM v0.3 BETA release.
+
+== Overview
+
+SAM v0.3 is an expanded release from 0.2 adding additional functionality and platform stability and support. SAM v0.3 contains Docker images of all services created in this release to allow deployment in a Docker environment.
+
+SAM v0.3 Checksums:
+
+* Add checksums
+
+
+== Requirements
+
+* Setup & Configuration instructions can be found at: https://github.com/Vennetics/bell-sam/wiki/Developer-Environment
+* Ubuntu 14.0.4
+* DockerToolBox - https://www.docker.com/docker-toolbox
+
+== Additions
+
+SAM v0.3 BETA Release is available with the following features:
+
+* A Discovery Server to discover and obtain all necessary information for other services used within the SAM micro-service architecture.
+* A Configuration Server to provision and thereafter obtain all necessary configuration for deployment and use of all services in the SAM micro-service architecture.
+* A API-Gateway to proxy messages to/from any micro-service within the SAM micro-service architecture and enable the use of that micro-service.
+* A SubscriberX service that will fully integrate with the SAM micro-service architecture and provides the ability to retrieve subscriber profiles and verify feature codes.
+* A hello world REST service that will fully integrate with the SAM micro-service architecture that provides a simple Hello World message response when a specific endpoint is hit.
+* An Admin Service for the creation and management of Third Party Application user’s for the SAM services. This service provides RESTful CRUD operations on the entities required for the SAM system.
+* A NetApi SMS service which provides Send-SMS NetAPI binary (base 64 encoded) functionality using the NetApi format.
+* A SMSX service which provides a GSMA OneAPI REST 0.91 SMS web service interface to third party applications for delivery of MT Text SMS messages via SMPP connection to Bell SMSC.
+* A Docker image for Cassandra to store TPA information based on the Admin Service schema.
+* Docker images of all of the above services that can be deployed and removed from the SAM platform.
+
+
+== Changes
+
+* The subscriber service has been enhanced beyond the return of a canned response, allowing the retrieval of subscriber profiles  and verification of feature codes via LDAP.
+
+
+== Fixes
+
+Epic
+
+* [SAM-373] - 0.3 Release
+
+Story
+
+* [SAM-25] - System Trace & Audit
+* [SAM-32] - Retrieve Profile of Subscriber
+* [SAM-33] - Verify Feature Codes of Subscriber
+* [SAM-35] - SDM Integration
+* [SAM-36] - Service Configuration
+* [SAM-37] - TPA Configuration
+* [SAM-83] - SMS (Binary MT) - SMPP
+* [SAM-136] - API Gateway Error Handling
+* [SAM-255] - Transaction Logging and traceability through API Gateway and SAM enablers.
+* [SAM-268] - Create ApplicationAdminService
+* [SAM-273] - Query Sent Messages
+* [SAM-307] - Refactor API Gateway REST calls to use Hystrix
+* [SAM-327] - Refactor SAM Gateway Auth
+* [SAM-328] - Implement ApplicationAdminService Policy and ProtocolType endpoints
+* [SAM-330] - Investigate and Fix Zuul Forwarding Error
+* [SAM-338] - Authorization: Allowed services
+* [SAM-339] - Authorization: Allowed operations
+* [SAM-343] - Day1 NGSI interworking for SUB-X
+* [SAM-373] - 0.3 Release
+* [SAM-374] - Release Test Suite
+* [SAM-375] - Release PlayBook
+* [SAM-376] - Deployment Preparation
+* [SAM-377] - Create SAM 0.3 Release
+* [SAM-378] - Release Note
+* [SAM-379] - Release Hardening
+

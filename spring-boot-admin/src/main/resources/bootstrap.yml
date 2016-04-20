@@ -1,0 +1,36 @@
+---
+spring:
+  application:
+    name: spring-boot-admin
+  cloud:
+    config:
+      enabled: true
+      failFast: true
+      retry:
+#        multiplier: 1.1
+#        maxAttempts: 6
+      discovery:
+        enabled: true
+        serviceId: CONFIG-SERVER
+      uri: http://${config.host:localhost}:${config.port:8888}
+      username: vennetics
+      password: M5NLqZD8ivv0
+  boot:
+    admin:
+      url: http://${server.host:localhost}:${server.port:8094}
+    client:
+      prefer-ip: true
+
+security:
+  user:
+    name: ${eureka.username:vennetics}
+    password: ${eureka.password:M5NLqZD8ivv0}
+
+eureka:
+  instance:
+    preferIpAddress: true
+    nonSecurePort: ${server.port:8094}
+    instanceId: ${spring.cloud.client.hostname}:${spring.application.name}
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL:http://vennetics:M5NLqZD8ivv0@localhost:8761/eureka/}

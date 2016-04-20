@@ -1,0 +1,81 @@
+---
+
+# Ensures core containers have started
+
+- name: Discovery Service Container Started
+  docker:
+    name: "{{ discoveryservice }}"
+    image: "{{ discoveryserviceImage }}"
+    state: started
+
+- name: Config Server Container Started
+  docker:
+    name: "{{ configserver }}"
+    image: "{{ configserverImage }}"
+    state: started
+
+- name: API-Gateway Container Started
+  docker:
+    name: "{{ apigateway }}"
+    image: "{{ apigatewayImage }}"
+    state: started
+
+- name: Hystrix-Dashboard Container Started
+  docker:
+    name: "{{ hystrixdashboard }}"
+    image: "{{ hystrixdashboardImage }}"
+    state: started
+
+- name: Turbine Container Started
+  docker:
+    name: "{{ turbine }}"
+    image: "{{ turbineImage }}"
+    state: started
+
+- name: Spring Boot Admin Container Started
+  docker:
+    name: "{{ springbootadmin }}"
+    image: "{{ springbootadminImage }}"
+    state: started
+
+- name: Net-API SMS Enabler Container Started
+  docker:
+    name: "{{ netapismsenabler }}"
+    image: "{{ netapismsenablerImage }}"
+    state: started
+
+- name: Admin-Server Container Started
+  docker:
+    name: "{{ adminserver }}"
+    image: "{{ adminserverImage }}"
+    state: started
+
+- name: SMSX-Enabler Container Started
+  docker:
+    name: "{{ smsxenabler }}"
+    image: "{{ smsxenablerImage }}"
+    state: started
+
+- name: Example Cassandra Spring Data REST Container Started
+  docker:
+    name: "{{ examplecassandraspringdatarest }}"
+    image: "{{ examplecassandraspringdatarestImage }}"
+    state: started
+
+- name: HelloWorld Container Started
+  docker:
+    name: "{{ helloworld }}"
+    image: "{{ helloworldImage }}"
+    state: started
+
+- name: Subscriber-Third-Party-SDM-Server Container Started
+  docker:
+    name: "{{ subscriberthirdpartysdmserver }}"
+    image: "{{ subscriberthirdpartysdmserverImage }}"
+    state: started
+
+- name: Cassandra Container Started
+  docker:
+    name: "{{ cassandra }}"
+    image: "{{ cassandraImage }}"
+    state: started

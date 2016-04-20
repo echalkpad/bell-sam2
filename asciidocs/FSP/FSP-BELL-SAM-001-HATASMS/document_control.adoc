@@ -1,0 +1,82 @@
+.Executive Summary
+
+Vennetics has developed the J-Box products using contemporary, industry-leading
+technologies. As a result, the J-Box solution architecture allows Vennetics to
+rapidly introduce new service components into the platform, which leverage the
+comprehensive system features for integrating open APIs with client
+applications. This approach to carrier grade server platforms has allowed
+Vennetics to provide the J-Box Server as a key component of emerging media and
+telephony Apps for smart phones, tablets and laptops.
+
+== Document Control
+
+.Approval Authority
+
+The identifier of this document is *FSP-BELL-SAM-001-HATASMS* and the approval
+authority is:
+
+* Ivan McShane
+* Engineering Director, Vennetics
+* ivan.mcshane@vennetics.com
+
+.Version History
+[options="header"]
+|=======================
+|Version|Author      |Description| Date
+|1.0    |Ivan McShane     |Initial draft |11th January 2016
+|1.1    |Ivan McShane     |Updated with scope changes including Retry |18th January 2016
+|1.2    |Ivan McShane     |Migrated UML diagrams to new tool. Updated with Shanshan's email feedback |27th January 2016
+|1.3    |Ivan McShane     |Corrections and clarifications from FSP feedback |28th January 2016
+|1.4    |Ivan McShane     |UML diagram fixes. 3.1 submit_sm direction. 4.2 Removed WaitingForDeliveryReceipt as separate state and removed cancelRetryTimer from DeliveryImpossible |29th January 2016
+|1.5    |Ivan McShane     |Update to 4.2, adding some extra missing events |29th January 2016
+|1.6    |Ivan McShane     |Doc corrections. Marking read/delete delivery receipt subscriptions as not supported for initial release. |4th Feb 2016
+|1.7    |Ivan McShane     |Clarified short-code usage in senderAddress. |17th Feb 2016
+|=======================
+
+.Disclaimers
+The information contained in this document is the proprietary and
+exclusive property of Vennetics, except as otherwise indicated. No part of this
+document, in whole or in part, may be reproduced, stored, transmitted, or used
+for design purposes without the prior written permission of Vennetics. The
+information contained in this document is subject to change without notice and
+is provided for informational purposes only. Vennetics specifically disclaims
+all warranties, express or limited, including, but not limited, to the implied
+warranties of merchantability and fitness for a particular purpose, except as
+provided for in a separate software license agreement.
+
+
+.Privacy Information
+This document may contain information of a sensitive nature.
+This information should not be given to persons other than those who are
+involved in the J-Box project or who will become involved during the project
+lifecycle.
+
+== Abbreviations
+
+[options="header"]
+|=======================
+|Abbreviation |Description
+|API| Application Program Interface
+|ESME| External Short Message Entity
+|HATA| Hyundai AutoEver Telematics America
+|MIME| Multipurpose Internet Mail Extensions
+|MO| Mobile Originated
+|MT| Mobile Terminated
+|OMA| Open Mobile Alliance
+|SAM| Service API Mediation
+|SMPP| Short Message Peer to Peer
+|SMS| Short Message Service
+|SMSC| Short Message Service Centre
+|TPA| Third Party Application
+|=======================
+
+
+== References
+
+[[References]]
+[options="header"]
+|=======================
+|Number |Identifier| Title
+|1| OMA-TS-REST_NetAPI_ShortMessaging-V1_0-20151023-C| OMA Restful Network API for Short Messaging.
+|2| OMA-TS-REST_NetAPI_Common-V1_0-20120417-C.pdf| OMA Restful Network API Common Definitions
+|=======================

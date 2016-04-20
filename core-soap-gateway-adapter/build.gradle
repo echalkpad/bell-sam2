@@ -1,0 +1,15 @@
+jar {
+    baseName = 'bell-sam-core-soap-gateway-adapter'
+}
+
+dependencies {
+    compile("org.springframework.cloud:spring-cloud-starter-hystrix")
+
+    compile project(':sam-errors')
+    compile project(':core-gateway-adapter')
+    compile project(':sam-registry')
+    compile libraries.cxf
+
+    compile("org.springframework:spring-web")
+    compile("com.fasterxml.jackson.core:jackson-databind")
+}

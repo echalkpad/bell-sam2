@@ -1,0 +1,10 @@
+---
+# Cassandra Environment Variables
+
+cassandra_schema_bash_script: populateCassandra.sh
+cassandra_container_name: bellsam_cassandra_1
+cassandra_bash_script_dir: /
+cassandra_admin_service_cql: bell_sam_admin_service.cql
+cassandra_example_cql: bell_sam_cassandra.cql
+release_dir: "~/release/{{ releaseVersion }}"
+make_executable: chmod +x

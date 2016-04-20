@@ -1,0 +1,75 @@
+= Cassandra Service Guide
+
+
+== Local Install
+=== Pre-Reqs
+*Download & Install Cassandra 2.2 or above:* http://cassandra.apache.org/download/ +
+*Launch Cassandra:* `/usr/local/var/lib/cassandra`
+
+=== Create Keyspace & Table
+In your terminal type: +
+`$ cqlsh` +
+This will open Cassandra's CQL Terminal and allow you to use the cql schema, from the project's resources directory, to
+create the `bell_sam` keyspace and the `subscriber` table:
+
+*CQL Schema Location:* com.vennetics.cassandra.src.main.resources.bell_sam_cassandra.cql
+
+=== Starting the Cassandra Service
+
+NOTE: Ensure you have your Cassandra instance running before starting the Cassandra Service.
+IMPORTANT: Use your native bell-sam-config for running locally and comment out the `contact-points: bellsamcassandra`
+as this install will be using localhost.
+
+Start the following services locally:
+
+* `$ ./gradlew clean discovery-service:bootRun`
+* `$ ./gradlew clean config-server:bootRun`
+* `$ ./gradlew clean api-gateway:bootRun`
+* `$ ./gradlew clean example-cassandra-spring-data-rest:bootRun`
+
+Once these services have started, you can use the POSTMAN scripts (`cassandra_POSTMAN.json`) to send REST requests to
+the Cassandra Service.
+
+The POSTMAN scripts allow you to CREATE, UPDATE, DELETE and GET subscribers to/from your local Cassandra instance.
+
+=== Testing the Service
+To test your Cassandra Service is running correctly, create a few subscribers using the POSTMAN scripts and then use
+`cqlsh` to issue the following command: +
+`$ select * from bell_sam.subscriber;`
+
+This should display the subscribers you have created.
+
+== Docker Install
+
+=== Create a Network on Docker
+If you are running the images individually you will need to create a network for them to run on. You can issue the
+following command to create a network called `bellsam`.
+
+`$ docker network create bellsam`
+
+=== Pulling, Adding a Keyspace & Starting Cassandra Docker Instance
+`$ docker pull cassandra:2.2`
+
+NOTE: the _name_ of the Cassandra instance you are going to start can be changed via the `contact-points` property in
+the cassandra.yml. More information on Cassandra specific variables can be found at: https://hub.docker.com/_/cassandra/
+
+`$ docker run --name bellsamcassandra --net="bellsam" -d cassandra:2.2`
+
+To log into the CQL terminal execute the following commands: +
+`$ docker exec -it bellsamcassandra /bin/bash` +
+`$ cqlsh`
+
+Add the following cql commands into your cql shell to create the Keyspace & Table:
+https://github.com/Vennetics/bell-sam/blob/feature-sam-54/cassandra/src/test/resources/bell_sam_cassandra.cql
+
+=== Running the Cassandra Service
+
+Pull the latest Cassandra service Docker image: +
+`$ pull docker vennetics/bell-sam-example-cassandra-spring-data-rest`
+
+Start the Docker service: +
+`$ docker run --name cassandra -h cassandra  --net="bellsam" -e EUREKA_URL="http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/" vennetics/bell-sam-example-cassandra-spring-data-rest`
+
+=== Testing the Service
+
+Point the POSTMAN scripts at your docker machine IP and send requests to the service.

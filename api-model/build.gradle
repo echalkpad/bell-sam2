@@ -1,0 +1,7 @@
+jar {
+    baseName = 'bell-sam-api-model'
+}
+
+dependencies {
+    compile('com.fasterxml.jackson.core:jackson-core')
+}

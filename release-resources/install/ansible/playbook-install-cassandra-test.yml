@@ -1,0 +1,11 @@
+---
+- hosts: '{{ hosts }}'
+  remote_user: '{{ user }}'
+  become: yes
+
+  roles:
+    - role: insertCassandraKeyspaces
+
+  post_tasks:
+    - name: Pause Playbook Until Instances have Started
+      pause: seconds=180

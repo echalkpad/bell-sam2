@@ -1,0 +1,85 @@
+buildscript{
+    repositories{
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "no.nils:wsdl2java:${wsdl2javaPluginVersion}"
+    }
+}
+
+apply plugin :'no.nils.wsdl2java'
+
+jar {
+    baseName = 'bell-sam-parlayx-wsdl'
+}
+
+
+repositories{
+    mavenCentral()
+}
+
+dependencies(){
+    testCompile 'junit:junit:+'
+}
+
+wsdl2java{
+    wsdlsToGenerate = [
+            ['-xjc',
+             '-p','urn:local.v1_0.subscriber.thirdparty.wsdl.bell.ca=generated.ca.bell.wsdl.thirdparty.subscriber.v1_0.local',
+             '-p','urn:service.v1_0.subscriber.thirdparty.wsdl.bell.ca=generated.ca.bell.wsdl.thirdparty.subscriber.v1_0.service',
+             '-p','urn:faults.v1_0.subscriber.thirdparty.wsdl.bell.ca=generated.ca.bell.wsdl.thirdparty.subscriber.v1_0.faults',
+             '-p','urn:interface.v1_0.subscriber.thirdparty.wsdl.bell.ca=generated.ca.bell.wsdl.thirdparty.subscriber.v1_0._interface',
+             '-p','urn:v1_0.subscriber.thirdparty.wsdl.bell.ca=generated.ca.bell.wsdl.thirdparty.subscriber.v1_0',
+             "$projectDir/src/main/resources/wsdl/subx/bell_subscriber_service_1_0.wsdl"],
+            ['-xjc',
+             '-p', 'http://www.csapi.org/schema/parlayx/common/v2_1=generated.org.csapi.schema.parlayx.common.v2_1',
+             '-p','http://www.csapi.org/wsdl/parlayx/common/v2_1/faults=generated.org.csapi.wsdl.parlayx.common.v2_1.faults',
+             "$projectDir/src/main/resources/wsdl/px21/parlayx_common_faults_2_1.wsdl"],
+            ['-xjc',
+             '-p', 'http://www.csapi.org/wsdl/parlayx/sms/send/v2_3/service=generated.org.csapi.wsdl.parlayx.sms.send.v2_3.service',
+             '-p', 'http://www.csapi.org/wsdl/parlayx/sms/send/v2_3/interface=generated.org.csapi.wsdl.parlayx.sms.send.v2_3._interface',
+             '-p', 'http://www.csapi.org/schema/parlayx/sms/send/v2_3/local=generated.org.csapi.schema.parlayx.sms.send.v2_3.local',
+             '-p', 'http://www.csapi.org/schema/parlayx/sms/v2_2=generated.org.csapi.schema.parlayx.sms.v2_2',
+             '-p','http://www.csapi.org/wsdl/parlayx/common/v2_1/faults=generated.org.csapi.wsdl.parlayx.common.v2_1.faults',
+             '-p', 'http://www.csapi.org/schema/parlayx/common/v2_1=generated.org.csapi.schema.parlayx.common.v2_1',
+             "$projectDir/src/main/resources/wsdl/px21/parlayx_sms_send_service_2_3.wsdl"],
+            ['-xjc',
+             '-p', 'http://www.csapi.org/wsdl/parlayx/sms/notification_manager/v2_4/service=generated.org.csapi.wsdl.parlayx.sms.notification_manager.v2_4.service',
+             '-p', 'http://www.csapi.org/wsdl/parlayx/sms/notification_manager/v2_4/interface=generated.org.csapi.wsdl.parlayx.sms.notification_manager.v2_4._interface',
+             '-p', 'http://www.csapi.org/schema/parlayx/sms/notification_manager/v2_4/local=generated.org.csapi.schema.parlayx.sms.notification_manager.v2_4.local',
+             '-p', 'http://www.csapi.org/schema/parlayx/sms/v2_2=generated.org.csapi.schema.parlayx.sms.v2_2',
+             '-p','http://www.csapi.org/wsdl/parlayx/common/v2_1/faults=generated.org.csapi.wsdl.parlayx.common.v2_1.faults',
+             '-p', 'http://www.csapi.org/schema/parlayx/common/v2_1=generated.org.csapi.schema.parlayx.common.v2_1',
+             "$projectDir/src/main/resources/wsdl/px21/parlayx_sms_notification_manager_service_2_4.wsdl"],
+            ['-xjc',
+             '-p', 'http://www.csapi.org/wsdl/parlayx/sms/notification/v2_2/service=generated.org.csapi.wsdl.parlayx.sms.notification.v2_2.service',
+             '-p', 'http://www.csapi.org/wsdl/parlayx/sms/notification/v2_2/interface=generated.org.csapi.wsdl.parlayx.sms.notification.v2_2._interface',
+             '-p', 'http://www.csapi.org/schema/parlayx/sms/notification/v2_2/local=generated.org.csapi.schema.parlayx.sms.notification.v2_2.local',
+             '-p', 'http://www.csapi.org/schema/parlayx/sms/v2_2=generated.org.csapi.schema.parlayx.sms.v2_2',
+             '-p','http://www.csapi.org/wsdl/parlayx/common/v2_1/faults=generated.org.csapi.wsdl.parlayx.common.v2_1.faults',
+             '-p', 'http://www.csapi.org/schema/parlayx/common/v2_1=generated.org.csapi.schema.parlayx.common.v2_1',
+             "$projectDir/src/main/resources/wsdl/px21/parlayx_sms_notification_service_2_2.wsdl"],
+            ['-xjc',
+             '-p', 'http://www.csapi.org/wsdl/parlayx/sms/receive/v2_3/service=generated.org.csapi.wsdl.parlayx.sms.receive.v2_3.service',
+             '-p', 'http://www.csapi.org/wsdl/parlayx/sms/receive/v2_3/interface=generated.org.csapi.wsdl.parlayx.sms.receive.v2_3._interface',
+             '-p', 'http://www.csapi.org/schema/parlayx/sms/receive/v2_3/local=generated.org.csapi.schema.parlayx.sms.receive.v2_3.local',
+             '-p', 'http://www.csapi.org/schema/parlayx/sms/v2_2=generated.org.csapi.schema.parlayx.sms.v2_2',
+             '-p','http://www.csapi.org/wsdl/parlayx/common/v2_1/faults=generated.org.csapi.wsdl.parlayx.common.v2_1.faults',
+             '-p', 'http://www.csapi.org/schema/parlayx/common/v2_1=generated.org.csapi.schema.parlayx.common.v2_1',
+             "$projectDir/src/main/resources/wsdl/px21/parlayx_sms_receive_service_2_3.wsdl"]
+    ]
+    generatedWsdlDir = file("$projectDir/generatedsources")
+    wsdlDir = file("$projectDir/src/main/resources/wsdl")
+    cxfVersion = cxfStackVersion
+}
+
+// A project import into eclipse will cause build failures
+// if this library isn't built.
+// So ensure it is if we run the eclipse plugin
+tasks.eclipse.dependsOn(build)
+
+pmdMain.enabled = false
+checkstyleMain.enabled = false
+findbugsMain.enabled = false
+sonarqube.skipProject = true

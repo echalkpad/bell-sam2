@@ -1,0 +1,37 @@
+---
+
+# Creates Cassandra Keyspace and Schema via Bash Script
+
+- name: Copy Admin Service CQL Script to Docker Container
+  command: 'docker cp {{ cassandra_admin_service_cql }} {{ cassandra_container_name }}:{{ cassandra_bash_script_dir }}{{ cassandra_admin_service_cql }}'
+  become_user: "{{ user }}"
+  args:
+    chdir: "{{ release_dir }}"
+
+- name: Copy Example Cassandra CQL Script to Docker Container
+  command: 'docker cp {{ cassandra_example_cql }} {{ cassandra_container_name }}:{{ cassandra_bash_script_dir }}{{ cassandra_example_cql }}'
+  become_user: "{{ user }}"
+  args:
+    chdir: "{{ release_dir }}"
+
+- name: Copy populateCassandra.sh to Cassandra Docker Container
+  command: 'docker cp {{ cassandra_schema_bash_script }} {{ cassandra_container_name }}:{{ cassandra_bash_script_dir }}{{ cassandra_schema_bash_script }}'
+  become_user: "{{ user }}"
+  args:
+    chdir: "{{ release_dir }}"
+
+# Added to give the Cassandra Instance time to start before trying to log onto it to run CQL scripts.
+- name: Pause Playbook Until Cassandra Instance has Started
+  pause: seconds=120
+
+- name: Make populateCassandra.sh executable
+  command: 'docker exec {{ cassandra_container_name }} {{ make_executable }} {{cassandra_bash_script_dir}}{{cassandra_schema_bash_script}}'
+  become_user: "{{ user }}"
+  args:
+    chdir: "{{ release_dir }}"
+
+- name: Create Cassandra Keyspace & Schema
+  command: 'docker exec {{ cassandra_container_name }} {{cassandra_bash_script_dir}}{{cassandra_schema_bash_script}}'
+  become_user: "{{ user }}"
+  args:
+    chdir: "{{ release_dir }}"

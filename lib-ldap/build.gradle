@@ -1,0 +1,16 @@
+jar {
+    baseName = 'bell-sam-lib-ldap'
+}
+
+dependencies {
+    compile project(':core-commands')
+    compile project(':sam-errors')
+
+    // Used by spring-ldap for connection pooling
+    compile("commons-pool:commons-pool")
+    
+    compile("org.springframework.ldap:spring-ldap-core:${springLdapVersion}")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+}
+

@@ -1,0 +1,32 @@
+== State Diagrams
+
+This section summarises the state diagrams for the core messaging use cases.
+
+=== MT Send Message and Status Notification No Retry
+
+include::diagram_state_mt_send_message_no_retry.adoc[]
+
+The diagram above shows the standard state transitions when no retry is requested.
+
+=== MT Send Message and Status Notification With Retry Requested
+
+include::diagram_state_mt_send_message_with_retry.adoc[]
+
+The diagram above shows the standard state transitions when HATA SMS Retry (either
+via configuration or API) is requested. The key differences from the standard
+model are:
+
+. A retry timer is initiated on acceptance of the TPA’s request.
+. If a retry timer fires the message is re-submitted regardless of state.
+. When no retries remain and the message has been submitted the service will wait for a configurable timeout for the delivery notification.
+. The TPA is only notified of the message state when one of the three terminating states is entered.
+
+=== MO Message Delivery (push mode)
+
+include::diagram_state_mo_push.adoc[]
+
+The diagram above shows the standard state transitions for pushing messages to
+the TPA. The key points to note are:
+
+. The message is not stored for future polling.
+. The message handling will complete regardless of successful notification.

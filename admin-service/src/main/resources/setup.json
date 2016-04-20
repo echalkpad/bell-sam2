@@ -1,0 +1,6 @@
+[{"_class" : "com.vennetics.bell.sam.model.admin.service.entities.cassandra.CassandraClient","clientId":"admin","createdTimestamp":1455621798842,
+  "applicationId":"8d4bf340-d590-11e5-930b-2316adb6360f","lastModifiedTimestamp":1455621798842},
+  {"_class" : "com.vennetics.bell.sam.model.admin.service.entities.cassandra.CassandraApplication","accountState":"active","gatewayPolicies":[],
+    "allowedServiceIds":["admin-service"],"clientId":"admin","createdTimestamp":1455622392877,"policies":[],"name":"admin","secret":"admin12345$","applicationId":"8d4bf340-d590-11e5-930b-2316adb6360f","roleIds":["admin"],"email":"sam-dev@vennetics.com","lastModifiedTimestamp":1455622392877},
+  {"_class" : "com.vennetics.bell.sam.model.admin.service.entities.cassandra.CassandraRole","roleId":"admin","description":"The Admin Role","serviceTypeIds":[],
+    "applicationIds":["8d4bf340-d590-11e5-930b-2316adb6360f"]}]

@@ -1,0 +1,18 @@
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'bell-sam-spring-boot-admin'
+}
+
+
+dependencies {
+    runtime libraries.springBoot
+    testCompile libraries.unitTest
+    compile('org.springframework.cloud:spring-cloud-config-client')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile('de.codecentric:spring-boot-admin-server')
+    compile('de.codecentric:spring-boot-admin-server-ui')
+    compile('org.jolokia:jolokia-core')
+}

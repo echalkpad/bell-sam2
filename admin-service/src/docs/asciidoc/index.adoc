@@ -1,0 +1,680 @@
+= Bell Sam - Admin Service Getting Started Guide
+Vennetics Ltd;
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 4
+:sectlinks:
+
+[introduction]
+= Introduction
+
+The Bell Sam Admin Service exposes REST Api's for CRUD on the Bell Sam Cassandra Entities.
+
+.Admin Service APIs include:
+* CassandraAllowedService CRUD
+* CassandraApplication CRUD
+* CassandraClient CRUD
+* CassandraPolicyType CRUD
+* CassandraProtocolType CRUD
+* CassandraRole CRUD
+* CassandraServiceType CRUD
+
+The Bell Sam Application Admin Service exposes REST Api's which enable higher level modification of Applications' abstracting away some of the low level cassandra CRUD calls.
+
+.Application Admin Service APIs include:
+* getAllApplications
+* createApplication
+* getApplicationById
+* deleteApplication
+* updateApplication
+* addService
+* deleteService
+* addRole
+* deleteRole
+* getAllServiceTypes
+* getAllRoles
+* addApplicationPolicy
+* deleteApplicationPolicy
+* addServicePolicy
+* deleteServicePolicy
+* getAllProtocolTypes
+* getAllPolicyTypes
+
+The Bell Sam User details service exposes read-only operations for use by internal security APIs
+
+.User details APIs include:
+* loadByClientId
+
+[[overview]]
+= Overview
+
+[[overview-http-verbs]]
+== HTTP verbs
+The SubX service adheres to REST standards.
+|===
+| Verb | Usage
+
+| `GET`
+| Used to retrieve a resource
+
+| `POST`
+| Used to create a new resource
+
+| `PUT`
+| Used to update an existing resource, full updates only
+
+| `DELETE`
+| Used to delete an existing resource
+|===
+
+[[overview-http-status-codes]]
+== HTTP status codes
+The Bell Sam DB Admin Service tries to adhere as closely as possible to standard HTTP and REST conventions in its
+use of HTTP status codes.
+
+|===
+| Status code | Usage
+
+| `200 OK`
+| Standard response for successful HTTP requests.
+ The actual response will depend on the request method used.
+ In a GET request, the response will contain an entity corresponding to the requested resource.
+ In a POST request, the response will contain an entity describing or containing the result of the action.
+
+| `201 Created`
+| The request has been fulfilled and resulted in a new resource being created.
+
+| `204 No Content`
+| The server successfully processed the request, but is not returning any content.
+
+| `400 Bad Request`
+| The server cannot or will not process the request due to something that is perceived to be a client error (e.g., malformed request syntax, invalid request message framing, or
+deceptive request routing).
+
+| `404 Not Found`
+| The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible.
+
+| `503 Service Unavailable`
+| The request could not be processed due to a downstream system failure.
+|===
+
+== Fault codes
+
+|===
+| Fault codes | Description
+
+
+
+|===
+
+[[resources]]
+= Resources
+
+[[resources-allowed_services]]
+
+== allowed_services Endpoint
+This endpoint provides CRUD operations for the AllowedService table in Cassandra.
+
+
+=== Request fields
+
+include::{snippets}/allowed_services/request-fields.adoc[]
+
+=== Response fields
+
+include::{snippets}/allowed_services/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/allowed_services/curl-request.adoc[]
+
+include::{snippets}/allowed_services/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/allowed_services/http-response.adoc[]
+
+
+
+[[resources-applications]]
+
+== applications Endpoint
+This endpoint provides CRUD operations for the Application table in Cassandra.
+
+
+=== Request fields
+
+include::{snippets}/applications/request-fields.adoc[]
+
+=== Response fields
+
+include::{snippets}/applications/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/applications/curl-request.adoc[]
+
+include::{snippets}/applications/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/applications/http-response.adoc[]
+
+
+
+[[resources-clients]]
+
+== clients Endpoint
+This endpoint provides CRUD operations for the Client table in Cassandra.
+
+
+=== Request fields
+
+include::{snippets}/clients/request-fields.adoc[]
+
+=== Response fields
+
+include::{snippets}/clients/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/clients/curl-request.adoc[]
+
+include::{snippets}/clients/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/roles/http-response.adoc[]
+
+
+
+[[resources-policy_types]]
+
+== policy_types Endpoint
+This endpoint provides CRUD operations for the PolicyType table in Cassandra.
+
+
+=== Request fields
+
+include::{snippets}/policy_types/request-fields.adoc[]
+
+=== Response fields
+
+include::{snippets}/policy_types/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/policy_types/curl-request.adoc[]
+
+include::{snippets}/policy_types/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/policy_types/http-response.adoc[]
+
+
+
+[[resources-protocol_types]]
+
+== protocol_types Endpoint
+This endpoint provides CRUD operations for the ProtocolType table in Cassandra.
+
+
+=== Request fields
+
+include::{snippets}/protocol_types/request-fields.adoc[]
+
+=== Response fields
+
+include::{snippets}/protocol_types/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/protocol_types/curl-request.adoc[]
+
+include::{snippets}/protocol_types/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/protocol_types/http-response.adoc[]
+
+
+
+[[resources-roles]]
+
+== roles Endpoint
+This endpoint provides CRUD operations for the Roles table in Cassandra.
+
+
+=== Request fields
+
+include::{snippets}/roles/request-fields.adoc[]
+
+=== Response fields
+
+include::{snippets}/roles/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/roles/curl-request.adoc[]
+
+include::{snippets}/roles/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/roles/http-response.adoc[]
+
+
+
+[[resources-service_types]]
+
+== service_types Endpoint
+This endpoint provides CRUD operations for the ServiceType table in Cassandra.
+
+
+=== Request fields
+
+include::{snippets}/service_types/request-fields.adoc[]
+
+=== Response fields
+
+include::{snippets}/service_types/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/service_types/curl-request.adoc[]
+
+include::{snippets}/service_types/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/service_types/http-response.adoc[]
+
+
+
+[[resources-getAllApplications]]
+
+== getAllApplications Endpoint
+This endpoint returns all the Applications currently on the system.
+
+
+=== Response fields
+
+include::{snippets}/getAllApplications/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/getAllApplications/curl-request.adoc[]
+
+include::{snippets}/getAllApplications/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/getAllApplications/http-response.adoc[]
+
+
+
+[[resources-createApplication]]
+
+== createApplication Endpoint
+This creation endpoint for an Application.
+
+
+=== Request fields
+
+include::{snippets}/createApplication/request-fields.adoc[]
+
+=== Response headers
+
+include::{snippets}/createApplication/response-headers.adoc[]
+
+=== Response fields
+
+include::{snippets}/createApplication/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/createApplication/curl-request.adoc[]
+
+include::{snippets}/createApplication/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/createApplication/http-response.adoc[]
+
+
+
+[[resources-getApplicationById]]
+
+== getApplicationById Endpoint
+This endpoint returns a single Application.
+
+
+=== Response fields
+
+include::{snippets}/getApplicationById/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/getApplicationById/curl-request.adoc[]
+
+include::{snippets}/getApplicationById/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/getApplicationById/http-response.adoc[]
+
+
+
+[[resources-deleteApplication]]
+
+== deleteApplication Endpoint
+This deletion endpoint for an Application.
+
+
+=== Example request
+
+include::{snippets}/deleteApplication/curl-request.adoc[]
+
+include::{snippets}/deleteApplication/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/deleteApplication/http-response.adoc[]
+
+
+
+[[resources-updateApplication]]
+
+== updateApplication Endpoint
+This update endpoint for an Application.
+
+
+=== Request fields
+
+include::{snippets}/updateApplication/request-fields.adoc[]
+
+=== Response fields
+
+include::{snippets}/updateApplication/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/updateApplication/curl-request.adoc[]
+
+include::{snippets}/updateApplication/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/updateApplication/http-response.adoc[]
+
+
+
+[[resources-addService]]
+
+== addService Endpoint
+This endpoint adds a service to an Application.
+
+
+=== Response fields
+
+include::{snippets}/addService/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/addService/curl-request.adoc[]
+
+include::{snippets}/addService/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/addService/http-response.adoc[]
+
+
+
+[[resources-deleteService]]
+
+== deleteService Endpoint
+This endpoint deletes a service from an Application.
+
+
+=== Example request
+
+include::{snippets}/deleteService/curl-request.adoc[]
+
+include::{snippets}/deleteService/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/deleteService/http-response.adoc[]
+
+
+
+[[resources-addRole]]
+
+== addRole Endpoint
+This endpoint adds a service to an Application.
+
+
+=== Response fields
+
+include::{snippets}/addRole/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/addRole/curl-request.adoc[]
+
+include::{snippets}/addRole/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/addRole/http-response.adoc[]
+
+
+
+[[resources-deleteRole]]
+
+== deleteRole Endpoint
+This endpoint deletes a role from an Application.
+
+
+=== Example request
+
+include::{snippets}/deleteRole/curl-request.adoc[]
+
+include::{snippets}/deleteRole/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/deleteRole/http-response.adoc[]
+
+
+
+[[resources-getAllServiceTypes]]
+
+== getAllServiceTypes Endpoint
+This endpoint returns all the ServiceTypes currently on the system.
+
+
+=== Response fields
+
+include::{snippets}/getAllServiceTypes/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/getAllServiceTypes/curl-request.adoc[]
+
+include::{snippets}/getAllServiceTypes/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/getAllServiceTypes/http-response.adoc[]
+
+
+
+[[resources-getAllRoles]]
+
+== getAllRoles Endpoint
+This endpoint returns all the Roles currently on the system.
+
+
+=== Response fields
+
+include::{snippets}/getAllRoles/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/getAllRoles/curl-request.adoc[]
+
+include::{snippets}/getAllRoles/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/getAllRoles/http-response.adoc[]
+
+
+
+[[resources-addApplicationPolicy]]
+
+== addApplicationPolicy Endpoint
+This endpoint returns all the Roles currently on the system.
+
+
+=== Response fields
+
+include::{snippets}/addApplicationPolicy/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/addApplicationPolicy/curl-request.adoc[]
+
+include::{snippets}/addApplicationPolicy/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/addApplicationPolicy/http-response.adoc[]
+
+
+
+[[resources-deleteApplicationPolicy]]
+
+== deleteApplicationPolicy Endpoint
+This endpoint returns all the Roles currently on the system.
+
+
+=== Example request
+
+include::{snippets}/deleteApplicationPolicy/curl-request.adoc[]
+
+include::{snippets}/deleteApplicationPolicy/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/deleteApplicationPolicy/http-response.adoc[]
+
+
+
+[[resources-addServicePolicy]]
+
+== addServicePolicy Endpoint
+This endpoint returns all the Roles currently on the system.
+
+
+=== Response fields
+
+include::{snippets}/addServicePolicy/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/addServicePolicy/curl-request.adoc[]
+
+include::{snippets}/addServicePolicy/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/addApplicationPolicy/http-response.adoc[]
+
+
+
+[[resources-deleteServicePolicy]]
+
+== deleteApplicationPolicy Endpoint
+This endpoint returns all the Roles currently on the system.
+
+
+=== Example request
+
+include::{snippets}/deleteServicePolicy/curl-request.adoc[]
+
+include::{snippets}/deleteServicePolicy/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/deleteServicePolicy/http-response.adoc[]
+
+
+
+[[resources-getAllProtocolTypes]]
+
+== getAllProtocolTypes Endpoint
+This endpoint returns all the Roles currently on the system.
+
+
+=== Response fields
+
+include::{snippets}/getAllProtocolTypes/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/getAllProtocolTypes/curl-request.adoc[]
+
+include::{snippets}/getAllProtocolTypes/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/getAllProtocolTypes/http-response.adoc[]
+
+
+
+[[resources-getAllPolicyTypes]]
+
+== getAllPolicyTypes Endpoint
+This endpoint returns all the Roles currently on the system.
+
+
+=== Response fields
+
+include::{snippets}/getAllPolicyTypes/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/getAllPolicyTypes/curl-request.adoc[]
+
+include::{snippets}/getAllPolicyTypes/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/getAllPolicyTypes/http-response.adoc[]
+
+
+[[resources-loadByClientId]]
+
+== getAllRoles Endpoint
+This endpoint returns all the Roles currently on the system.
+
+
+=== Response fields
+
+include::{snippets}/loadByClientId/response-fields.adoc[]
+
+=== Example request
+
+include::{snippets}/loadByClientId/curl-request.adoc[]
+
+include::{snippets}/loadByClientId/http-request.adoc[]
+
+=== Example response
+
+include::{snippets}/loadByClientId/http-response.adoc[]

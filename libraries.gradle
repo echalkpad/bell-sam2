@@ -1,0 +1,40 @@
+/*
+ * Common dependency groups.
+ */
+
+ext.libraries = [
+        springBoot: [
+                  "org.springframework.boot:spring-boot-starter",
+                  "org.springframework.cloud:spring-cloud-config-client",
+                  "org.springframework.cloud:spring-cloud-starter-eureka",
+                  "org.springframework.cloud:spring-cloud-starter-hystrix"
+        ],
+        cxf: [
+                 "org.apache.cxf:cxf-rt-frontend-jaxws:${cxfStackVersion}",
+                 "org.apache.cxf:cxf-rt-transports-http:${cxfStackVersion}",
+                 "org.apache.cxf:cxf-core:${cxfStackVersion}",
+                 "javax.servlet:javax.servlet-api:${javaxServletVersion}"
+        ],
+        jaxb: [
+                "org.glassfish.jaxb:jaxb-xjc:${jaxbVersion}",
+                "org.glassfish.jaxb:jaxb-runtime:${jaxbVersion}",
+                "javax.xml.bind:jaxb-api:${jaxbApiVersion}"
+        ],
+
+        jaxb2Plugins: [
+                "net.java.dev.jaxb2-commons:jaxb-fluent-api:${jaxb2FluentApiVersion}",
+                "org.jvnet.jaxb2_commons:jaxb2-basics:${jaxb2BasicsVersion}"
+                ],
+
+        slf4j: [
+                "org.slf4j:slf4j-api:${slf4jVersion}",
+        ],
+
+        unitTest: [
+                "org.mockito:mockito-core:${mockitoVersion}",
+                "org.hamcrest:hamcrest-all:${hamcrestVersion}",
+                "junit:junit",
+                "nl.jqno.equalsverifier:equalsverifier:${equalsverifierVersion}",
+                "com.vennetics.shared:com.vennetics.shared.test.utils:${venneticsTestUtilsVersion}"
+        ]
+]

@@ -1,0 +1,17 @@
+
+ error:
+  -
+   code: "JBOX-00001"
+   type: TEST_MESSAGE_1
+   statusCode: 401
+   message: "Your username or password is not correct."
+  -
+   code: "JBOX-00002"
+   type: TEST_MESSAGE_2
+   statusCode: 401
+   message: "Your username or password is not correct."
+  -
+   code: "JBOX-00003"
+   type: TEST_MESSAGE_3
+   statusCode: 401
+   message: "Your username or password is not correct."

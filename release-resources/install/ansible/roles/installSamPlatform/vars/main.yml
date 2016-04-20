@@ -1,0 +1,5 @@
+---
+
+# SAM Environment Variables
+
+docker_compose_yml_dir: "~/release/{{ releaseVersion }}/"

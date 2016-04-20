@@ -1,0 +1,10 @@
+---
+- hosts: '{{ hosts }}'
+  remote_user: '{{ user }}'
+  become: yes
+
+  vars:
+    bellsam_network_name: "{{ dockerNetworkName }}"
+
+  roles:
+    - cassandraRole: dockerClean

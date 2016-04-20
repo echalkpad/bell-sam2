@@ -1,0 +1,21 @@
+== Custom Headers
+
+The SAM platform utilises custom headers that are outside the scope of the Net
+API definitions. These are to facilitate client application development.
+
+=== Request Headers
+
+No custom request headers are applicable to the SMS service
+
+=== Response Headers
+
+The following custom response headers are applicable to the SMS service.
+
+[options="header"]
+|=======================
+|Header Name |Description
+|X-Rate-Limit-Limit |The maximum number of requests allowed per interval.
+|X-Rate-Limit-Interval |The interval used in rate limiting - HOURS, MINUTES or SECONDS.
+|X-Rate-Limit-Remaining |Remaining requests in the current interval.
+|X-Rate-Limit-Reset |The remaining window before the interval resets in UTC epoch seconds.
+|=======================

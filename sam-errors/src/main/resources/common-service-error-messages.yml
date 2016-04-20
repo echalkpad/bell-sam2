@@ -1,0 +1,21 @@
+ error:
+  -
+   code: "SVC0001"
+   type: SERVICE_ERROR
+   statusCode: 400
+   message: "A service error occurred. Error code is %1"
+  -
+   code: "SVC0004"
+   type: NO_VALID_ADDRESS_ERROR
+   statusCode: 400
+   message: "No valid addresses provided in message part %1"
+  -
+   code: "SVC0002"
+   type: INVALID_INPUT_VALUE
+   statusCode: 400
+   message: "Invalid input value for message part %1"
+  -
+   code: "POL0001"
+   type: POLICY_ERROR
+   statusCode: 403
+   message: "Invalid input value for message part %1"

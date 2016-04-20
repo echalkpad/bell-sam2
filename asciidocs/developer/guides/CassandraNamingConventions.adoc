@@ -1,0 +1,151 @@
+= Cassandra Entity Naming Conventions
+
+This document describes the naming conventions that should be used in SAM for the creation of Cassandra POJOs and their schema mappings.
+
+== Java POJOs.
+
+* Java POJOs should follow similar ORM conventions to JPA, Hibernate etc
+* Table entities should use standard Java CamelCase and will generally be singular. e.g. TableName.
+* Column names where there is a single item per row should be singular and lowerCamelCase.
+* Column names where there are multiple items per row (collections) should be plural and lowerCamelCase.
+* Column names that map to a primary key in another table must be suitably named to indicate the purpose in the table and the value mapped to e.g. allowedServiceId.
+* Natural primary keys should be given a meaningful name.
+* Generated primary keys (e.g. UIID in cassandra) should be called *id*
+
+== Cassandra Mappings
+
+* Cassandra table names should be plural and in lower snake_case e.g. table_names
+* Cassandra column names should be also be  lower snake_case.
+* Plurality of cassandra columns should match the Java POJO.
+
+== Misc
+
+* All POJOs should implement toString(), equals() and hashCode()
+* Constants should be defined for table names and columns for use in query builders.
+
+== Example
+
+[source,java]
+----
+
+@Table(value = CassandraBupSharingGroup.TABLE_NAME)
+public class CassandraBupSharingGroup {
+
+    public static final String TABLE_NAME = "bup_sharing_groups";
+
+    public static final String COL_GROUP_NAME = "group_name";
+
+    public static final String COL_APPLICATION_IDS = "application_ids";
+
+    public static final String COL_SHARING_LIMIT = "sharing_limit";
+
+    @PrimaryKey(CassandraBupSharingGroup.COL_GROUP_NAME)
+    private String groupName;
+
+    @Column(CassandraBupSharingGroup.COL_APPLICATION_IDS)
+    private Set<String> applicationIds;
+
+    @Column(CassandraBupSharingGroup.COL_SHARING_LIMIT)
+    private Integer sharingLimit;
+
+    public CassandraBupSharingGroup() {
+        sharingLimit = 0;
+    }
+
+    public CassandraBupSharingGroup(final String groupName) {
+        super();
+        this.groupName = groupName;
+        applicationIds = Collections.emptySet();
+        sharingLimit = 0;
+    }
+
+    public CassandraBupSharingGroup(final String groupName,
+                                    final Set<String> applicationIds,
+                                    final int sharingLimit) {
+        super();
+        this.groupName = groupName;
+        this.applicationIds = applicationIds;
+        this.sharingLimit = sharingLimit;
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof CassandraBupSharingGroup)) {
+            return false;
+        }
+        final CassandraBupSharingGroup other = (CassandraBupSharingGroup) obj;
+        if (applicationIds == null) {
+            if (other.applicationIds != null) {
+                return false;
+            }
+        } else if (!applicationIds.equals(other.applicationIds)) {
+            return false;
+        }
+        if (groupName == null) {
+            if (other.groupName != null) {
+                return false;
+            }
+        } else if (!groupName.equals(other.groupName)) {
+            return false;
+        }
+        if (sharingLimit == null) {
+            if (other.sharingLimit != null) {
+                return false;
+            }
+        } else if (!sharingLimit.equals(other.sharingLimit)) {
+            return false;
+        }
+        return true;
+    }
+
+    public Set<String> getApplicationIds() {
+        return applicationIds;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public Integer getSharingLimit() {
+        // Cassandra workaround in spring data.
+        // SelectOneById will NPE on an unset int for not found. Integer is
+        // safe.
+        return sharingLimit != null ? sharingLimit : new Integer(0);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (applicationIds == null ? 0 : applicationIds.hashCode());
+        result = prime * result + (groupName == null ? 0 : groupName.hashCode());
+        result = prime * result + (sharingLimit == null ? 0 : sharingLimit.hashCode());
+        return result;
+    }
+
+    public void setApplicationIds(final Set<String> applicationIds) {
+        this.applicationIds = applicationIds;
+    }
+
+    public void setGroupName(final String groupName) {
+        this.groupName = groupName;
+    }
+
+    public void setSharingLimit(final Integer sharingLimit) {
+        this.sharingLimit = sharingLimit;
+    }
+
+    @Override
+    public String toString() {
+        return "CassandraBupSharingGroup [groupName=" + groupName + ", applicationIds="
+                        + applicationIds + ", sharingLimit=" + sharingLimit + "]";
+    }
+}
+
+----

@@ -1,0 +1,28 @@
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'bell-sam-api-gateway'
+}
+
+configurations {
+    all*.exclude module : 'spring-data-cassandra'
+}
+
+dependencies {
+    runtime libraries.springBoot
+    compile project(':subscriber-thirdparty-gateway-adapter')
+    compile project(':netapi-adapters')
+    compile project(':oneapi-adapters')
+    compile project(':sam-registry')
+    compile project(':admin-data-model')
+    compile('org.projectlombok:lombok:latest.release')
+    compile('org.springframework.cloud:spring-cloud-config-client')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    compile('org.springframework.cloud:spring-cloud-starter-hystrix')
+    compile('org.springframework.cloud:spring-cloud-starter-ribbon')
+    compile('org.springframework.cloud:spring-cloud-starter-zuul')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+

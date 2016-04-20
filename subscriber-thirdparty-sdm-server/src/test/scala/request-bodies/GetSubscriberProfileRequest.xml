@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:local.v1_0.subscriber.thirdparty.wsdl.bell.ca">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <urn:getSubscriberProfile>
+         <urn:searchFilter>${filter}</urn:searchFilter>
+         <urn:filterValue>${value}</urn:filterValue>
+      </urn:getSubscriberProfile>
+   </soapenv:Body>
+</soapenv:Envelope>

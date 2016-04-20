@@ -1,0 +1,70 @@
+[[state_mt_send_message_with_retry]]
+.MT SMS with with Retry
+[plantuml, state_mt_send_message_with_retry, alt="State diagram"]
+----
+
+[*] --> MessageWaiting : /POST sendMessage
+MessageWaiting --> MessageWaiting : submit_sm TIMEOUT (Retry Allowed)
+MessageWaiting --> DeliveredToNetwork : submit_sm_resp
+MessageWaiting --> DeliveryImpossible : submit_sm TIMEOUT (Retry Not Allowed)
+DeliveredToNetwork --> DeliveryImpossible : deliver_sm FAIL or submit_sm TIMEOUT (Retry Not Allowed)
+DeliveredToNetwork --> DeliveredToTerminal : deliver_sm SUCCESS
+DeliveredToNetwork --> DeliveryUncertain : deliver_sm TIMEOUT
+DeliveredToTerminal --> Done : notification sent
+DeliveryUncertain --> Done : notification sent
+DeliveryImpossible --> Done : notification sent
+Done --> [*]
+
+MessageWaiting: Store Message
+MessageWaiting: submit_sm
+MessageWaiting: startSubmitSmTimer()
+MessageWaiting: startRetryTimer()
+MessageWaiting: Store callback
+
+
+state DeliveredToNetwork {
+  [*] -> WaitingForReceiptOrRetryTimer
+  WaitingForReceiptOrRetryTimer -down-> WaitingForReceiptOrRetryTimer : deliver_sm FAIL (Retry Allowed)
+  Retrying -up-> WaitingForReceiptOrRetryTimer : submit_sm TIMEOUT (Retry Allowed)
+  Retrying -up-> WaitingForReceiptOrRetryTimer : submit_sm_resp
+  WaitingForReceiptOrRetryTimer --> Retrying : Retry Timer Fires
+}
+
+WaitingForReceiptOrRetryTimer : *startDeliverSmTimer()
+
+Retrying : submit_sm
+Retrying: startSubmitSmTimer()
+
+DeliveredToTerminal: deliver_sm_resp
+DeliveredToTerminal: POST Notification to TPA
+DeliveredToTerminal: Cancel Retry Timers
+
+DeliveryImpossible: *deliver_sm_resp
+DeliveryImpossible: POST Notification to TPA
+
+DeliveryUncertain: POST Notification to TPA
+
+Done: Delete Message
+
+note left of MessageWaiting
+  Retry Allowed will be
+  determined by the max
+  age of the message vs
+  max validity and max
+  number of retries.
+end note
+
+note left of DeliveredToNetwork
+  startDeliverSmTimer()
+  will only be triggered
+  if NO retries are left.
+end note
+
+note right of DeliveryImpossible
+  deliver_sm_resp
+  will only be sent
+  when entering due
+  to deliver_sm.
+end note
+
+----

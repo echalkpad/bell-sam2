@@ -1,0 +1,43 @@
+plugins {
+    id "org.asciidoctor.convert" version "1.5.3"
+}
+
+jar {
+    baseName = 'bell-sam-admin-service'
+    dependsOn asciidoctor
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    dependsOn test
+    outputDir = new File("build/docs")
+    attributes 'snippets': snippetsDir
+    inputs.dir snippetsDir
+}
+
+dependencies {
+    runtime libraries.springBoot
+    compile project(':admin-api-model')
+    compile project(':admin-data-model')
+    compile project(':sam-errors')
+    compile project(':rest-config')
+    compile project(':core-cassandra')
+    compile('org.springframework.cloud:spring-cloud-config-client')
+    compile('org.springframework.boot:spring-boot-starter-data-rest')
+
+    testCompile('org.springframework.boot:spring-boot-starter-web')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('com.jayway.jsonpath:json-path')
+    testCompile("org.springframework.restdocs:spring-restdocs-mockmvc:${springRestdocsVersion}")
+    // CassandraUnit dependencies
+    testCompile("me.prettyprint:hector-core:${hectorCoreVersion}")
+    testCompile("org.cassandraunit:cassandra-unit:${cassandraUnitVersion}")
+    testCompile("org.cassandraunit:cassandra-unit-spring:${cassadraUnitSpringVersion}")
+}

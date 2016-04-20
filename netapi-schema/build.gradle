@@ -1,0 +1,62 @@
+
+apply plugin: 'java'
+
+jar {
+    baseName = 'bell-sam-netapi-schema'
+}
+
+ext.generatedOutputDir = 'generatedsources'
+ext.schemaDir = 'src/main/resources'
+
+sourceSets {
+    main {
+        java {
+            srcDirs = [generatedOutputDir]
+        }
+    }
+}
+
+clean {
+    delete generatedOutputDir
+}
+
+// A project import into eclipse will cause build failures
+// if this library isn't built.
+// So ensure it is if we run the eclipse plugin
+tasks.eclipse.dependsOn(build)
+
+configurations { xjc
+                jaxb }
+
+task xjc {
+    group = 'build'
+    description = 'Generates Java source code from XML schemas'
+    doLast {
+        ant.taskdef(name: 'xjc', classname: 'com.sun.tools.xjc.XJCTask', classpath: configurations.jaxb.asPath)
+        file(generatedOutputDir).mkdirs()
+        ant.xjc(destdir: generatedOutputDir, header: false, extension: true, removeOldOutput: true, target: '2.1', catalog: 'src/main/resources/catalog.xml') {
+            classpath(path: configurations.xjc.asPath)
+            schema(dir: schemaDir, includes: 'rest_netapi_sms-v1_0.xsd')
+            binding(dir: "${schemaDir}/bindings")
+            produces(dir: generatedOutputDir)
+            arg(line: '-encoding UTF-8')
+            arg(line: '-Xfluent-api -XtoString -XhashCode -Xequals -Xcopyable')
+        }
+    }
+}
+
+dependencies {
+    jaxb libraries.jaxb
+
+    xjc libraries.jaxb2Plugins
+
+    compile(files("src/main/resources").builtBy(xjc))
+    compile('org.jvnet.jaxb2_commons:jaxb2-basics-runtime')
+    jaxb 'org.springframework.boot:spring-boot-starter-web'
+}
+
+pmdMain.enabled = false
+checkstyleMain.enabled = false
+findbugsMain.enabled = false
+sonarqube.skipProject = true
+

@@ -1,0 +1,7 @@
+---
+
+# Variables
+
+vennetics_software_dir: /home/vennetics/opt/software
+gatling_download_url: https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/2.1.7/gatling-charts-highcharts-bundle-2.1.7-bundle.zip
+gatling_unzip_dir: gatling-charts-highcharts-bundle-2.1.7-bundle

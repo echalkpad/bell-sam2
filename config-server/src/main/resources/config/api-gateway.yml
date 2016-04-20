@@ -1,0 +1,53 @@
+---
+server:
+  port: 8087
+
+endpoints:
+  shutdown:
+    enabled: true
+  restart:
+    enabled: true
+    
+shell:
+  ssh:
+    port: 2050
+zuul:
+  routes:
+    subscriber:
+      path: /api/subscriber/**
+      stripPrefix: false
+    sms:
+      path: /api/sms/**
+      stripPrefix: false
+    network-manager: 
+      path: /api/configured/**
+      stripPrefix: false
+
+
+---
+# A profile that can be used to see how ribbon reacts to too many requests or
+# slow connections/reads 
+spring:
+  profiles: intolerantRibbon
+subscriber-cassandra:
+  ribbon:
+    MaxTotalHttpConnections: 1
+    ConnectTimeout: 1
+    ReadTimeout: 1
+
+---
+# A profile that can be used to see how hystrix reacts to slow reads 
+spring:
+  profiles: intolerantHystrix
+hystrix:
+  command:
+    subscriber-cassandra:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 10
+    network-manager:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 15 

@@ -1,0 +1,23 @@
+jar { baseName = 'core-security' }
+
+dependencies {
+    compile project(':core-errors')
+    
+    // So can serialise ApplicationUserDetails
+    compile project(':admin-api-model')
+
+    compile('com.fasterxml.jackson.core:jackson-core')
+    
+    // TODO move version into gradle.properties
+    compile 'io.jsonwebtoken:jjwt:0.6.0'
+    
+    // For HTTP intercepting
+    compile 'org.springframework.boot:spring-boot-starter-web'
+
+    // For JWT and context access
+    compile 'org.springframework.security:spring-security-core'
+    
+    testCompile('org.springframework.security:spring-security-test')
+
+}
+

@@ -1,0 +1,15 @@
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'bell-sam-smsc-simulator'
+}
+
+dependencies {
+    runtime libraries.springBoot
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('com.cloudhopper:ch-smpp')
+    compile('org.springframework.cloud:spring-cloud-config-client')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    testCompile('org.springframework.boot:spring-boot-starter-test') 
+}
+

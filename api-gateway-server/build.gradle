@@ -1,0 +1,43 @@
+apply plugin: 'spring-boot'
+
+jar { baseName = 'bell-sam-api-gateway-server' }
+
+configurations { all*.exclude module : 'spring-data-cassandra' }
+
+dependencies {
+    runtime libraries.springBoot
+
+    // For accessing security service
+    compile project(':admin-api-model')
+
+    // For rules
+    compile project(':sam-registry')
+
+    // To implement commands.
+    compile project(':core-commands')
+
+    // To add JWT interceptor to RestTemplate
+    compile project(':core-security')
+
+    // To get access to message converters
+    compile project(':rest-config')
+
+    // Command hierarchy
+    compile project(':core-gateway-adapter')
+
+    // Adapters added at runtime
+    runtime project(':subscriber-thirdparty-gateway-adapter')
+    runtime project(':netapi-adapters')
+    runtime project(':oneapi-adapters')
+
+    compile('org.springframework.cloud:spring-cloud-config-client')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    compile('org.springframework.cloud:spring-cloud-starter-hystrix')
+    compile('org.springframework.cloud:spring-cloud-starter-ribbon')
+    compile('org.springframework.cloud:spring-cloud-starter-zuul')
+    compile('org.springframework.boot:spring-boot-starter-security')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.security:spring-security-test')
+}
+
+

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="DEBUG" monitorInterval="5">
+	<!-- DEBUG so we know this log file is being used. -->
+
+	<Properties>
+		<Property name="logging.file">sam-${prefix:hostName}.log</Property>
+		<Property name="logging.httpaccess.file">httpaccess-${prefix:hostName}.log</Property>
+		<Property name="logging.path">/var/log/sam/</Property>
+	</Properties>
+
+	<Appenders>
+
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout>
+				<Pattern>%d{ISO8601} traceId=%X{X-Trace-Id} spanId=%X{X-Span-Id} %magenta{[%-15.20t]} %highlight{%-5p} %blue{%-20c{1.}} : %highlight{%m}%n</Pattern>
+			</PatternLayout>
+		</Console>
+
+		<RollingRandomAccessFile name="RollingRandomAccessFile"
+			fileName="${sys:logging.path}${sys:logging.file}"
+			filePattern="${sys:logging.path}${sys:logging.file}-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d{ISO8601} traceId=%X{X-Trace-Id} spanId=%X{X-Span-Id} [%-15.20t] %-5p %-20c{1.} : %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<!-- 100MB limit before log file is rolled over -->
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<!-- Max 20 log files created by rollover -->
+			<DefaultRolloverStrategy max="20" />
+		</RollingRandomAccessFile>
+
+		<RollingRandomAccessFile name="HttpAccessRollingRandomAccessFile"
+			fileName="${sys:logging.path}${sys:logging.httpaccess.file}"
+			filePattern="${sys:logging.path}${sys:logging.httpaccess.file}-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>date=%d{ISO8601};traceId=%X{X-Trace-Id};spanId=%X{X-Span-Id};%m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<!-- 100MB limit before log file is rolled over -->
+				<SizeBasedTriggeringPolicy size="100 MB" />
+			</Policies>
+			<!-- Max 20 log files created by rollover -->
+			<DefaultRolloverStrategy max="20" />
+		</RollingRandomAccessFile>
+
+		<Async name="ASYNC">
+			<AppenderRef ref="STDOUT" />
+			<AppenderRef ref="RollingRandomAccessFile" />
+		</Async>
+
+	</Appenders>
+
+	<Loggers>
+		<Logger name="com.vennetics" level="DEBUG" additivity="false">
+			<AppenderRef ref="ASYNC" />
+		</Logger>
+		<Logger name="com.vennetics.microservices.common.core.httplog.HttpLoggingFilter"
+                level="DEBUG" additivity="false">
+                <AppenderRef ref="HttpAccessRollingRandomAccessFile" />
+        </Logger>
+		<Root level="INFO">
+			<AppenderRef ref="ASYNC" />
+		</Root>
+	</Loggers>
+</Configuration>

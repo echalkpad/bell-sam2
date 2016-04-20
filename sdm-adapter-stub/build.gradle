@@ -1,0 +1,12 @@
+jar {
+    baseName = 'bell-sam-sdm-adapter-stub'
+}
+
+dependencies {
+    compile project(':sdm-adapter-api')
+    compile("com.netflix.hystrix:hystrix-core")
+    compile ('org.springframework.boot:spring-boot-starter')
+        
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+

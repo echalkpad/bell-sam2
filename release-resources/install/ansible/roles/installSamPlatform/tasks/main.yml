@@ -1,0 +1,21 @@
+---
+
+# SAM Docker Config
+# Creates BellSam Docker Network and runs docker-compose to pull and start the docker images
+
+- name: Login to DockerHub
+  docker_login:
+    username: "{{ docker_username }}"
+    password: "{{ docker_password }}"
+    email: "{{ docker_user_email }}"
+
+- name: Create BellSam Docker Network
+  command: 'docker network create {{ bellsam_network_name }}'
+  become_user: vennetics
+  ignore_errors: yes
+
+- name: Run Docker Compose
+  command: '/usr/local/bin/docker-compose -p bellsam up -d'
+  args:
+    chdir: "{{ docker_compose_yml_dir }}"
+  become_user: vennetics

@@ -1,0 +1,6 @@
+ error:
+  -
+   code: "SAM-02001"
+   type: SMPP_ERROR_SENDING_OUTBOUND_MESSAGE
+   statusCode: 500
+   message: "An error occured while attempting to process this request."

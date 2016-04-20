@@ -1,0 +1,18 @@
+== Introduction
+
+This document describes the Service API Mediation (SAM) OneAPI service that provides a SMS
+messaging capability using the Short Message Peer-to-Peer (SMPP) capability.
+
+This platform will be built using the Vennetics J-Box infrastructure, however,
+unlike existing Bell deployments it will be built as a suite of micro-services
+hosted within docker containers on the Bell mobility cloud network.
+
+The diagram below provides a high-level logical architecture for this component.
+
+image::HATA-SMS-Arch.png[]
+
+This FSP focusses specifically on the HATA SMS micro-service and its functional
+interfaces.
+
+*Note:* it is not the intent of this document to repeat information already available in the API specification xref:References[[1]].
+This document should therefore be read in conjunction with the spec.

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:v1_0.subscriber.thirdparty.wsdl.bell.ca" xmlns:subscriber_xsd="urn:v1_0.subscriber.thirdparty.wsdl.bell.ca"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:annotation>
+		<xsd:documentation>
+			© 2007, Bell Canada. All Rights Reserved. The content of this document, and the copyright in the content, are owned or
+			controlled by BELL CANADA or its content suppliers. You may only use or reproduce the information in the Content for your own
+			personal, non-commercial or educational use. The content may not be otherwise used, reproduced, broadcast, published or
+			retransmitted without the prior written permission of BELL CANADA.
+		</xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="Attribute">
+		<xsd:annotation>
+			<xsd:documentation>
+				This complex type provides a generic holder for describing attributes in LDAP in a simple, language neutral way.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="description" type="xsd:string" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>A textual description of the attribute</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="key" type="xsd:string" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>An identifier of the attribute</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="value" type="xsd:string" minOccurs="1" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>The value of the attribute</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:simpleType name="SearchFilter">
+		<xsd:annotation>
+			<xsd:documentation>This simple type provides an enumeration of Search Filter options.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="UUID" />
+			<!-- <xsd:annotation>Universally Unique Identifier</xsd:annotation> -->
+			<xsd:enumeration value="MDN" />
+			<!-- <xsd:annotation>Mobile Directory Number</xsd:annotation> -->
+			<xsd:enumeration value="SUBID" />
+			<!-- <xsd:annotation>Subscriber Identifier</xsd:annotation> -->
+			<xsd:enumeration value="MEID" />
+			<!-- <xsd:annotation>Mobile Equipment Identifier</xsd:annotation> -->
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>

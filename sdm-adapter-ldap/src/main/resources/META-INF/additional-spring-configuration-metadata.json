@@ -1,0 +1,92 @@
+{"properties": [
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.connect-timeout",
+    "type": "java.lang.Integer",
+    "description": "Timeout for establishing a new connection"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.logging-enabled",
+    "type": "java.lang.Boolean",
+    "description": "Developer use only. Set to true to enable detailed logging of LDAP in system.out."
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.base",
+    "type": "java.lang.String",
+    "description": "LDAP base'"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.user-dn",
+    "type": "java.lang.String",
+    "description": "LDAP access DN (username)"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.password",
+    "type": "java.lang.String",
+    "description": "LDAP access password"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.urls",
+    "type": "java.lang.String",
+    "description": "Comma separated list of LDAP URLs in a primary,standby order. e.g. ldap://10.240.8.138:389"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.max-active",
+    "type": "java.lang.Integer",
+    "description": "A description for 'com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.max-active'"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.max-total",
+    "type": "java.lang.Integer",
+    "description": "Max number of allowed connections"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.max-idle",
+    "type": "java.lang.Integer",
+    "description": "Max number of idle connections"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.min-idle",
+    "type": "java.lang.Integer",
+    "description": "Min number of idle connections. Setting to greater than zero will mean connections are kept open."
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.max-wait",
+    "type": "java.lang.Integer",
+    "description": "Max interval to wait for a new connection"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.when-exhausted-action",
+    "type": "java.lang.Integer",
+    "description": "Action to take when connection not available. 0 = throw ex, 1 = block, 2 = spawn new connection."
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.test-on-borrow",
+    "type": "java.lang.Boolean",
+    "description": "A description for 'com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.test-on-borrow'"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.test-on-return",
+    "type": "java.lang.Boolean",
+    "description": "Set to true to test connections on returning to pool"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.test-while-idle",
+    "type": "java.lang.Boolean",
+    "description": "Set to true to test connections when idle"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.time-between-eviction-runs-millis",
+    "type": "java.lang.String",
+    "description": "Interval between connection eviction runs"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.num-tests-per-eviction-run",
+    "type": "java.lang.Integer",
+    "description": "Number of connections to test per eviction run"
+  },
+  {
+    "name": "com.vennetics.bell.sam.adapters.sdm.ldap.adapters.sdm.pool.min-evictable-idle-time-millis",
+    "type": "java.lang.Integer",
+    "description": "Minimum idle time for a connection to be eligible for eviction"
+  }
+]}

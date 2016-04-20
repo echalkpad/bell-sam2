@@ -1,0 +1,15 @@
+jar {
+    baseName = 'bell-sam-admin-data-model'
+}
+
+dependencies {
+    compile project(':core-errors')
+    
+    compile('org.springframework.data:spring-data-cassandra')
+    compile('org.springframework.security:spring-security-core')
+    compile('com.fasterxml.jackson.core:jackson-annotations')
+    compile("org.hibernate:hibernate-validator")
+    
+    // For DateTimeModule for ZonedDateTime
+    compile('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
+}

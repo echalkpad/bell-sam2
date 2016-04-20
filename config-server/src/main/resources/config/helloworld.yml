@@ -1,0 +1,9 @@
+server:
+# Setting Port to 0 causes spring boot to randomise the port
+  port: 0
+shell:
+  ssh:
+    port: 2080
+security:
+  basic:
+    enabled: false

@@ -1,0 +1,21 @@
+---
+# Cassandra Environment Variables
+
+cassandra_schema_bash_script: populateCassandra.sh
+cassandra_container_name: vennetics_cassandra_1
+cassandra_bash_script_dir: /release
+
+# Alias Dirs
+
+jmeter_dir: ~/opt/software
+jmeter_version: apache-jmeter-2.13
+jmeter_tests_dir: "~/release/{{ releaseVersion }}/jmeter"
+jmeter_exe: bin/jmeter.sh
+jmeter_docker_props: properties/docker.properties
+
+helloworld_jmeter_test: helloworld/tests/helloworld.jmx
+adminservice_jmeter_test: admin-service/tests/admin-service-test.jmx
+netapi_jmeter_test: netapi-sms-enabler/tests/netapi-sms-test.jmx
+smsx_jmeter_test: smsx-enabler/tests/oneapi-sms-test.jmx
+subx_jmeter_test: subx/tests/subx-test.jmx
+

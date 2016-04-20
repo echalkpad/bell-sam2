@@ -1,0 +1,90 @@
+== SMPP Interface
+
+This section summarises the SMPP interface as supported by the SMS gateway.
+
+=== Connection Management
+
+The SMS Gateway will bind to the SMS-C on initialisation of the service. The
+exact configuration to use during the bind will be supplied as service
+configuration via SAM configuration server. The following bind mappings can be
+applied
+
+* Transmitter
+* Receiver
+* Transceiver
+
+Multiple connections may be established and pooled for access to the SMS-C.
+Connections will be maintained by use of the enquire_link messages as
+appropriate.
+
+The core service policies for configuring the bind are:
+
+* Host address
+* Host port
+* ESME Id
+* ESME Password
+* ESME System Type
+* TON for transmitter, source and destination
+* NPI for transmitter, source and destination
+* Enquire link interval timer and response timeout
+* Reconnect back-off timer.
+* Address range
+
+=== Windowing and Rate Limiting
+
+The SMS Gateway will window and rate limit all traffic sent on an SMS-C connection.
+
+Windowing refers to ensuring a fixed number of requests are active on the
+message connection at any point in time.
+
+Rate limiting will restrict the number of messages per interval on a specific
+connection.
+
+When the inbound traffic from the application exceeds the capacity of the SMS-C
+connections requests will be queued. Policies will define the maximum number of
+queue-able message requests before application traffic will get rejected.
+
+The core service policies for configuring this capability are:
+
+* Max messages per interval
+* Interval period
+* Max parallel requests
+* Max connections.
+
+=== Segmentation
+
+Segmentation of binary messages is not supported.
+
+=== Compliance Matrix
+
+The following SMPP v3.4 operations are supported by the SMS Gateway.
+
+[options="header"]
+|=======================
+|Operation | Supported
+|alert_notification|No
+|bind_receiver|Yes
+|bind_receiver_resp|Yes
+|bind_tranceiver|Yes
+|bind_tranceiver_resp|Yes
+|bind_transmitter|Yes
+|bind_transmitter_resp|Yes
+|cancel_sm|No
+|cancel_sm_resp|No
+|data_sm|No
+|data_sm_resp|No
+|deliver_sm|Yes
+|deliver_sm_resp|Yes
+|enquire_link|Yes
+|enquire_link_resp|Yes
+|query_sm|No
+|query_sm_resp|No
+|replace_sm|No
+|replace_sm_resp|No
+|submit_multi|No
+|submit_multi_resp|No
+|submit_sm|Yes
+|submit_sm_resp|Yes
+|unbind|Yes
+|unbind_resp|Yes
+|=======================

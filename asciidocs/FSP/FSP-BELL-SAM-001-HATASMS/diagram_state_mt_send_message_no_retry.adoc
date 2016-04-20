@@ -1,0 +1,40 @@
+[[state_mt_send_message_no_retry]]
+.MT SMS with no Retry
+[plantuml, state_mt_send_message_no_retry, alt="State diagram"]
+----
+
+[*] --> MessageWaiting : /POST sendMessage
+MessageWaiting --> DeliveredToNetwork : submit_sm_resp
+MessageWaiting --> DeliveryImpossible : submit_sm TIMEOUT
+DeliveredToNetwork --> DeliveredToTerminal : deliver_sm SUCCESS
+DeliveredToNetwork --> DeliveryImpossible : deliver_sm FAIL
+DeliveredToTerminal --> Done : notification sent
+DeliveryImpossible --> Done : notification sent
+Done --> [*]
+
+MessageWaiting: Store Message
+MessageWaiting: submit_sm
+MessageWaiting: startSubmitSmTimer()
+MessageWaiting: Store callback
+
+
+DeliveredToTerminal: deliver_sm_resp
+DeliveredToTerminal: POST Notification to TPA
+
+DeliveryImpossible: deliver_sm_resp
+DeliveryImpossible: POST Notification to TPA
+
+Done: Delete Message
+
+note left of DeliveredToNetwork
+  There is no service
+  timer for deliver_sm.
+  We assume the SMS-C will
+  always send one eventually
+  in normal operation.
+  Resource cleanup if it
+  doesn't is handled in the
+  persistence layer.
+end note
+
+----

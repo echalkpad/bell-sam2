@@ -1,0 +1,53 @@
+== Compliance Matrix
+
+This table shows the operations that will be supported in this release from the NetAPI specification xref:References[[1]].
+ Applications using this release will be expected to support the notification
+ APIs if they choose to use them.
+
+=== Inbound Messages
+
+[options="header"]
+|=======================
+|Resource |Operation |Description |Supported
+|/messages |GET |Read one or more messages from gateway storage. |No
+|/messages/{messageId} |GET |Read one message from the gateway storage |No
+| |DELETE |Delete one message from the gateway storage |No
+|/messages/retrieveAndDeleteMessages |POST |Pops one or more messages from the gateway storage. |No
+|/subscriptions |GET |Read all active subscriptions |Yes
+| |POST |Create new message subscription |Yes
+|/subscriptions/{subscriptionId} |GET |Read an individual subscription |Yes
+| |DELETE |Delete an individual subscription |Yes
+|=======================
+
+*Note:* only binary messages are supported. Logo, Ringtone and Flash messages are
+not supported.
+
+=== Outbound Messages
+
+[options="header"]
+|=======================
+|Resource |Operation |Description |Supported
+|/requests |GET |Read all pending outbound message requests. |Yes
+| |POST |Create new outbound messages request |Yes
+|/requests/{requestId} |GET |Read a certain sent SMS message. |Yes
+|/requests/{requestId}/deliveryInfos |GET |Read delivery status for the individual message |Yes
+|/subscriptions |GET |Read all outbound SMS subscriptions |No footnote:[receiptRequest parameter is used for delivery receipts for this release.];
+| |POST |Create new delivery receipt subscription |No
+| /subscriptions/{subscriptionId} |GET |Read an individual SMS subscription |No
+| |DELETE |Delete an individual subscription |No
+|=======================
+
+=== Mime Types
+
+The following MIME types are supported as request and response payloads.
+
+* application/json
+* application/xml
+
+Standard HTML practices for content negotiation will be used in determining the MIME
+type to use in requests and responses.
+
+* Clients must include a Content-Type header in all requests containing a message payload.
+* Clients should include an Accept header to specify their desired response MIME type.
+If this header is not present the service will default to application/xml in responses
+regardless of submitted content-type.

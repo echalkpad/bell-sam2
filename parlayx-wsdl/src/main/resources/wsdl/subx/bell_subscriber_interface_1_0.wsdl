@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="subscriber_interface" targetNamespace="urn:interface.v1_0.subscriber.thirdparty.wsdl.bell.ca"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:subscriber="urn:interface.v1_0.subscriber.thirdparty.wsdl.bell.ca"
+	xmlns:bell_common_faults="urn:faults.v1_0.subscriber.thirdparty.wsdl.bell.ca"
+	xmlns:subscriber_xsd="urn:v1_0.subscriber.thirdparty.wsdl.bell.ca"
+	xmlns:subscriber_local_xsd="urn:local.v1_0.subscriber.thirdparty.wsdl.bell.ca">
+	<wsdl:documentation>
+		© 2007, Bell Canada. All Rights Reserved. The content of this document, and the copyright in the content, are owned or controlled by
+		BELL CANADA or its content suppliers. You may only use or reproduce the information in the Content for your own personal,
+		non-commercial or educational use. The content may not be otherwise used, reproduced, broadcast, published or retransmitted without
+		the prior written permission of BELL CANADA.
+	</wsdl:documentation>
+
+	<wsdl:import namespace="urn:faults.v1_0.subscriber.thirdparty.wsdl.bell.ca" location="bell_common_faults_1_0.wsdl" />
+
+	<wsdl:types>
+		<xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+			targetNamespace="urn:local.v1_0.subscriber.thirdparty.wsdl.bell.ca">
+			<xsd:import namespace="urn:v1_0.subscriber.thirdparty.wsdl.bell.ca" schemaLocation="bell_subscriber_types_1_0.xsd" />
+
+
+			<xsd:element name="getSubscriberPassword" type="subscriber_local_xsd:getSubscriberPassword" />
+			<xsd:complexType name="getSubscriberPassword">
+				<xsd:annotation>
+					<xsd:documentation>
+						This method sends the password to the calling application. If a valid password already exists in the LDAP directory
+						server, that password is sent to the calling application. Otherwise, a new random password is automatically
+						generated
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="subsMDN" type="xsd:string" minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								The subscribers 10-digit mobile phone number – must be a 10-digit numeric string
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="affiliateID" type="xsd:string" minOccurs="0" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								The affiliate ID to which the subscriber belongs – non-empty string at most 30 characters long. If the
+								affiliateID is not present, simply use the subsMDN to identify the subscribers. The affiliateID only serves
+								as an additional search criteria.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:element name="getSubscriberPasswordResponse" type="subscriber_local_xsd:getSubscriberPasswordResponse" />
+			<xsd:complexType name="getSubscriberPasswordResponse">
+				<xsd:sequence>
+					<xsd:element name="result" type="xsd:string" minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								The subscribers password if it exists, if not a randomly generated password.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+
+			</xsd:complexType>
+
+
+
+			<xsd:element name="changeSubscriberPassword" type="subscriber_local_xsd:changeSubscriberPassword" />
+			<xsd:complexType name="changeSubscriberPassword">
+				<xsd:annotation>
+					<xsd:documentation>
+						This method is used to replace the password of a given subscriber in the server with a new password
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="subsMDN" type="xsd:string" minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								The subscribers 10-digit mobile phone number – must be a 10-digit numeric string
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="oldPassword" type="xsd:string" minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>The subscribers old password – non-empty string.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="newPassword" type="xsd:string" minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								The subscribers new password – non-empty alphanumeric string that is 6 to 10 characters with no spaces
+								allowed.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="confirmNewPassword" type="xsd:string" minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								The subscribers confirmation password – non-empty alphanumeric string that is 6 to 10 characters and equal
+								to newPassword.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="affiliateID" type="xsd:string" minOccurs="0" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								The affiliate ID to which the subscriber belongs – non-empty string at most 30 characters long. If the
+								affiliateID is not present, simply use the subsMDN to identify the subscribers. The affiliateID only serves
+								as an additional search criteria.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:element name="changeSubscriberPasswordResponse" type="subscriber_local_xsd:changeSubscriberPasswordResponse" />
+			<xsd:complexType name="changeSubscriberPasswordResponse">
+				<xsd:sequence>
+					<xsd:element name="result" type="xsd:boolean" minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>True indicates that the password has been successfully changed.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+
+			<xsd:element name="getSubscriberProfile" type="subscriber_local_xsd:getSubscriberProfile" />
+			<xsd:complexType name="getSubscriberProfile">
+				<xsd:annotation>
+					<xsd:documentation>
+						The purpose of this method is to retrieve a subset of the subscribers attributes, which are identified as the
+						subscriber profile, given a subscriber ID or MDN
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="searchFilter" type="subscriber_xsd:SearchFilter" minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								Filter used in subscriber profile search – possible values limited to “uuid” or “mdn” or “subid” or “meid”.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="filterValue" type="xsd:string" minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								If searchFilter = “uuid”, filterValue must be subscribers ID – non-empty alphanumeric string stored under
+								“uuid” attribute in the LDAP. If searchFilter = “mdn”, filterValue must be subscribers 10-digit phone
+								number – non-empty string stored under “mdn” attribute in the LDAP. If searchFilter = “subid”, filterValue
+								must be non-empty string stored under “subid2” attribute in the LDAP. If searchFilter = “meid”, filterValue
+								must be non-empty string tored under “meid” attribute in the LDAP
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:element name="getSubscriberProfileResponse" type="subscriber_local_xsd:getSubscriberProfileResponse" />
+			<xsd:complexType name="getSubscriberProfileResponse">
+				<xsd:sequence>
+					<xsd:element name="result" type="subscriber_xsd:Attribute" minOccurs="1" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation>1 or more attributes that represent the subscribers profile.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+
+
+
+			<xsd:element name="hasFeatureCodes" type="subscriber_local_xsd:hasFeatureCodes" />
+			<xsd:complexType name="hasFeatureCodes">
+				<xsd:annotation>
+					<xsd:documentation>
+						This operation will enable calling applications to validate if a given subscriber has the given multiple feature
+						codes in a single query.
+					</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="subsMDN" type="xsd:string" minOccurs="1" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								The subscribers 10-digit mobile phone number – must be a 10-digit numeric string
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="affiliateID" type="xsd:string" minOccurs="0" maxOccurs="1">
+						<xsd:annotation>
+							<xsd:documentation>
+								The affiliate ID to which the subscriber belongs – non-empty string at most 30 characters long. If the
+								affiliateID is not present, simply use the subsMDN to identify the subscribers. The affiliateID only serves
+								as an additional search criteria.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="featureCodes" type="xsd:string" minOccurs="1" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation>The feature codes to be validated – non-empty alphanumeric string.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+
+			<xsd:element name="hasFeatureCodesResponse" type="subscriber_local_xsd:hasFeatureCodesResponse" />
+			<xsd:complexType name="hasFeatureCodesResponse">
+				<xsd:sequence>
+					<xsd:element name="result" type="xsd:boolean" minOccurs="1" maxOccurs="unbounded">
+						<xsd:annotation>
+							<xsd:documentation>
+								Confirmation that the subscriber has the feature codes that were identified in the request.
+							</xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+	</wsdl:types>
+
+
+
+	<wsdl:message name="subscriber_getSubscriberPasswordRequest">
+		<wsdl:part name="parameters" element="subscriber_local_xsd:getSubscriberPassword" />
+	</wsdl:message>
+
+	<wsdl:message name="subscriber_getSubscriberPasswordResponse">
+		<wsdl:part name="result" element="subscriber_local_xsd:getSubscriberPasswordResponse" />
+	</wsdl:message>
+
+
+	<wsdl:message name="subscriber_changeSubscriberPasswordRequest">
+		<wsdl:part name="parameters" element="subscriber_local_xsd:changeSubscriberPassword" />
+	</wsdl:message>
+
+	<wsdl:message name="subscriber_changeSubscriberPasswordResponse">
+		<wsdl:part name="result" element="subscriber_local_xsd:changeSubscriberPasswordResponse" />
+	</wsdl:message>
+
+
+	<wsdl:message name="subscriber_getSubscriberProfileRequest">
+		<wsdl:part name="parameters" element="subscriber_local_xsd:getSubscriberProfile" />
+	</wsdl:message>
+
+	<wsdl:message name="subscriber_getSubscriberProfileResponse">
+		<wsdl:part name="result" element="subscriber_local_xsd:getSubscriberProfileResponse" />
+	</wsdl:message>
+
+
+
+
+	<wsdl:message name="subscriber_hasFeatureCodesRequest">
+		<wsdl:part name="parameters" element="subscriber_local_xsd:hasFeatureCodes" />
+	</wsdl:message>
+
+	<wsdl:message name="subscriber_hasFeatureCodesResponse">
+		<wsdl:part name="result" element="subscriber_local_xsd:hasFeatureCodesResponse" />
+	</wsdl:message>
+
+	<wsdl:portType name="subscriber">
+
+		<wsdl:operation name="getSubscriberPassword">
+			<wsdl:input message="subscriber:subscriber_getSubscriberPasswordRequest" />
+			<wsdl:output message="subscriber:subscriber_getSubscriberPasswordResponse" />
+			<wsdl:fault name="ServiceException" message="bell_common_faults:ServiceException">
+				<wsdl:documentation>
+					SVC0010 Service Exception The subscriber details are not found. SVC0050 Service Exception The subscribers affiliateID
+					is invalid. SVC0060 Service Exception The search criterion returns more than one subscriber.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault name="PolicyException" message="bell_common_faults:PolicyException">
+				<wsdl:documentation>
+					POL0010 Policy Exception The subscribers mobile phone number must be a 10-digit number. POL0050 Policy Exception The
+					affiliate ID must contain a value 1 to 30 characters long with no spaces.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+
+		<wsdl:operation name="changeSubscriberPassword">
+			<wsdl:input message="subscriber:subscriber_changeSubscriberPasswordRequest" />
+			<wsdl:output message="subscriber:subscriber_changeSubscriberPasswordResponse" />
+			<wsdl:fault name="ServiceException" message="bell_common_faults:ServiceException">
+				<wsdl:documentation>
+					SVC0010 Service Exception The subscriber details are not found. SVC0040 Service Exception The subscribers password is
+					invalid. SVC0050 Service Exception The subscribers affiliateID is invalid. SVC0060 Service Exception The search
+					criterion returns more than one subscriber.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault name="PolicyException" message="bell_common_faults:PolicyException">
+				<wsdl:documentation>
+					POL0010 Policy Exception The subscribers mobile phone number must be a 10-digit number. POL0020 Policy Exception The
+					subscribers old password cannot be an empty string. POL0030 Policy Exception The subscribers new password cannot be an
+					empty string. POL0040 Policy Exception The subscribers new password must be 6 to 10 characters long with no spaces.
+					POL0050 Policy Exception The affiliate ID must contain a value 1 to 30 characters long with no spaces. POL0110 Policy
+					Exception The subscribers new password is not equal to the confirm password.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+		<wsdl:operation name="getSubscriberProfile">
+			<wsdl:input message="subscriber:subscriber_getSubscriberProfileRequest" />
+			<wsdl:output message="subscriber:subscriber_getSubscriberProfileResponse" />
+			<wsdl:fault name="ServiceException" message="bell_common_faults:ServiceException">
+				<wsdl:documentation>
+					SVC0010 Service Exception The subscriber details are not found. SVC0060 Service Exception The search criterion returns
+					more than one subscriber.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault name="PolicyException" message="bell_common_faults:PolicyException">
+				<wsdl:documentation>
+					POL0060 Policy Exception The filterValue must be the subscribers ID. POL0070 Policy Exception The filterValue must be
+					the subscribers 10-digit phone number. POL0080 Policy Exception The filterValue must be non-empty string.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+
+
+		<wsdl:operation name="hasFeatureCodes">
+			<wsdl:input message="subscriber:subscriber_hasFeatureCodesRequest" />
+			<wsdl:output message="subscriber:subscriber_hasFeatureCodesResponse" />
+			<wsdl:fault name="ServiceException" message="bell_common_faults:ServiceException">
+				<wsdl:documentation>
+					SVC0010 Service Exception The subscriber details are not found. SVC0050 Service Exception The subscribers affiliateID
+					is invalid. SVC0060 Service Exception The search criterion returns more than one subscriber.
+				</wsdl:documentation>
+			</wsdl:fault>
+			<wsdl:fault name="PolicyException" message="bell_common_faults:PolicyException">
+				<wsdl:documentation>
+					POL0010 Policy Exception The subscribers mobile phone number must be a 10-digit number. POL0050 Policy Exception The
+					affiliate ID must contain a value 1 to 30 characters long with no spaces. POL0090 Policy Exception Feature code value
+					cannot be empty. POL0100 Policy Exception No of features codes exceeds maximum.
+				</wsdl:documentation>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:portType>
+</wsdl:definitions>

@@ -1,0 +1,51 @@
+plugins {
+    id "org.asciidoctor.convert" version "1.5.3"
+}
+
+jar {
+    baseName = 'bell-sam-subscriber-thirdparty-sdm-service'
+}
+
+ext {
+    snippetsDir = file('build/generated-snippets')
+    springRestdocsVersion = '1.0.1.RELEASE'
+}
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    attributes 'snippets': snippetsDir
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+dependencies {
+    
+    compile project(':sam-errors')
+    
+    // For extending exception handling controller
+    compile project(':rest-config')
+    
+    compile project(':api-model')
+    
+    // For pulling in access to custom JWT
+    compile project(':core-security')
+    
+    // API at compile time
+    compile project(':sdm-adapter-api')
+    
+    // For controller annotations
+    compile('org.springframework.boot:spring-boot-starter-web'){
+        exclude module: "spring-boot-starter-tomcat"
+    }
+    
+    // For @ConfigurationProperties & @RefreshScope
+    compile('org.springframework.boot:spring-boot-configuration-processor')
+    compile('org.springframework.cloud:spring-cloud-config-client')
+
+    testCompile('com.jayway.jsonpath:json-path')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile "org.springframework.restdocs:spring-restdocs-mockmvc:$springRestdocsVersion"
+}

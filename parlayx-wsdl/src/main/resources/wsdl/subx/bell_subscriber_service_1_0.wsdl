@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="subscriber_service" targetNamespace="urn:service.v1_0.subscriber.thirdparty.wsdl.bell.ca"
+	xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="urn:service.v1_0.subscriber.thirdparty.wsdl.bell.ca"
+	xmlns:interface="urn:interface.v1_0.subscriber.thirdparty.wsdl.bell.ca">
+	<wsdl:documentation>
+		© 2007, Bell Canada. All Rights Reserved. The content of this document, and the copyright in the content, are owned or controlled by
+		BELL CANADA or its content suppliers. You may only use or reproduce the information in the Content for your own personal,
+		non-commercial or educational use. The content may not be otherwise used, reproduced, broadcast, published or retransmitted without
+		the prior written permission of BELL CANADA.
+	</wsdl:documentation>
+	<wsdl:import namespace="urn:interface.v1_0.subscriber.thirdparty.wsdl.bell.ca" location="bell_subscriber_interface_1_0.wsdl" />
+
+	<wsdl:binding name="subscriberBinding" type="interface:subscriber">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+
+		<wsdl:operation name="getSubscriberPassword">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="PolicyException">
+				<soap:fault name="PolicyException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+		<wsdl:operation name="changeSubscriberPassword">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="PolicyException">
+				<soap:fault name="PolicyException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+		<wsdl:operation name="getSubscriberProfile">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="PolicyException">
+				<soap:fault name="PolicyException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+		<wsdl:operation name="hasFeatureCodes">
+			<soap:operation soapAction="" style="document" />
+			<wsdl:input>
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal" />
+			</wsdl:output>
+			<wsdl:fault name="ServiceException">
+				<soap:fault name="ServiceException" use="literal" />
+			</wsdl:fault>
+			<wsdl:fault name="PolicyException">
+				<soap:fault name="PolicyException" use="literal" />
+			</wsdl:fault>
+		</wsdl:operation>
+
+
+	</wsdl:binding>
+
+	<wsdl:service name="subscriberService">
+		<wsdl:port name="subscriber" binding="tns:subscriberBinding">
+			<soap:address location="http://localhost:8080/subscriberService/services/subscriber" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

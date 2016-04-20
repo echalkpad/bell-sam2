@@ -1,0 +1,169 @@
+
+= Pre-Reqs
+
+== Management Node
+
+Ansible 1.9.4 +
+Python 2.7.10 +
+Playbook
+
+== Remote Node
+
+=== Config Files
+
+The following files need edited to allow Ansible to connect from the management node to the host node.
+
+Add the vennetics user to the list of sudoers and allow them to use all commands without a password: +
+
+[[app-listing]]
+[source,bash]
+./etc/sudoers
+----
+## Allow root to run any commands anywhere
+root    ALL=(ALL)       ALL
+
+## Allows people in group wheel to run all commands
+%wheel  ALL=(ALL)       ALL
+
+## Same thing without a password
+vennetics       ALL=(ALL)       NOPASSWD: ALL
+
+----
+
+[[app-listing]]
+[source,bash]
+./etc/ssh/sshd.config
+----
+RSAAuthentication yes
+PubkeyAuthentication yes
+
+----
+
+[[app-listing]]
+[source,bash]
+./etc/selinux/config
+----
+SELINUX=disabled
+
+----
+
+*Restart SSH:* +
+`sudo service sshd restart`
+
+=== SSH Keys
+
+Change permissions of the .ssh folder and authorized_keys file: +
+`sudo chmod 700 ~/.ssh` +
+`sudo chmod 600 ~/.ssh/authorized_keys`
+
+Add your machine's public key to the authorized_keys file.
+
+= Release
+
+The Release zip will include: +
+- docker-compose.yml +
+- admin-service cql file +
+- example-cassandra cql file +
+- populateCassandra.sh +
+- JMeter Tests +
+- Gatling Tests +
+- Ansible Playbook
+
+= Setup and Config
+
+*Clean and Build project to generate the release zip:* +
+`./gradlew clean build` +
+Alternatively use:
+`./gradlew release-resources:build`
+
+*Create release directory on host machine:* +
+`mkdir release/0.0.3`
+
+*Copy the zip from your host machine onto the remote machine:* +
+`scp {workspace}/release-resources/build/distributions/com.vennetics.bell.sam-(version).zip` vennetics@(remote-host):~/release/0.0.3
+
+*Unzip:* +
+`unzip com.vennetics.bell.sam-(version).zip`
+
+*Change the permissions of the zip contents:* +
+`sudo chmod -R *`
+
+== Temporary Build Step
+
+Change the name of the config-server server image to pull `config-server2` instead of `config-server` and add the `volumes` param. +
+NOTE: This is a temporary build step until a config repo is set up by the customer.
+
+[[app-listing]]
+[source,bash]
+.~/release/0.0.3
+----
+configserver:
+    image: "vennetics/bell-sam-config-server2:0.0.3"
+    restart: always
+    depends_on:
+        - discoveryservice
+    volumes:
+        - /home/vennetics/gitRepos/bell-sam-config:/home/vennetics/gitRepos/bell-sam-config
+
+----
+
+== Running the Playbook
+
+On your management node run the Ansible Playbook using the following commands: +
+*Install Playbook* - `sudo ansible-playbook -s {workspace}/install/ansible/playbook-install-sam-docker-platform.yml -vvvv --extra-vars "hosts=bell_sam_lab user=vennetics" -i bell_hosts.txt` +
+*Remove Playbook* - `sudo ansible-playbook -s {workspace}/install/ansible/playbook-remove-sam-docker-services.yml -vvvv --extra-vars "hosts=bell_sam_lab user=vennetics" -i bell_hosts.txt` +
+
+
+= 0.0.3 New Features
+
+== Tags
+
+NOTE: As of 0.0.3 each role will be able to be executed individually using the `--tags` flag. Tags have also been added
+at the `task` level to allow the execution of specific tasks.
+
+Tags have been added to allow the running of individual ansible roles. These can be added to the playbook command using the
+`--tags` flag.
+
+*e.g* +
+Add `--tags=insertCassandraKeyspaces` to run only the insertCassandraKeyspaces role: +
+`sudo ansible-playbook -s playbook-install-sam-docker-platform.yml -vvvv --extra-vars "hosts=bell_sam_lab user=vennetics" --tags=insertCassandraKeyspaces -i bell_hosts.txt`
+
+You can also skip specified roles by using the `--skip-tags` param: +
+`sudo ansible-playbook -s playbook-install-sam-docker-platform.yml -vvvv --extra-vars "hosts=bell_sam_lab user=vennetics" --skip-tags "systemConfig" -i bell_hosts.txt`
+
+=== Available Tags
+
+==== Install Playbook:
+
+===== Roles: +
+*systemConfig*: set's proxies and pip installs docker-py +
+*installDocker*: Installs Docker, Docker-Machine and Docker-Compose +
+*installSamPlatform*: Runs docker-compose to pull and start docker images +
+*insertCassandraKeyspaces*: copies the Cassandra schema bash script to the running Cassandra Container and executes it +
+*serviceChecks*: Ensures all Docker services have been started +
+*installJmeterWithTests*: Installs JMeter and sets aliases for the service tests
+*installGatling*: Installs Gatling
+
+==== Uninstall Playbook:
+
+===== Tasks:
+*stopAllDockerContainers*: stops all Docker containers
+*removeAllDockerContainers*: removes all Docker containers
+*deleteBellsamNetwork*: removes the bellsam Docker network
+
+===== Roles:
+*dockerClean*: Executed the previous three tags at once.
+
+== Service Checks
+
+The *serviceChecks* role has been updated to ensure *all* services are in a 'Started' state.
+
+== Extra Variables
+
+Info such as usernames, emails, release version and network name will now be specified using added variables when running the playbook command.
+
+`sudo ansible-playbook -s playbook-install-sam-docker-platform.yml -vvvv --extra-vars "hosts=bell_sam_lab user=vennetics releaseVersion=0.0.3 dockerNetworkName=bellsam dockerUsername=bellsamrelease dockerEmail=bellsamrelease@vennetics.com" --tags=insertCassandraKeyspaces -i bell_hosts.txt`
+
+== Passwords
+
+Passwords are no longer hardcoded. The playbook will prompt the user for their credentials when the playbook is executed and encrypt their details using SHA-512.

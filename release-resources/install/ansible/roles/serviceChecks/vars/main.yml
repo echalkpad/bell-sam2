@@ -1,0 +1,33 @@
+---
+
+# Docker Images Variables
+
+# Names
+discoveryservice: discoveryservice
+configserver: bellsam_configserver_1
+apigateway: bellsam_apigateway_1
+hystrixdashboard: bellsam_hystrixdashboard_1
+turbine: bellsam_turbine_1
+springbootadmin: bellsam_springbootadmin_1
+netapismsenabler: bellsam_netapismsenabler_1
+smsxenabler: bellsam_smsxenabler_1
+adminserver: bellsam_adminserver_1
+examplecassandraspringdatarest: bellsam_examplecassandraspringdatarest_1
+helloworld: bellsam_helloworld_1
+subscriberthirdpartysdmserver: bellsam_subscriberthirdpartysdmserver_1
+cassandra: bellsam_cassandra_1
+
+# Images
+discoveryserviceImage: vennetics/bell-sam-discovery-service
+configserverImage: vennetics/bell-sam-config-server2
+apigatewayImage: vennetics/bell-sam-api-gateway
+hystrixdashboardImage: vennetics/bell-sam-hystrix-dashboard
+turbineImage: vennetics/bell-sam-turbine
+springbootadminImage: vennetics/bell-sam-spring-boot-admin
+netapismsenablerImage: vennetics/bell-sam-netapi-sms-enabler
+smsxenablerImage: vennetics/bell-sam-smsx-enabler
+adminserverImage: vennetics/bell-sam-admin-server
+examplecassandraspringdatarestImage: vennetics/bell-sam-example-cassandra-spring-data-rest
+helloworldImage: vennetics/bell-sam-helloworld
+subscriberthirdpartysdmserverImage: vennetics/bell-sam-subscriber-thirdparty-sdm-server:latest
+cassandraImage: cassandra:2.2

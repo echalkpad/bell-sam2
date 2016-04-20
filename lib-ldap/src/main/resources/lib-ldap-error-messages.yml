@@ -1,0 +1,11 @@
+ error:
+  -
+   code: "SVC0020"
+   type: LDAP_COMMS_ERROR
+   statusCode: 400
+   message: "Error connecting to LDAP"
+  -
+   code: "SVC0030"
+   type: LDAP_REQUEST_ERROR
+   statusCode: 400
+   message: "Non-network error when accessing LDAP."

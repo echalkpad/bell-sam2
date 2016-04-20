@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+   XML data type definitions for the RESTful Network API for Short Messaging 
+   Version: 1.0 (1.0)
+   Date: 19 Feb 2013 
+   
+   FILE INFORMATION 
+   
+      OMA Permanent Document 
+         File: OMA-SUP-XSD_rest_netapi_sms-V1_0-20130219-C
+         Type: Text - Schema Description 
+   
+      Public Reachable Information 
+         Path: http://www.openmobilealliance.org/tech/profiles 
+         Name: rest_netapi_sms-v1_0.xsd 
+   
+   NORMATIVE INFORMATION
+   
+      Information about this file can be found in the latest revision of the specification
+     
+         OMA-TS-REST_NetAPI_ShortMessaging-V1_0 
+         
+         This is available at http://www.openmobilealliance.org/
+   
+         Send comments to technical-comments@mail.openmobilealliance.org
+   
+   CHANGE HISTORY
+   20110503 File created based on OMA-SUP-XSD_rest_sms-V1_1-20110111-C, 
+            see contribution OMA-ARC-2011-0194-INP_XSD_NetAPI_SMS  
+   20110615 Aligned with XSD template, see OMA-ARC-REST-NetAPI-2011-0022-INP_XSD_Template_application
+   20110823 Element resourceURL updated according to OMA-ARC-REST-NetAPI-2011-0213-CR_SMS_resourceURL_xsd_changes 
+   20111019 ResourceURL for InboundSMSMessage set to optional, see OMA-ARC-REST-NetAPI-2011-0298-CR_SMS_XSD_inboundSMSMessage_resourceURL
+   20111207 Enumerations moved towards the end of the schema, see OMA-ARC-REST-NetAPI-2011-0444-CR_SMS_XSD_CONR_resolution
+   20111220 Status changed to Candidate by TP ref # OMA-TP-2011-0444-INP_REST_NetAPI_ShortMessaging_1_0_ERP_and_ETR_for_Candidate_approval
+   20121002 Status changed to Draft due to support of Flash SMS, see OMA-ARC-REST-NetAPI-2012-0258R01-CR_ShortMessaging_XSD_support_for_Flash_SMS
+   20130219 Status changed to Candidate by TP ref # OMA-TP-2013-0041-INP_REST_NetAPI_ShortMessaging_V1_0_ERP_for_Candidate_re_approval
+   
+   LEGAL DISCLAIMER
+   
+   Use of this document is subject to all of the terms and conditions
+   of the Use Agreement located at
+   http://www.openmobilealliance.org/UseAgreement.html,
+   provided, however, that section (d) under "Documents - Terms 
+   of Use" which states, "no modifications are made to such 
+   Documents" does not apply to your use.
+   
+   The Open Mobile Alliance authorizes you to copy this document, 
+   provided that you retain all copyright and other proprietary  
+   notices contained in the original materials on any copies of the 
+   materials and  that you comply strictly with these terms. This 
+   copyright permission does not constitute an endorsement of the 
+   products or services. The Open Mobile Alliance assumes no 
+   responsibility for errors or omissions in this document.
+   
+   Each Open Mobile Alliance member has agreed to use reasonable
+   endeavors to inform the Open Mobile Alliance in a timely manner of
+   Essential IPR as it becomes aware that the Essential IPR is related
+   to the prepared or published specification.  However, the members
+   do not have an obligation to conduct IPR searches.  The declared
+   Essential IPR is publicly available to members and non-members of
+   the Open Mobile Alliance and may be found on the "OMA IPR
+   Declarations" list at http://www.openmobilealliance.org/ipr.html.
+   The Open Mobile Alliance has not conducted an independent IPR review
+   of this document and the information contained herein, and makes no
+   representations or warranties regarding third party IPR, including
+   without limitation patents, copyrights or trade secret rights.  This
+   document may contain inventions for which you must obtain licenses
+   from third parties before making, using or selling the inventions.
+   Defined terms above are set forth in the schedule to the Open Mobile
+   Alliance Application Form.
+   
+   NO REPRESENTATIONS OR WARRANTIES (WHETHER EXPRESS OR IMPLIED) ARE
+   MADE BY THE OPEN MOBILE ALLIANCE OR ANY OPEN MOBILE ALLIANCE MEMBER
+   OR ITS AFFILIATES REGARDING ANY OF THE IPR'S REPRESENTED ON THE "OMA
+   IPR DECLARATIONS" LIST, INCLUDING, BUT NOT LIMITED TO THE ACCURACY,
+   COMPLETENESS, VALIDITY OR RELEVANCE OF THE INFORMATION OR WHETHER OR
+   NOT SUCH RIGHTS ARE ESSENTIAL OR NON-ESSENTIAL.
+   
+   THE OPEN MOBILE ALLIANCE IS NOT LIABLE FOR AND HEREBY DISCLAIMS ANY
+   DIRECT, INDIRECT, PUNITIVE, SPECIAL, INCIDENTAL, CONSEQUENTIAL, OR
+   EXEMPLARY DAMAGES ARISING OUT OF OR IN CONNECTION WITH THE USE OF
+   DOCUMENTS AND THE INFORMATION CONTAINED IN THE DOCUMENTS.
+   
+   Copyright 2013 Open Mobile Alliance Ltd.  All Rights Reserved.
+   Used with the permission of the Open Mobile Alliance Ltd. under the
+   terms set forth above.   
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:common="urn:oma:xml:rest:netapi:common:1"
+   xmlns="urn:oma:xml:rest:netapi:sms:1" targetNamespace="urn:oma:xml:rest:netapi:sms:1" version="1.0">
+   
+   <xsd:annotation>
+      <xsd:documentation>This schema defines the XML data types for the RESTful Network API for SMS.</xsd:documentation>
+   </xsd:annotation>
+
+   <xsd:import namespace="urn:oma:xml:rest:netapi:common:1"
+               schemaLocation="http://www.openmobilealliance.org/tech/profiles/rest_netapi_common-v1_0.xsd"/>
+	
+   <xsd:complexType name="OutboundSMSMessageRequest">
+      <xsd:sequence>
+         <xsd:element name="address" type="xsd:anyURI" maxOccurs="unbounded" minOccurs="1"/>
+         <xsd:element name="senderAddress" type="xsd:anyURI" maxOccurs="1" minOccurs="1"/>
+         <xsd:element name="senderName" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="charging" type="common:ChargingInformation" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="receiptRequest" type="common:CallbackReference" maxOccurs="1" minOccurs="0"/>
+         <xsd:choice>
+            <xsd:element name="outboundSMSTextMessage" type="OutboundSMSTextMessage"/>
+            <xsd:element name="outboundSMSBinaryMessage" type="OutboundSMSBinaryMessage"/>
+            <xsd:element name="outboundSMSLogoMessage" type="OutboundSMSLogoMessage"/>
+            <xsd:element name="outboundSMSRingToneMessage" type="OutboundSMSRingToneMessage"/>
+			<xsd:element name="outboundSMSFlashMessage" type="OutboundSMSFlashMessage"/>		
+         </xsd:choice>
+         <xsd:element name="clientCorrelator" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="resourceURL" type="xsd:anyURI" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="link" type="common:Link" maxOccurs="unbounded" minOccurs="0"/>
+         <xsd:element name="deliveryInfoList" type="DeliveryInfoList" maxOccurs="1" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:element name="outboundSMSMessageRequest" type="OutboundSMSMessageRequest"/>
+   
+   
+   <xsd:complexType name="DeliveryInfo">
+      <xsd:sequence>
+         <xsd:element name="address" type="xsd:anyURI" maxOccurs="1" minOccurs="1"/>
+         <xsd:element name="deliveryStatus" type="DeliveryStatus" maxOccurs="1" minOccurs="1"/>
+         <xsd:element name="description" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="link" type="common:Link" maxOccurs="unbounded" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:complexType name="OutboundSMSTextMessage">
+      <xsd:sequence>
+         <xsd:element name="message" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:complexType name="OutboundSMSBinaryMessage">
+      <xsd:sequence>
+         <xsd:element name="message" type="xsd:base64Binary" maxOccurs="1" minOccurs="1"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:complexType name="OutboundSMSLogoMessage">
+      <xsd:sequence>
+         <xsd:element name="image" type="xsd:base64Binary" maxOccurs="1" minOccurs="1"/>
+         <xsd:element name="smsFormat" type="SmsFormat" maxOccurs="1" minOccurs="1"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:complexType name="OutboundSMSRingToneMessage">
+      <xsd:sequence>
+         <xsd:element name="ringTone" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+         <xsd:element name="smsFormat" type="SmsFormat" maxOccurs="1" minOccurs="1"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:complexType name="OutboundSMSFlashMessage">
+      <xsd:sequence>
+         <xsd:element name="flashMessage" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+      </xsd:sequence>
+   </xsd:complexType>
+
+   
+   <xsd:complexType name="DeliveryInfoNotification">
+      <xsd:sequence>
+         <xsd:element name="callbackData" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="deliveryInfo" type="DeliveryInfo" maxOccurs="unbounded" minOccurs="1"/>
+         <xsd:element name="link" type="common:Link" maxOccurs="unbounded" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:element name="deliveryInfoNotification" type="DeliveryInfoNotification"/>
+   
+   
+   <xsd:complexType name="DeliveryInfoList">
+      <xsd:sequence>
+         <xsd:element name="resourceURL" type="xsd:anyURI" maxOccurs="1" minOccurs="1"/>
+         <xsd:element name="link" type="common:Link" maxOccurs="unbounded" minOccurs="0"/>
+         <xsd:element name="deliveryInfo" type="DeliveryInfo" maxOccurs="unbounded"
+            minOccurs="1"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:element name="deliveryInfoList" type="DeliveryInfoList"/>
+   
+   
+   <xsd:complexType name="DeliveryReceiptSubscriptionList">
+      <xsd:sequence>
+         <xsd:element name="resourceURL" type="xsd:anyURI" minOccurs="1" maxOccurs="1"/>
+         <xsd:element name="link" type="common:Link" minOccurs="0" maxOccurs="unbounded"/>
+         <xsd:element name="deliveryReceiptSubscription" type="DeliveryReceiptSubscription" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:element name="deliveryReceiptSubscriptionList" type="DeliveryReceiptSubscriptionList"/>
+   
+   
+   <xsd:complexType name="DeliveryReceiptSubscription">
+      <xsd:sequence>
+         <xsd:element name="callbackReference" type="common:CallbackReference" maxOccurs="1" minOccurs="1"/>
+         <xsd:element name="filterCriteria" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+         <xsd:element name="clientCorrelator" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="resourceURL" type="xsd:anyURI" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="link" type="common:Link" maxOccurs="unbounded" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:element name="deliveryReceiptSubscription" type="DeliveryReceiptSubscription"/>
+   
+   
+   <xsd:complexType name="OutboundSMSMessageRequestList">
+      <xsd:sequence>
+         <xsd:element name="outboundSMSMessageRequest" type="OutboundSMSMessageRequest"
+            maxOccurs="unbounded" minOccurs="0"/>
+         <xsd:element name="resourceURL" type="xsd:anyURI" maxOccurs="1" minOccurs="1"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:element name="outboundSMSMessageRequestList" type="OutboundSMSMessageRequestList"/>
+   
+   
+   <xsd:complexType name="InboundSMSMessageRetrieveAndDeleteRequest">
+      <xsd:sequence>
+         <xsd:element name="retrievalOrder" type="RetrievalOrder" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="maxBatchSize" type="xsd:int" maxOccurs="1" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:element name="inboundSMSMessageRetrieveAndDeleteRequest" type="InboundSMSMessageRetrieveAndDeleteRequest"/>
+   
+   
+   <xsd:complexType name="Subscription">
+      <xsd:sequence>
+         <xsd:element name="callbackReference" type="common:CallbackReference" maxOccurs="1" minOccurs="1"/>
+         <xsd:element name="destinationAddress" type="xsd:anyURI" maxOccurs="unbounded" minOccurs="1"/>
+         <xsd:element name="criteria" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="clientCorrelator" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="resourceURL" type="xsd:anyURI" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="link" type="common:Link" maxOccurs="unbounded" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:element name="subscription" type="Subscription"/>
+   
+   
+   <xsd:complexType name="SubscriptionList">
+      <xsd:sequence>
+         <xsd:element name="subscription" type="Subscription" maxOccurs="unbounded"
+            minOccurs="0"/>
+         <xsd:element name="resourceURL" type="xsd:anyURI" maxOccurs="1" minOccurs="1"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:element name="subscriptionList" type="SubscriptionList"/>
+   
+   
+   <xsd:complexType name="InboundSMSMessage">
+      <xsd:sequence>
+         <xsd:element name="destinationAddress" type="xsd:anyURI" maxOccurs="1" minOccurs="1"/>
+         <xsd:element name="senderAddress" type="xsd:anyURI" maxOccurs="1" minOccurs="1"/>
+         <xsd:element name="message" type="xsd:string" maxOccurs="1" minOccurs="1"/>
+         <xsd:element name="dateTime" type="xsd:dateTime" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="resourceURL" type="xsd:anyURI" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="link" type="common:Link" maxOccurs="unbounded" minOccurs="0"/>
+         <xsd:element name="messageId" type="xsd:string" maxOccurs="1" minOccurs="0"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:element name="inboundSMSMessage" type="InboundSMSMessage"/>
+   
+   
+   <xsd:complexType name="InboundSMSMessageList">
+      <xsd:sequence>
+         <xsd:element name="inboundSMSMessage" type="InboundSMSMessage" maxOccurs="unbounded" minOccurs="0"/>
+         <xsd:element name="totalNumberOfPendingMessages" type="xsd:int" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="numberOfMessagesInThisBatch" type="xsd:int" maxOccurs="1" minOccurs="0"/>
+         <xsd:element name="resourceURL" type="xsd:anyURI" maxOccurs="1" minOccurs="1"/>
+      </xsd:sequence>
+   </xsd:complexType>
+   
+   <xsd:element name="inboundSMSMessageList" type="InboundSMSMessageList"/>
+   
+   
+   <xsd:complexType name="InboundSMSMessageNotification">
+      <xsd:sequence>
+         <xsd:element name="callbackData" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+         <xsd:element name="inboundSMSMessage" type="InboundSMSMessage" minOccurs="1" maxOccurs="1"/>
+         <xsd:element name="link" type="common:Link" minOccurs="0" maxOccurs="unbounded"/>
+      </xsd:sequence>   
+   </xsd:complexType>
+   
+   <xsd:element name="inboundSMSMessageNotification" type="InboundSMSMessageNotification"/>
+   
+   
+   <xsd:simpleType name="DeliveryStatus">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="DeliveredToTerminal"/>
+         <xsd:enumeration value="DeliveryUncertain"/>
+         <xsd:enumeration value="DeliveryImpossible"/>
+         <xsd:enumeration value="MessageWaiting"/>
+         <xsd:enumeration value="DeliveredToNetwork"/>
+         <xsd:enumeration value="DeliveryNotificationNotSupported"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   
+   
+   <xsd:simpleType name="RetrievalOrder">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="OldestFirst"/>
+         <xsd:enumeration value="NewestFirst"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   
+   
+  <xsd:simpleType name="SmsFormat">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="Ems"/>
+         <xsd:enumeration value="SmartMessaging"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+   
+</xsd:schema>

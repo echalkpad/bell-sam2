@@ -1,0 +1,15 @@
+= Intro
+
+The core-cassandra project implements AOP methods to wrap all I/O `CrudRepository` calls in Hystrix Commands. +
+Examples of this can be found: +
+core-cassandra/src/main/java/com.vennetics.bell.sam.core.cassandra
+
+= Core-Cassandra Dependency
+
+Add `core-cassandra` as a dependency in your project to auto-generate the wrapping of I/O in Hystrix. Any interfaces
+that implement `CrudRepository` will be automatically picked up by core-cassandra's CrudRepositoryAdvice class.
+
+= Result
+
+Applications that use Spring-Data and specifically implement a `CrudRepository` will be wrapped in Hystrix
+and displayed in the Hystrix-Dashboard.

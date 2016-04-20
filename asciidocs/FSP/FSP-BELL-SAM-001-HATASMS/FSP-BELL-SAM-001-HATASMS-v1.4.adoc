@@ -1,0 +1,37 @@
+= Bell SAM HATA SMS Functional Specifications
+Vennetics Ltd;
+:doctype: book
+:icons: font
+:toc:
+:toc-placement: preamble
+:source-highlighter: coderay
+:coderay-linenums-mode: inline
+:coderay-css: class
+:revdate: January 29th 2016
+:revnumber: 1.4
+
+:numbered!:
+
+include::document_control.adoc[]
+
+:numbered:
+
+include::introduction.adoc[]
+
+include::section_compliance_matrix.adoc[]
+
+include::section_sequence_diagrams.adoc[]
+
+include::section_state_diagrams.adoc[]
+
+include::section_api_extensions.adoc[]
+
+include::section_policy_control.adoc[]
+
+include::section_smpp_interface.adoc[]
+
+include::section_api_mappings.adoc[]
+
+include::section_service_errors.adoc[]
+
+include::section_custom_headers.adoc[]

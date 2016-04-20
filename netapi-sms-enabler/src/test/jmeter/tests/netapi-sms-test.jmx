@@ -1,0 +1,1028 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.8" jmeter="2.13 r1665067">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="NetAPI - SMS" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Config" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="SAM_HOST" elementType="Argument">
+            <stringProp name="Argument.name">SAM_HOST</stringProp>
+            <stringProp name="Argument.value">${__P(host_name,${__machineName})}</stringProp>
+            <stringProp name="Argument.desc">Host name for SAM</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="API_GW_PORT" elementType="Argument">
+            <stringProp name="Argument.name">API_GW_PORT</stringProp>
+            <stringProp name="Argument.value">${__P(host_port,8087)}</stringProp>
+            <stringProp name="Argument.desc">Port on which the API GW is listening</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="APPLICATION_USERNAME" elementType="Argument">
+            <stringProp name="Argument.name">APPLICATION_USERNAME</stringProp>
+            <stringProp name="Argument.value">${__P(application_user,aaron)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="APPLICATION_PASSWORD" elementType="Argument">
+            <stringProp name="Argument.name">APPLICATION_PASSWORD</stringProp>
+            <stringProp name="Argument.value">${__P(application_password,watters)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="NOTIFY_URL" elementType="Argument">
+            <stringProp name="Argument.name">NOTIFY_URL</stringProp>
+            <stringProp name="Argument.value">${__P(notify_url,http://application.example.com/notifications/DeliveryInfoNotification)}</stringProp>
+            <stringProp name="Argument.desc">URL to which notifications will be sent</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="VALID_SENDER_ADDRESS" elementType="Argument">
+            <stringProp name="Argument.name">VALID_SENDER_ADDRESS</stringProp>
+            <stringProp name="Argument.value">${__P(valid_sender_address,tel:+19585550151)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="VALID_DESTINATION_ADDRESS" elementType="Argument">
+            <stringProp name="Argument.name">VALID_DESTINATION_ADDRESS</stringProp>
+            <stringProp name="Argument.value">${__P(valid_destination_address,tel:+19585550101)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="INVALID_DESTINATION_ADDRESS" elementType="Argument">
+            <stringProp name="Argument.name">INVALID_DESTINATION_ADDRESS</stringProp>
+            <stringProp name="Argument.value">${__P(invalid_destination_address,invalid)}</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <AuthManager guiclass="AuthPanel" testclass="AuthManager" testname="HTTP Authorization Manager" enabled="true">
+        <collectionProp name="AuthManager.auth_list">
+          <elementProp name="" elementType="Authorization">
+            <stringProp name="Authorization.url">http://${SAM_HOST}:${API_GW_PORT}/</stringProp>
+            <stringProp name="Authorization.username">${APPLICATION_USERNAME}</stringProp>
+            <stringProp name="Authorization.password">${APPLICATION_PASSWORD}</stringProp>
+            <stringProp name="Authorization.domain"></stringProp>
+            <stringProp name="Authorization.realm"></stringProp>
+          </elementProp>
+        </collectionProp>
+      </AuthManager>
+      <hashTree/>
+      <SetupThreadGroup guiclass="SetupThreadGroupGui" testclass="SetupThreadGroup" testname="Send SMS" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1456353853000</longProp>
+        <longProp name="ThreadGroup.end_time">1456353853000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </SetupThreadGroup>
+      <hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="JSON - Send SMS" enabled="true"/>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/json</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="JSON - Send SMS - Success Expected" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Send SMS" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;outboundSMSMessageRequest&quot;: {&#xd;
+ &quot;address&quot;: [&#xd;
+ &quot;${VALID_DESTINATION_ADDRESS}&quot;&#xd;
+ ],&#xd;
+ &quot;clientCorrelator&quot;: &quot;67893&quot;,&#xd;
+ &quot;outboundSMSBinaryMessage&quot;: {&quot;message&quot;: &quot;SGVsbG8=&quot;},&#xd;
+ &quot;senderAddress&quot;: &quot;${VALID_SENDER_ADDRESS}&quot;,&#xd;
+ &quot;senderName&quot;: &quot;MyName&quot;&#xd;
+}}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+              <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">netapi/sms/v1/netapi-sms-enabler/smsMessaging/v1/outbound/${__urlencode(${VALID_SENDER_ADDRESS})}/requests</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="201 Status Expected" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49587">201</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion guiclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.gui.JSONPathAssertionGui" testclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion" testname="Expect deliveryStatus of MessageWaiting" enabled="true">
+              <stringProp name="JSON_PATH">$.outboundSMSMessageRequest.deliveryInfoList.deliveryInfo[0].deliveryStatus</stringProp>
+              <stringProp name="EXPECTED_VALUE">MessageWaiting</stringProp>
+              <boolProp name="JSONVALIDATION">false</boolProp>
+              <boolProp name="EXPECT_NULL">false</boolProp>
+              <boolProp name="INVERT">false</boolProp>
+            </com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="JSON - Send SMS - Large Payload" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Send Large SMS" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;outboundSMSMessageRequest&quot;: {&#xd;
+ &quot;address&quot;: [&#xd;
+ &quot;${VALID_DESTINATION_ADDRESS}&quot;&#xd;
+ ],&#xd;
+ &quot;clientCorrelator&quot;: &quot;67893&quot;,&#xd;
+ &quot;outboundSMSBinaryMessage&quot;: {&quot;message&quot;: &quot;0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+ 0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000 0000 0000&#xd;
+0000 0000 0000 0000 0000 0000&#xd;
+&quot;},&#xd;
+ &quot;senderAddress&quot;: &quot;${VALID_SENDER_ADDRESS}&quot;,&#xd;
+ &quot;senderName&quot;: &quot;MyName&quot;&#xd;
+}}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+              <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">netapi/sms/v1/netapi-sms-enabler/smsMessaging/v1/outbound/${__urlencode(${VALID_SENDER_ADDRESS})}/requests</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="201 Status Expected" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="49587">201</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">false</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion guiclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.gui.JSONPathAssertionGui" testclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion" testname="Expect deliveryStatus of MessageWaiting" enabled="true">
+              <stringProp name="JSON_PATH">$.outboundSMSMessageRequest.deliveryInfoList.deliveryInfo[0].deliveryStatus</stringProp>
+              <stringProp name="EXPECTED_VALUE">MessageWaiting</stringProp>
+              <boolProp name="JSONVALIDATION">false</boolProp>
+              <boolProp name="EXPECT_NULL">false</boolProp>
+              <boolProp name="INVERT">false</boolProp>
+            </com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="JSON - Send SMS - Callback Expected" enabled="true"/>
+          <hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Set up" enabled="true"/>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Reset callcount" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value"></stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+                <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">callback-simulator/resetcount</stringProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Expect 500 Error on First Attempt" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="52469">500</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Set up" enabled="true"/>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Reset callcount" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value"></stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+                <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">callback-simulator/resetcount</stringProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree/>
+            </hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Send SMS with callback" enabled="true"/>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Send SMS with Callback" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value">{&quot;outboundSMSMessageRequest&quot;: {&#xd;
+ &quot;address&quot;: [&#xd;
+ &quot;${VALID_DESTINATION_ADDRESS}&quot;&#xd;
+ ],&#xd;
+ &quot;clientCorrelator&quot;: &quot;67893&quot;,&#xd;
+ &quot;outboundSMSBinaryMessage&quot;: {&quot;message&quot;: &quot;SGVsbG8=&quot;},&#xd;
+ &quot;receiptRequest&quot;: {&quot;notifyURL&quot;: &quot;${NOTIFY_URL}&quot;},&#xd;
+ &quot;senderAddress&quot;: &quot;${VALID_SENDER_ADDRESS}&quot;,&#xd;
+ &quot;senderName&quot;: &quot;MyName&quot;&#xd;
+}}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+                <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">netapi/sms/v1/netapi-sms-enabler/smsMessaging/v1/outbound/${__urlencode(${VALID_SENDER_ADDRESS})}/requests</stringProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree/>
+              <com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion guiclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.gui.JSONPathAssertionGui" testclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion" testname="Expect deliveryStatus of MessageWaiting" enabled="true">
+                <stringProp name="JSON_PATH">$.outboundSMSMessageRequest.deliveryInfoList.deliveryInfo[0].deliveryStatus</stringProp>
+                <stringProp name="EXPECTED_VALUE">MessageWaiting</stringProp>
+                <boolProp name="JSONVALIDATION">false</boolProp>
+                <boolProp name="EXPECT_NULL">false</boolProp>
+                <boolProp name="INVERT">false</boolProp>
+              </com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="201 Status Expected" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="49587">201</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Check Counts" enabled="true"/>
+            <hashTree>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Wait for callback to occur" enabled="true">
+                <stringProp name="ConstantTimer.delay">10000</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get callcount" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value"></stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+                <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">callback-simulator/callcount</stringProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert One Call made" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="49">1</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">true</boolProp>
+                  <intProp name="Assertion.test_type">8</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+              </hashTree>
+            </hashTree>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="JSON - Send SMS - XML Callback Expected" enabled="true"/>
+          <hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Set up" enabled="true"/>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Reset callcount" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value"></stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+                <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">callback-simulator/resetcount</stringProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree/>
+            </hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Send SMS with callback with XML notificationFormat" enabled="true"/>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Send SMS with Callback with notificationFormat of XML" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value">{&quot;outboundSMSMessageRequest&quot;: {&#xd;
+ &quot;address&quot;: [&#xd;
+ &quot;${VALID_DESTINATION_ADDRESS}&quot;&#xd;
+ ],&#xd;
+ &quot;clientCorrelator&quot;: &quot;67893&quot;,&#xd;
+ &quot;outboundSMSBinaryMessage&quot;: {&quot;message&quot;: &quot;SGVsbG8=&quot;},&#xd;
+ &quot;receiptRequest&quot;: {&quot;notifyURL&quot;: &quot;${NOTIFY_URL}&quot;, &quot;notificationFormat&quot;: &quot;XML&quot;},&#xd;
+ &quot;senderAddress&quot;: &quot;${VALID_SENDER_ADDRESS}&quot;,&#xd;
+ &quot;senderName&quot;: &quot;MyName&quot;&#xd;
+}}</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+                <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">netapi/sms/v1/netapi-sms-enabler/smsMessaging/v1/outbound/${__urlencode(${VALID_SENDER_ADDRESS})}/requests</stringProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree/>
+              <com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion guiclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.gui.JSONPathAssertionGui" testclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion" testname="Expect deliveryStatus of MessageWaiting" enabled="true">
+                <stringProp name="JSON_PATH">$.outboundSMSMessageRequest.deliveryInfoList.deliveryInfo[0].deliveryStatus</stringProp>
+                <stringProp name="EXPECTED_VALUE">MessageWaiting</stringProp>
+                <boolProp name="JSONVALIDATION">false</boolProp>
+                <boolProp name="EXPECT_NULL">false</boolProp>
+                <boolProp name="INVERT">false</boolProp>
+              </com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="201 Status Expected" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="49587">201</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+            </hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Check Counts" enabled="true"/>
+            <hashTree>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Wait for callback to occur" enabled="true">
+                <stringProp name="ConstantTimer.delay">6500</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get callcount" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value"></stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+                <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">callback-simulator/callcount</stringProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert One Call made" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="49">1</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">true</boolProp>
+                  <intProp name="Assertion.test_type">8</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+              </hashTree>
+            </hashTree>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="JSON - Send SMS - Invalid Destination Address" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Send SMS - Invalid Destination" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">{&quot;outboundSMSMessageRequest&quot;: {&#xd;
+ &quot;address&quot;: [&#xd;
+ &quot;${INVALID_DESTINATION_ADDRESS}&quot;&#xd;
+ ],&#xd;
+ &quot;clientCorrelator&quot;: &quot;67893&quot;,&#xd;
+ &quot;outboundSMSBinaryMessage&quot;: {&quot;message&quot;: &quot;SGVsbG8=&quot;},&#xd;
+ &quot;receiptRequest&quot;: {&quot;notifyURL&quot;: &quot;${NOTIFY_URL}&quot;},&#xd;
+ &quot;senderAddress&quot;: &quot;${VALID_SENDER_ADDRESS}&quot;,&#xd;
+ &quot;senderName&quot;: &quot;MyName&quot;&#xd;
+}}</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+              <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">netapi/sms/v1/netapi-sms-enabler/smsMessaging/v1/outbound/${__urlencode(${VALID_SENDER_ADDRESS})}/requests</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="51508">400</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">true</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion guiclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.gui.JSONPathAssertionGui" testclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion" testname="Expect messageId of SVC0004" enabled="true">
+              <stringProp name="JSON_PATH">$.requestError.serviceException.messageId</stringProp>
+              <stringProp name="EXPECTED_VALUE">SVC0004</stringProp>
+              <boolProp name="JSONVALIDATION">false</boolProp>
+              <boolProp name="EXPECT_NULL">false</boolProp>
+              <boolProp name="INVERT">false</boolProp>
+            </com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion>
+            <hashTree/>
+            <com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion guiclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.gui.JSONPathAssertionGui" testclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion" testname="Expect text of No valid address..." enabled="true">
+              <stringProp name="JSON_PATH">$.requestError.serviceException.text</stringProp>
+              <stringProp name="EXPECTED_VALUE">No valid addresses provided in message part %1</stringProp>
+              <boolProp name="JSONVALIDATION">false</boolProp>
+              <boolProp name="EXPECT_NULL">false</boolProp>
+              <boolProp name="INVERT">false</boolProp>
+            </com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion>
+            <hashTree/>
+            <com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion guiclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.gui.JSONPathAssertionGui" testclass="com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion" testname="Expect variables to match" enabled="true">
+              <stringProp name="JSON_PATH">$.requestError.serviceException.variables[0]</stringProp>
+              <stringProp name="EXPECTED_VALUE">${INVALID_DESTINATION_ADDRESS}</stringProp>
+              <boolProp name="JSONVALIDATION">false</boolProp>
+              <boolProp name="EXPECT_NULL">false</boolProp>
+              <boolProp name="INVERT">false</boolProp>
+            </com.atlantbh.jmeter.plugins.jsonutils.jsonpathassertion.JSONPathAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="XML - Send SMS" enabled="true">
+          <stringProp name="TestPlan.comments">Limited set of testing to ensure XML format is as expected.</stringProp>
+        </GenericController>
+        <hashTree>
+          <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
+            <collectionProp name="HeaderManager.headers">
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Accept</stringProp>
+                <stringProp name="Header.value">application/xml</stringProp>
+              </elementProp>
+              <elementProp name="" elementType="Header">
+                <stringProp name="Header.name">Content-Type</stringProp>
+                <stringProp name="Header.value">application/xml</stringProp>
+              </elementProp>
+            </collectionProp>
+          </HeaderManager>
+          <hashTree/>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="XML - Send SMS - Success Expected" enabled="true"/>
+          <hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Set up" enabled="true"/>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Reset callcount" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value"></stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+                <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">callback-simulator/resetcount</stringProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree/>
+            </hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Send SMS with Callback" enabled="true"/>
+            <hashTree>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Send SMS - XML" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#xd;
+&lt;sms:outboundSMSMessageRequest xmlns:sms=&quot;urn:oma:xml:rest:netapi:sms:1&quot;&gt;&#xd;
+   &lt;address&gt;${VALID_DESTINATION_ADDRESS}&lt;/address&gt;&#xd;
+   &lt;senderAddress&gt;${VALID_SENDER_ADDRESS}&lt;/senderAddress&gt;&#xd;
+   &lt;senderName&gt;MyName&lt;/senderName&gt;&#xd;
+   &lt;receiptRequest&gt;&#xd;
+      &lt;!-- this is optional --&gt;&#xd;
+      &lt;notifyURL&gt;${NOTIFY_URL}&lt;/notifyURL&gt;&#xd;
+   &lt;/receiptRequest&gt;&#xd;
+   &lt;outboundSMSBinaryMessage&gt;&#xd;
+      &lt;message&gt;SGVsbG8=&lt;/message&gt;&#xd;
+   &lt;/outboundSMSBinaryMessage&gt;&#xd;
+   &lt;clientCorrelator&gt;67893&lt;/clientCorrelator&gt;&#xd;
+&lt;/sms:outboundSMSMessageRequest&gt;</stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+                <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">netapi/sms/v1/netapi-sms-enabler/smsMessaging/v1/outbound/${__urlencode(${VALID_SENDER_ADDRESS})}/requests</stringProp>
+                <stringProp name="HTTPSampler.method">POST</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree/>
+              <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="201 Status Expected" enabled="true">
+                <collectionProp name="Asserion.test_strings">
+                  <stringProp name="49587">201</stringProp>
+                </collectionProp>
+                <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+                <boolProp name="Assertion.assume_success">false</boolProp>
+                <intProp name="Assertion.test_type">8</intProp>
+              </ResponseAssertion>
+              <hashTree/>
+              <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="Expect deliveryStatus of MessageWaiting" enabled="true">
+                <boolProp name="XPath.negate">false</boolProp>
+                <stringProp name="XPath.xpath">//deliveryInfo[1]/deliveryStatus=&quot;MessageWaiting&quot;</stringProp>
+                <boolProp name="XPath.validate">false</boolProp>
+                <boolProp name="XPath.whitespace">false</boolProp>
+                <boolProp name="XPath.tolerant">false</boolProp>
+                <boolProp name="XPath.namespace">false</boolProp>
+              </XPathAssertion>
+              <hashTree/>
+            </hashTree>
+            <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Check Counts" enabled="true"/>
+            <hashTree>
+              <ConstantTimer guiclass="ConstantTimerGui" testclass="ConstantTimer" testname="Wait for callback to occur" enabled="true">
+                <stringProp name="ConstantTimer.delay">6500</stringProp>
+              </ConstantTimer>
+              <hashTree/>
+              <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get callcount" enabled="true">
+                <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+                <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                  <collectionProp name="Arguments.arguments">
+                    <elementProp name="" elementType="HTTPArgument">
+                      <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                      <stringProp name="Argument.value"></stringProp>
+                      <stringProp name="Argument.metadata">=</stringProp>
+                    </elementProp>
+                  </collectionProp>
+                </elementProp>
+                <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+                <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+                <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+                <stringProp name="HTTPSampler.response_timeout"></stringProp>
+                <stringProp name="HTTPSampler.protocol"></stringProp>
+                <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+                <stringProp name="HTTPSampler.path">callback-simulator/callcount</stringProp>
+                <stringProp name="HTTPSampler.method">GET</stringProp>
+                <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+                <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+                <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+                <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+                <boolProp name="HTTPSampler.monitor">false</boolProp>
+                <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+              </HTTPSamplerProxy>
+              <hashTree>
+                <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert One Call made" enabled="true">
+                  <collectionProp name="Asserion.test_strings">
+                    <stringProp name="49">1</stringProp>
+                  </collectionProp>
+                  <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
+                  <boolProp name="Assertion.assume_success">true</boolProp>
+                  <intProp name="Assertion.test_type">2</intProp>
+                </ResponseAssertion>
+                <hashTree/>
+              </hashTree>
+            </hashTree>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="XML - Send SMS - Invalid Destination Address" enabled="true"/>
+          <hashTree>
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Send SMS - Invalid destination address" enabled="true">
+              <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
+              <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+                <collectionProp name="Arguments.arguments">
+                  <elementProp name="" elementType="HTTPArgument">
+                    <boolProp name="HTTPArgument.always_encode">false</boolProp>
+                    <stringProp name="Argument.value">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&#xd;
+&lt;sms:outboundSMSMessageRequest xmlns:sms=&quot;urn:oma:xml:rest:netapi:sms:1&quot;&gt;&#xd;
+   &lt;address&gt;${INVALID_DESTINATION_ADDRESS}&lt;/address&gt;&#xd;
+   &lt;senderAddress&gt;${VALID_SENDER_ADDRESS}&lt;/senderAddress&gt;&#xd;
+   &lt;senderName&gt;MyName&lt;/senderName&gt;&#xd;
+   &lt;receiptRequest&gt;&#xd;
+      &lt;!-- this is optional --&gt;&#xd;
+      &lt;notifyURL&gt;${NOTIFY_URL}&lt;/notifyURL&gt;&#xd;
+   &lt;/receiptRequest&gt;&#xd;
+   &lt;outboundSMSBinaryMessage&gt;&#xd;
+      &lt;message&gt;SGVsbG8=&lt;/message&gt;&#xd;
+   &lt;/outboundSMSBinaryMessage&gt;&#xd;
+   &lt;clientCorrelator&gt;67893&lt;/clientCorrelator&gt;&#xd;
+&lt;/sms:outboundSMSMessageRequest&gt;</stringProp>
+                    <stringProp name="Argument.metadata">=</stringProp>
+                  </elementProp>
+                </collectionProp>
+              </elementProp>
+              <stringProp name="HTTPSampler.domain">${SAM_HOST}</stringProp>
+              <stringProp name="HTTPSampler.port">${API_GW_PORT}</stringProp>
+              <stringProp name="HTTPSampler.connect_timeout"></stringProp>
+              <stringProp name="HTTPSampler.response_timeout"></stringProp>
+              <stringProp name="HTTPSampler.protocol"></stringProp>
+              <stringProp name="HTTPSampler.contentEncoding"></stringProp>
+              <stringProp name="HTTPSampler.path">netapi/sms/v1/netapi-sms-enabler/smsMessaging/v1/outbound/${__urlencode(${VALID_SENDER_ADDRESS})}/requests</stringProp>
+              <stringProp name="HTTPSampler.method">POST</stringProp>
+              <boolProp name="HTTPSampler.follow_redirects">true</boolProp>
+              <boolProp name="HTTPSampler.auto_redirects">false</boolProp>
+              <boolProp name="HTTPSampler.use_keepalive">true</boolProp>
+              <boolProp name="HTTPSampler.DO_MULTIPART_POST">false</boolProp>
+              <boolProp name="HTTPSampler.monitor">false</boolProp>
+              <stringProp name="HTTPSampler.embedded_url_re"></stringProp>
+            </HTTPSamplerProxy>
+            <hashTree/>
+            <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Response Assertion" enabled="true">
+              <collectionProp name="Asserion.test_strings">
+                <stringProp name="51508">400</stringProp>
+              </collectionProp>
+              <stringProp name="Assertion.test_field">Assertion.response_code</stringProp>
+              <boolProp name="Assertion.assume_success">true</boolProp>
+              <intProp name="Assertion.test_type">8</intProp>
+            </ResponseAssertion>
+            <hashTree/>
+            <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="Expect messageId of SVC0004" enabled="true">
+              <boolProp name="XPath.negate">false</boolProp>
+              <stringProp name="XPath.xpath">//requestError/serviceException/messageId=&quot;SVC0004&quot;</stringProp>
+              <boolProp name="XPath.validate">false</boolProp>
+              <boolProp name="XPath.whitespace">false</boolProp>
+              <boolProp name="XPath.tolerant">false</boolProp>
+              <boolProp name="XPath.namespace">false</boolProp>
+            </XPathAssertion>
+            <hashTree/>
+            <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="Expect text of Invalid Addresss..." enabled="true">
+              <boolProp name="XPath.negate">false</boolProp>
+              <stringProp name="XPath.xpath">//requestError/serviceException/text=&quot;No valid addresses provided in message part %1&quot;</stringProp>
+              <boolProp name="XPath.validate">false</boolProp>
+              <boolProp name="XPath.whitespace">false</boolProp>
+              <boolProp name="XPath.tolerant">false</boolProp>
+              <boolProp name="XPath.namespace">false</boolProp>
+            </XPathAssertion>
+            <hashTree/>
+            <XPathAssertion guiclass="XPathAssertionGui" testclass="XPathAssertion" testname="Expect variables of Invalid" enabled="true">
+              <boolProp name="XPath.negate">false</boolProp>
+              <stringProp name="XPath.xpath">//requestError/serviceException/variables=&quot;${INVALID_DESTINATION_ADDRESS}&quot;</stringProp>
+              <boolProp name="XPath.validate">false</boolProp>
+              <boolProp name="XPath.whitespace">false</boolProp>
+              <boolProp name="XPath.tolerant">false</boolProp>
+              <boolProp name="XPath.namespace">false</boolProp>
+            </XPathAssertion>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+      </hashTree>
+      <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+        <boolProp name="ResultCollector.error_logging">false</boolProp>
+        <objProp>
+          <name>saveConfig</name>
+          <value class="SampleSaveConfiguration">
+            <time>true</time>
+            <latency>true</latency>
+            <timestamp>true</timestamp>
+            <success>true</success>
+            <label>true</label>
+            <code>true</code>
+            <message>true</message>
+            <threadName>true</threadName>
+            <dataType>true</dataType>
+            <encoding>false</encoding>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
+            <responseData>false</responseData>
+            <samplerData>false</samplerData>
+            <xml>false</xml>
+            <fieldNames>false</fieldNames>
+            <responseHeaders>false</responseHeaders>
+            <requestHeaders>false</requestHeaders>
+            <responseDataOnError>false</responseDataOnError>
+            <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+            <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
+            <threadCounts>true</threadCounts>
+          </value>
+        </objProp>
+        <stringProp name="filename"></stringProp>
+      </ResultCollector>
+      <hashTree/>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

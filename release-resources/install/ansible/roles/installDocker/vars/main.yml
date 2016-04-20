@@ -1,0 +1,16 @@
+---
+
+# Docker Installation Variables
+
+docker_download_file: docker-1.10.1.tgz
+docker_download_url: https://get.docker.com/builds/Linux/x86_64/docker-1.10.1.tgz
+home_directory: /
+docker_install_destination_folder: /tmp
+
+docker_machine_url: https://github.com/docker/machine/releases/download/v0.6.0/docker-machine-`uname -s`-`uname -m`
+docker_machine_file: docker-machine-`uname -s`-`uname -m`
+
+docker_compose_url: https://github.com/docker/compose/releases/download/1.6.2/docker-compose-`uname -s`-`uname -m`
+docker_compose_file: docker-compose-`uname -s`-`uname -m`
+
+docker_test_folder: /tmp

@@ -1,0 +1,29 @@
+---
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    config:
+      enabled: true
+      failFast: true
+      retry:
+#        multiplier: 1.1
+#        maxAttempts: 6
+      discovery:
+        enabled: true
+        serviceId: CONFIG-SERVER
+      uri: http://${config.host:localhost}:${config.port:8888}
+      username: vennetics
+      password: M5NLqZD8ivv0
+logging:
+  level:
+    com.vennetics: DEBUG
+    
+eureka:
+  instance:
+    preferIpAddress: true
+    nonSecurePort: ${server.port:8087}
+    instanceId: ${spring.cloud.client.hostname}:${spring.application.name}
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URL:http://vennetics:M5NLqZD8ivv0@localhost:8761/eureka/}

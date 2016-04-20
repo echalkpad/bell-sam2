@@ -1,0 +1,213 @@
+== API Mappings
+
+This section details how requests and responses on the RESTful API are mapped to
+SMPP requests and responses to the SMS-C.
+
+Note: Not all payloads supported by the API are described in this section. Only
+those that have a mapping to or from the SMPP protocol.
+
+=== OutboundSMSMessageRequest
+
+Outbound SMS Message Request is used to send a binary message to the SMS-C.
+These messages are mapped to the submit_sm operation.
+
+[options="header"]
+|=======================
+|From: | to: SMPP submit_sm
+|address[] | destination_addr
+
+One submit_sm will be sent for each address. Multi-cast will not be used.
+
+Only tel URIs compliant with RFC3966 will be accepted by the API.
+|senderAddress| source_addr
+
+For this API only short-codes will be allowed by the service.
+The "short:" scheme defined within the NET API common standards should be used for this field. It is anticipated short-codes could be any length from 3 to 15 characters. But will never be 10 digits. Short codes must contain numbers only. Alphabetical characters, pluses, and punctuation won't be accepted.
+
+e.g. short:123456
+
+Short-codes will be passed through to the SMS-C as supplied if all validation checks pass.
+|senderName| -
+|charging| -
+|receiptRequest| Stored internally, not mapped to SMPP.
+|outboundSMSTextMessage| -
+|outboundSMSBinaryMessage| (see section xref:OutboundSMSBinaryMessage[OutboundSMSBinaryMessage] outboundSMSBinaryMessage)
+|outboundSMSLogoMessage| -
+|outboundSMSRingToneMessage| -
+|outboundSMSFlashMessage| -
+|clientCorrelator| Stored internally, not mapped to SMPP.
+|resourceURL| -
+|link| -
+|deliveryInfoList| -
+| | validity_period
+
+From service configuration.
+| | service_type
+
+From service configuration.
+| | source_addr_npi
+
+From service configuration
+| | source_addr_ton
+
+From service configuration.
+| | destination_addr_npi
+
+From service configuration
+| | destination_addr_ton
+
+From service configuration.
+| | esm_class
+
+From service_configuration.
+| | protocol_id
+
+From service configuration.
+| | priority_flag
+
+From service configuration.
+| | schedule_delivery_time
+
+Not used.
+| | registered_delivery 1
+
+Delivery receipts enabled.
+| | replace_if_present_flag 1
+| | data_coding
+
+From service configuration.
+| | sm_default_msg_id 0x00
+| | sm_length 0
+| | short_message
+
+Not used - message_payload used instead.
+| | sar_msg_ref_num
+
+Not used.
+| | sar_total_segments
+
+Not used.
+| | sar_segment_segnum
+
+Not used.
+|=======================
+
+[[OutboundSMSBinaryMessage]]
+=== OutboundSMSBinaryMessage
+
+[options="header"]
+|=======================
+|From: | to: SMPP submit_sm
+|message |message_payload
+
+No transformation will be applied to the message payload other than encoding it into the PDU.
+The TPA should specify the request payload in 8-bit binary format, and this will
+be written in the same format to the SMS PDU.
+A max payload of 64K will be supported.
+|=======================
+
+=== InboundSMSMessageRequest
+
+Inbound SMS Message Request is used to deliver a mobile originated (MO) message
+from the SMS-C to a TPA. These messages are mapped from the deliver_sm
+operation.
+
+
+[options="header"]
+|=======================
+|From: deliver_sm | to:
+|destination_addr |destinationAddress[]
+
+Each message will be delivered individually so this field will only contain a single address.
+|source_addr |senderAddress
+If not sent by the SMS-C this field will be an empty URI.
+| message_payload |message
+
+Since the RESTful API uses an xsd:string rather than xsd:base64Binary for this type the SAM platform will encode the message_payload contents as Base64 manually.
+| - |dateTime
+Created by SAM when delivering the message.
+| - |link
+Not used.
+| - |messageId
+
+Created by SAM when delivering the message.
+| service_type |-
+| source_addr_npi |-
+| source_addr_ton |-
+| destination_addr_npi |-
+| destination_addr_ton |-
+| esm_class |Set to 0 for delivery of a message.
+| protocol_id |-
+| priority_flag |-
+| registered_delivery |-
+| data_coding |-
+| sm_length |-
+| short_message |Not used - message_payload used instead.
+|sar_msg_ref_num |Not supported
+| sar_total_segments |Not supported
+| sar_segment_segnum |Not supported
+|=======================
+
+=== DeliveryInfo
+
+DeliveryInfo is used to notify a TPA of the current status of a submitted MT
+message. These messages are mapped from the submit_sm_resp and deliver_sm
+operations.
+
+
+[options="header"]
+|=======================
+|From: submit_sm_resp |to:DeliveryInfo
+| - |address[]
+
+Each message will be delivered individually so this field will only contain a single address."
+|command_status |deliveryStatus
+
+0 DeliveredToNetwork*
+
+Any other value DeliveryImpossible
+| |description
+
+Not used.
+| |link
+
+Not used.
+|message_id| -
+|=======================
+
+*Note:* a *successful* submit_sm_resp will not trigger a notification to the
+application as it’s an intermediary state.
+
+[options="header"]
+|=======================
+|From: deliver_sm |to:DeliveryInfo
+|destination_addr |address[]
+
+Each message will be delivered individually so this field will only contain a single address.
+| |deliveryStatus
+
+Set to DeliveredToTerminal when the deliver_sm operation is received.
+ | |description
+
+Not used.
+| |link
+
+Not used.
+|source_addr |-
+|message_payload |-
+|service_type |-
+|source_addr_npi |-
+|source_addr_ton |-
+|destination_addr_npi |-
+|destination_addr_ton |-
+|esm_class |Set to 1 for a message delivery receipt.
+|protocol_id |-
+|priority_flag |-
+|registered_delivery |-
+|data_coding |-
+|sm_length |-
+|short_message |Not used - message_payload used instead.
+|sar_msg_ref_num |Not supported
+|sar_total_segments |Not supported
+|sar_segment_segnum |Not supported
+|=======================

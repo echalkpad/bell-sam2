@@ -1,0 +1,45 @@
+plugins {
+    id "org.asciidoctor.convert" version "1.5.3"
+}
+
+apply plugin: 'spring-boot'
+
+jar {
+    baseName = 'bell-sam-smsx-enabler'
+    dependsOn asciidoctor
+    from (file("build/docs/html5")) {
+        into 'static'
+    }
+}
+ext {
+    snippetsDir = file('build/generated-snippets')
+}
+
+test {
+    outputs.dir snippetsDir
+}
+
+asciidoctor {
+    outputDir = new File("build/docs")
+    attributes 'snippets': snippetsDir
+    inputs.dir snippetsDir
+    dependsOn test
+}
+
+dependencies {
+    runtime libraries.springBoot
+    compile project(':rest-config')
+    compile project(':sms-common')
+    compile project(':api-model')
+    compile('org.apache.commons:commons-lang3')
+    compile('org.springframework.cloud:spring-cloud-config-client')
+    compile('org.springframework.boot:spring-boot-devtools')
+    compile('org.springframework.cloud:spring-cloud-starter-eureka')
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('com.netflix.rxjava:rxjava-core')
+    compile('org.springframework.cloud:spring-cloud-starter-hystrix')
+    testCompile('com.jayway.jsonpath:json-path')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+}
+

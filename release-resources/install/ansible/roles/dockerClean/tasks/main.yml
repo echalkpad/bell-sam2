@@ -1,0 +1,24 @@
+---
+
+# Cleans Docker Environment
+
+- name: Stop any Running Docker Containers
+  shell: "docker stop $(docker ps -a -q)"
+  become_user: vennetics
+  ignore_errors: yes
+  tags:
+    - stopAllDockerContainers
+
+- name: Remove any Docker Containers
+  shell: "docker rm $(docker ps -a -q)"
+  become_user: vennetics
+  ignore_errors: yes
+  tags:
+      - removeAllDockerContainers
+
+- name: Delete any existing BellSam Docker Networks
+  command: 'docker network rm {{ bellsam_network_name }}'
+  ignore_errors: yes
+  sudo: yes
+  tags:
+      - deleteBellsamNetwork

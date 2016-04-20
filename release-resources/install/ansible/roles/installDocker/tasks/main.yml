@@ -1,0 +1,53 @@
+---
+
+# Docker Installation Tasks
+# Installs Docker, Docker-Machine & Docker-Compose
+# Starts Docker
+
+- name: Install Docker
+  yum: name=docker-engine
+  become: yes
+
+- name: Download Docker Machine
+  shell: 'wget {{ docker_machine_url }}'
+  sudo: yes
+  args:
+    chdir: ~/
+
+- name: Download Docker Compose
+  shell: 'wget {{ docker_compose_url }}'
+  sudo: yes
+  args:
+    chdir: ~/
+
+- name: Move Docker-Machine
+  shell: "mv {{ docker_machine_file }} /usr/local/bin/docker-machine"
+  sudo: yes
+  args:
+    chdir: ~/
+
+- name: Move Docker-Compose
+  shell: "mv {{ docker_compose_file }} /usr/local/bin/docker-compose"
+  sudo: yes
+  args:
+    chdir: ~/
+
+- name: Set Permissions for Docker-Compose and Docker-Machine
+  shell: "chmod +x docker*"
+  sudo: yes
+  args:
+    chdir: /usr/local/bin/
+
+- name: Start Docker Daemon on Boot
+  command: 'chkconfig docker on'
+  sudo: yes
+
+- name: Start Docker Daemon
+  command: 'service docker start'
+  sudo: yes
+
+- lineinfile: dest=/etc/systemd/system/docker.service.d/http-proxy.conf line='export HTTP_PROXY="172.25.175.88:80"' state=present
+  become: yes
+
+- lineinfile: dest=/etc/systemd/system/docker.service.d/http-proxy.conf line='export HTTPS_PROXY="172.25.175.88:80"' state=present
+  become: yes

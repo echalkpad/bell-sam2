@@ -1,0 +1,6 @@
+error:
+ -
+  code: "PARLAX-ADAPTERS-0001"
+  type: INVALID_SERVICE_IDENTIFIER
+  statusCode: 500
+  message: "Service identifier not found in %1"

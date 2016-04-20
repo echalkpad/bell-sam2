@@ -1,0 +1,11 @@
+version: "2"
+
+services:
+  callbacksimulator:
+    image: "vennetics/bell-sam-callback-simulator:latest"
+    hostname: callbacksimulator
+    container_name: "callbacksimulator"
+    restart: always
+    environment:
+       EUREKA_URL: "http://vennetics:M5NLqZD8ivv0@discoveryservice:8761/eureka/"
+       CONFIG_HOST: configserver

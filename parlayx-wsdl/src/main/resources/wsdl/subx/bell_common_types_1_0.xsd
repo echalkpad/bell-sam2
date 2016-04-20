@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:v1_0.subscriber.thirdparty.wsdl.bell.ca"
+	xmlns:bell_common_xsd="urn:v1_0.subscriber.thirdparty.wsdl.bell.ca" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<xsd:annotation>
+		<xsd:documentation>
+			© 2007, Bell Canada. All Rights Reserved. The content of this document, and the copyright in the content, are owned or
+			controlled by BELL CANADA or its content suppliers. You may only use or reproduce the information in the Content for your own
+			personal, non-commercial or educational use. The content may not be otherwise used, reproduced, broadcast, published or
+			retransmitted without the prior written permission of BELL CANADA.
+
+			Exceptions are defined with three data items.
+
+			The first data item is a unique identifier for the message. This allows the receiver of the message to recognize the message
+			easily in a language-neutral manner. Thus applications and people seeing the message do not have to understand the message text
+			to be able to identify the message. This is very useful for customer support as well, since it does not depend on the reader to
+			be able to read the language of the message.
+
+			The second data item is the message text, including placeholders (marked with %) for additional information. This form is
+			consistent with the form for internationalization of messages used by many technologies (operating systems, programming
+			environments, etc.). Use of this form enables translation of messages to different languages independent of program changes.
+			This is well suited for Web Services messages, as a programming language is not defined.
+
+			The third data item is a list of zero or more strings that represent the content to put in each placeholder defined in the
+			message in the second data item.
+		</xsd:documentation>
+	</xsd:annotation>
+
+
+	<xsd:element name="ServiceException" type="bell_common_xsd:ServiceException">
+		<xsd:annotation>
+			<xsd:documentation>
+				When a service is not able to process a request, and retrying the request with the same information will also result in a
+				failure, and the issue is not related to a service policy issue, then the service will issue a fault using the
+				ServiceException fault message. A Service Exception uses the letters 'SVC' at the beginning of the message identifier.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:complexType name="ServiceException">
+		<xsd:sequence>
+			<xsd:element name="messageId" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Message identifier, with prefix SVC</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="text" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Message text, with replacement variables marked with %#</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="variables" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Variables to substitute into Text string</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="PolicyException" type="bell_common_xsd:PolicyException">
+		<xsd:annotation>
+			<xsd:documentation>
+				When a service is not able to complete because the request fails to meet a policy criteria, then the service will issue a
+				fault using the PolicyException fault message.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:complexType name="PolicyException">
+		<xsd:sequence>
+			<xsd:element name="messageId" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Message identifier, with prefix POL</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="text" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Message text, with replacement variables marked with %#</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="variables" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Variables to substitute into Text string</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

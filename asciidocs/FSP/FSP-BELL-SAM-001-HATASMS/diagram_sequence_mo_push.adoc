@@ -1,0 +1,40 @@
+[[sequence_mo_push]]
+.MO Push Sequence Diagram
+[plantuml, sequence_mo_push, alt="Sequence diagram"]
+----
+
+hide footbox
+
+participant "ClientApp" as C
+participant "NetAPI Gateway SMS" as GW
+participant "SMS-C" as S
+
+
+C -> GW : POST /smsmessaging/v1/inbound/subscriptions
+activate C
+activate GW
+GW -> GW : storeSubscription()
+GW --> C : 201 Created
+deactivate GW
+
+|||
+
+S -> GW : deliver_sm
+activate GW
+GW -> C : POST /notifications/InboundSmsMessageNotification
+activate C #DarkSalmon
+C --> GW : 204 No Content
+deactivate C #DarkSalmon
+GW -> S : deliver_sm_resp
+deactivate GW
+
+|||
+
+C -> GW : DELETE /smsmessaging/v1/inbound/subscriptions/subscriptionId
+activate GW
+GW -> GW : deleteSubscription()
+GW --> C : 200 OK
+deactivate GW
+destroy C
+
+----

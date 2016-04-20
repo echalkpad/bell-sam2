@@ -1,0 +1,52 @@
+jar {
+    baseName = 'bell-sam-release-resources'
+}
+
+task copyCqlFiles {
+    outputs.upToDateWhen {false}
+
+    cqlScripts().each { project ->
+        copy {
+            from project.projectDir.path + "/src/main/resources/cassandraScripts"
+            into file(buildDir.absolutePath + '/release')
+        }
+    }
+}
+
+task copyJmeterFiles {
+    outputs.upToDateWhen {false}
+
+    jmeterProjects().each { project ->
+        copy {
+            from project.projectDir.path + "/src/test/jmeter"
+            into file(buildDir.absolutePath + '/release/jmeter/' + project.name)
+        }
+    }
+}
+
+task copyGatlingTests {
+    outputs.upToDateWhen {false}
+
+    gatlingProjects().each { project ->
+        copy {
+            from project.projectDir.path + "/src/test/scala"
+            into file(buildDir.absolutePath + '/release/gatling/' + project.name)
+        }
+    }
+}
+
+task copyFilesForRelease {
+    copy{
+        from ('install/scripts')
+        from ('install/ansible')
+        from ("$rootProject.projectDir/docker-compose.yml")
+        into file(buildDir.absolutePath + '/release')
+    }
+}
+
+task (samReleaseZip, type: Zip) {
+    version "${project.version}"
+    baseName 'com.vennetics.bell.sam'
+    from file(buildDir.absolutePath + '/release')
+    include '**'
+}.execute()

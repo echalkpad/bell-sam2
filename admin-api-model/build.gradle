@@ -1,0 +1,8 @@
+jar { baseName = 'bell-sam-admin-api-model' }
+
+dependencies {
+    compile("org.hibernate:hibernate-validator")
+    testCompile project(':rest-config')
+    testCompile("javax.el:javax.el-api:${javaxElApiVersion}")
+    testCompile("org.glassfish.web:javax.el:${javaxElVersion}")
+}

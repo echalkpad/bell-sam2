@@ -1,0 +1,23 @@
+jar {
+    baseName = 'bell-sam-lib-smpp'
+}
+
+dependencies {
+    compile project(':core-commands')
+    compile project(':sam-errors')
+    compile("org.apache.commons:commons-lang3")
+    compile('org.springframework.boot:spring-boot-configuration-processor')
+    compile('com.cloudhopper:ch-smpp')
+    compile('com.googlecode.libphonenumber:libphonenumber')
+    compile('org.slf4j:slf4j-api')
+    compile('io.reactivex:rxjava')
+    compile('org.apache.commons:commons-pool2')
+    compile('com.netflix.hystrix:hystrix-core')
+    
+    testCompile('com.jamonapi:jamon')
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('org.springframework.boot:spring-boot-starter-web')  // For TestConfiguration class.
+
+}
+
+

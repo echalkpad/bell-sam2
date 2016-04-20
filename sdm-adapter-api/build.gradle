@@ -1,0 +1,12 @@
+jar { baseName = 'bell-sam-sdm-adapter-api' }
+
+dependencies {
+    // For exceptions
+    compile project(':sam-errors')
+
+    compile('com.netflix.rxjava:rxjava-core')
+
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+}
+
